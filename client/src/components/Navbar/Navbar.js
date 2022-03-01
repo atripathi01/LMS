@@ -10,7 +10,7 @@ export default class Navbar extends Component {
            <div className={classes.logoCont}>
               <ul className={classes.navLogo}>
                   <li className={classes.logo}>
-                    <Link to="/">LMS</Link>
+                    <Link to="/">Dono LMS</Link>
                     </li>
               </ul>
            </div>

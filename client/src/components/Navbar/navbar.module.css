@@ -30,6 +30,8 @@ ul{
     font-weight: 500;
     margin: auto 2rem;
     cursor: pointer;
+    color: #000;
+    text-decoration: none;
 
 }
 .btnLogin{
