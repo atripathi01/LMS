@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import classes from './navbar.module.css'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { Link } from 'react-router-dom';
+import { HOME_PATH, LOGIN_PATH } from '../../constants/pathContainer';
 export default class Navbar extends Component {
   render() {
     return (
@@ -10,19 +11,19 @@ export default class Navbar extends Component {
            <div className={classes.logoCont}>
               <ul className={classes.navLogo}>
                   <li className={classes.logo}>
-                    <Link to="/">Dono LMS</Link>
+                    <Link to={HOME_PATH} className={classes.RouterLink1}>Dono LMS</Link>
                     </li>
               </ul>
            </div>
            <div className={classes.itemCon}>
               <ul className={classes.itemWrapper}>
                   <li className={classes.items}>
-                    <Link to="/dashboard">
+                    <Link to="/dashboard" className={classes.RouterLink}> 
                     Dashboard<KeyboardArrowDownIcon />
                     </Link>
                     </li>
                   <li className={classes.items}>
-                    <Link to="/login">
+                    <Link to={LOGIN_PATH}>
                     <button className={classes.btnLogin}>Login</button>
                     </Link>
                     </li>

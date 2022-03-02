@@ -3,15 +3,17 @@ import classes from "./userlogin.module.css"
 import GoogleIcon from '@mui/icons-material/Google';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import ImageLogin from '../images/croped.jpg'
-import { REGISTER_PATH } from '../../constants/pathContainer';
+import { LOGIN_PATH } from '../../constants/pathContainer';
 import {Link} from 'react-router-dom';
 
-const UserLogin =(props)=> {
-  const roles= props.roles;
+const UserRegister=(props)=> {
+    const roles= props.roles;
     const[activeRole, setActiveRole] =useState(Object.keys(roles)[0]);
 
     const TeacherLoginStructure=(
       <form className={classes.LoginForm} >
+    <label>Name</label><br />
+    <input placeholder='Enter your full name' type="text"></input><br />
       <label className={classes.LoginMail} >
         User Email
       </label><br></br>
@@ -24,7 +26,7 @@ const UserLogin =(props)=> {
       ></input>
       <br />
       <label className={classes.LoginPass} >
-        User Password
+        Password
       </label>
       <br />
       <input  
@@ -35,7 +37,19 @@ const UserLogin =(props)=> {
       placeholder='User Password'
       ></input>
       <br />
-      <button className={classes.LoginBtn}>Teacher Login</button>
+      <label className={classes.LoginPass} >
+        Comfirm Password
+      </label>
+      <br />
+      <input  
+      type="password"
+      className={classes.LoginPassInput} 
+      autoFocus 
+      required 
+      placeholder='User Password'
+      ></input>
+      <br />
+      <button className={classes.LoginBtn}>Teacher Register</button>
     </form>
     
     );
@@ -66,7 +80,7 @@ const UserLogin =(props)=> {
                 placeholder='User Password'
                 ></input>
                 <br />
-                <button className={classes.LoginBtn}>Student Login</button>
+                <button className={classes.LoginBtn}>Student Register</button>
               </form>
               
     );
@@ -110,7 +124,7 @@ const UserLogin =(props)=> {
               </ul>
             </div>
             <div className={classes.newUser}>
-               New User? <Link to={REGISTER_PATH} className={classes.newUserSignUp}> Sign Up</Link>
+               Already Registered? Then <Link to={LOGIN_PATH} className={classes.newUserSignUp}> Login</Link>
             </div>
           </div>
           <div className={classes.loginLeftBox}>
@@ -120,6 +134,5 @@ const UserLogin =(props)=> {
         </div>
       </div>
     )
-  
 }
-export default UserLogin
+export default UserRegister

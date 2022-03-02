@@ -16,12 +16,20 @@ ul{
 .logo{
     font-size: 30px;
     font-weight: 700;
-    letter-spacing: 3px;
+    letter-spacing: 2px;
 }
 .itemWrapper{
     display: flex;
     justify-content: center;
     align-items: center;
+}
+.RouterLink1{
+    color: #06f;
+    text-decoration: none;
+}
+.RouterLink{
+    color: #000;
+    text-decoration: none;
 }
 
 .items{
@@ -38,10 +46,14 @@ ul{
     font-size: 20px;
     padding: 0.5rem 2rem;
     margin-right: 3rem;
-    background-color: #5a189a;
+    background-color: #06f;
     color: #fff;
     border-radius: 7px;
-    border: #5a189a 2px solid;
+    border: #06f 2px solid;
     cursor: pointer;
     letter-spacing: 1.5px;
+}
+.btnLogin:hover{
+    background-color: #3758ff;
+    border: #3758ff 2px solid;
 }
