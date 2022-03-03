@@ -1,37 +1,39 @@
-import React, { Component } from 'react'
-import classes from './navbar.module.css'
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import { Link } from 'react-router-dom';
-import { HOME_PATH, LOGIN_PATH } from '../../constants/pathContainer';
+import React, { Component } from "react";
+import classes from "./navbar.module.css";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import { Link } from "react-router-dom";
+import { HOME_PATH, LOGIN_PATH } from "../../constants/pathContainer";
 export default class Navbar extends Component {
   render() {
     return (
       <div>
-          <nav className={classes.navbar}>
-           <div className={classes.logoCont}>
-              <ul className={classes.navLogo}>
-                  <li className={classes.logo}>
-                    <Link to={HOME_PATH} className={classes.RouterLink1}>Dono LMS</Link>
-                    </li>
-              </ul>
-           </div>
-           <div className={classes.itemCon}>
-              <ul className={classes.itemWrapper}>
-                  <li className={classes.items}>
-                    <Link to="/dashboard" className={classes.RouterLink}> 
-                    Dashboard<KeyboardArrowDownIcon />
-                    </Link>
-                    </li>
-                  <li className={classes.items}>
-                    <Link to={LOGIN_PATH}>
-                    <button className={classes.btnLogin}>Login</button>
-                    </Link>
-                    </li>
-              </ul>
-           </div>
-         
-          </nav>
+        <nav className={classes.navbar}>
+          <div className={classes.logoCont}>
+            <ul className={classes.navLogo}>
+              <li className={classes.logo}>
+                <Link to={HOME_PATH} className={classes.RouterLink1}>
+                  Dono LMS
+                </Link>
+              </li>
+            </ul>
+          </div>
+          <div className={classes.itemCon}>
+            <ul className={classes.itemWrapper}>
+              <li className={classes.items}>
+                <Link to="/dashboard" className={classes.RouterLink}>
+                  Dashboard
+                  <KeyboardArrowDownIcon />
+                </Link>
+              </li>
+              <li className={classes.items}>
+                <Link to={LOGIN_PATH}>
+                  <button className={classes.btnLogin}>Login</button>
+                </Link>
+              </li>
+            </ul>
+          </div>
+        </nav>
       </div>
-    )
+    );
   }
 }

@@ -1,132 +1,124 @@
-.loginPage{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-
+.loginPage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.loginBox{
-    width: 100%;
-    max-width: 1100px;
-    height: fit-content;
-    min-height: 600px;
-    max-height: 700px;
-    /* border: #acacac 1px solid; */
-    margin-top: 3rem;
-    display: flex;
-    justify-content: center;
-    flex-direction: row;
-    background-color: #fff;
-    border-radius: 25px;
-    
+.loginBox {
+  width: 100%;
+  max-width: 1100px;
+  height: fit-content;
+  min-height: 600px;
+  max-height: 700px;
+  /* border: #acacac 1px solid; */
+  margin-top: 3rem;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  background-color: #fff;
+  border-radius: 25px;
 }
-.loginRightBox{
-    width: 50%;
-    /* border: red 1px solid; */
+.loginRightBox {
+  width: 50%;
+  /* border: red 1px solid; */
 }
 
-.role{
-    font-size: 18px;
-    font-weight: 600;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    margin: 1rem auto;
-    padding-bottom: 1rem;
-    border-bottom: #acacac 1px solid;
+.role {
+  font-size: 18px;
+  font-weight: 600;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin: 1rem auto;
+  padding-bottom: 1rem;
+  border-bottom: #acacac 1px solid;
+}
+.LoginRole {
+  color: #000;
+  cursor: pointer;
+}
+.active {
+  background-color: #06f;
+  color: #fff;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+}
 
+.loginSection {
+  margin: 1rem;
 }
-.LoginRole{
-    color: #000;
-    cursor: pointer;
+.LoginForm {
+  padding-top: 2rem;
+  font-size: 18px;
+  font-weight: 500;
+  padding: auto 2rem;
+  max-width: 90%;
 }
-.active{
-    background-color: #06f;
-    color: #fff;
-    cursor: pointer;
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
+.LoginForm input {
+  padding: 0.5rem 1rem;
+  font-size: 16px;
+  border: #acacac 2px solid;
+  border-radius: 3px;
+  width: 100%;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
 }
-
-
-
-.loginSection{
-    margin: 1rem;
+.LoginMail {
+  margin-top: 2rem;
 }
-.LoginForm{
-    padding-top: 2rem;
-    font-size: 18px;
-    font-weight: 500;
-    padding:auto 2rem;  
-    max-width: 90%;
+.LoginPass {
+  margin-top: 2rem;
 }
-.LoginForm input{
-    padding: 0.5rem 1rem ;
-    font-size: 16px;
-    border: #acacac 2px solid;
-    border-radius: 3px;
-    width: 100%;
-    margin-top: 0.5rem;
-    margin-bottom: 1rem;
+.LoginBtn {
+  font-size: 18px;
+  color: #fff;
+  background-color: #06f;
+  font-weight: 500;
+  padding: 0.5rem 1.5rem;
+  margin-top: 3rem;
+  border: #06f 2px solid;
+  border-radius: 5px;
+  cursor: pointer;
 }
-.LoginMail{
-    margin-top: 2rem ;
+.LoginBtn:hover {
+  /* background-color: #0033ff; */
+  border: #3758ff 2px solid;
+  background-color: #3758ff;
 }
-.LoginPass{
-    margin-top: 2rem;   
+.Divider {
+  width: 100%;
+  align-items: center;
+  height: 5px;
+  border-bottom: #acacac 2px solid;
+  margin-top: 3rem;
 }
-.LoginBtn{
-    font-size: 18px;
-    color: #fff;
-    background-color: #06f;
-    font-weight: 500;
-    padding: 0.5rem 1.5rem;
-    margin-top: 3rem    ;
-    border: #06f 2px solid;
-    border-radius: 5px;
-    cursor: pointer;
+.loginLeftBox {
+  width: 50%;
+  overflow: hidden;
+  height: fit-content;
+  border-radius: 25px;
 }
-.LoginBtn:hover{
-    /* background-color: #0033ff; */
-    border:#3758ff 2px solid ;
-    background-color: #3758ff;
+.logimage {
+  width: 600px;
+  height: 100%;
 }
-.Divider{
-    width: 100%;
-    align-items: center;
-    height: 5px;
-    border-bottom: #acacac 2px solid;
-    margin-top: 3rem;
+.newUser {
+  font-size: 18px;
+  margin-left: 1rem;
+  margin-top: 1rem;
 }
-.loginLeftBox{
-    width: 50%;
-    overflow: hidden;
-    height: fit-content;
-    border-radius: 25px;
+.newUserSignUp {
+  color: #06f;
+  text-decoration: none;
+  font-weight: 600;
 }
-.logimage{
-    
-    width: 600px;
-    height: 100%;
-    
+.newUserSignUp:hover {
+  color: red;
 }
-.newUser{
-    font-size: 18px;
-    margin-left: 1rem;
-    margin-top: 1rem;
-}
-.newUserSignUp{
-    color: #06f;
-    text-decoration: none;
-    font-weight: 600;
-}
-.newUserSignUp:hover{
-    color: red;
-}
-.SocailLoginWrapper{
-    display: flex;
-    justify-content: space-evenly;
-    max-width: 200px;
-    align-items: center;
-    width: 100%;
+.SocailLoginWrapper {
+  display: flex;
+  justify-content: space-evenly;
+  max-width: 200px;
+  align-items: center;
+  width: 100%;
 }
