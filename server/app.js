@@ -1,30 +1,22 @@
-const express= require("express")
-const app= express();
-const mongoose= require('mongoose')
+require('./models/db');
+const express= require("express");
 const dotenv =require("dotenv");
 
 dotenv.config({path:'./config.env'})
+const app = express();
 
-require('./db/connection');
+const bodyparser = require('body-parser');
+const cookieParser = require('cookie-parser');
 
-const middleware=(req,res,next)=>{
-    console.log("middleware")
-    next();
-}
-// middleware();
+const controller = require('./Controllers/controller');
 
-app.get("/",(req, res)=>{
-   return res.send(`hello world `)
+app.use(bodyparser.urlencoded({extended:true}));
+app.use(bodyparser.json());
+app.use(cookieParser());
 
-})
+app.use('/', controller);
 
-app.get('/about',middleware,(req, res)=>{
-    return res.send("hello , Its about me rouut")
-
-})
-
-console.log("PORT5000");
-
-app.listen(5000, ()=>{
-    console.log(`server is runnoing on 5000`);
+const port = process.env.PORT;
+app.listen(port, ()=>{
+    console.log(`Server is up on ${port}`);
 })
