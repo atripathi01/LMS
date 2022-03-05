@@ -21,9 +21,9 @@ router.get('/', (req, res) => {
 
 router.post('/newStudent', async function (req, res) {
 
-    if (req.body.username) {
+    if (req.body.email) {
         var checkExistingUser = await StudentSch.findOne({
-            username: req.body.username
+            email: req.body.email
         });
 
         if (checkExistingUser) {
@@ -34,7 +34,7 @@ router.post('/newStudent', async function (req, res) {
         } else {
             const StudentLoginList = new StudentSch({
                 name: req.body.name,
-                username: req.body.username,
+                email: req.body.username,
                 password: req.body.password,
                 interest: req.body.interest,
                 contact: req.body.contact
@@ -43,7 +43,7 @@ router.post('/newStudent', async function (req, res) {
             res.json({
                 response: true,
                 msg: "New Student ID Created",
-                username: req.body.username
+                name: req.body.name
             })
         }
     } else {
