@@ -7,8 +7,11 @@ const Dashboard=(props)=> {
   const dashboardSection =props.dashboardSection;
    const [activvDashboardSection,setActiveDashboardSection]=useState(Object.keys(dashboardSection)[0]);
 
-   const Dashboard=(
+   const Dashboard=(<>
      <h1>Dashboard</h1>
+     <div ><UploadContentDialog />
+      </div>
+      </>
    );
    const Courses=(
      <h1>Courses</h1>
@@ -30,11 +33,10 @@ const Dashboard=(props)=> {
   }
   
     return (<>
-      <div style={{display:"none"}}><UploadContentDialog />
-      </div>
       
-      <section>
-        <div>
+      
+      <section className={classes.dash}>
+        <div className={classes.dashNav}>
             {Object.keys(dashboardSection)?.map((key)=>(
               <div  className={`${classes.dashboardItems} ${
                 activvDashboardSection===key? classes.activeDash:" " }`}
@@ -44,7 +46,7 @@ const Dashboard=(props)=> {
               </div>
             ))}
         </div>
-        <div>
+        <div className={classes.dashItemDetail}>
          {generateDashboardSection()}
         </div>
       </section>
