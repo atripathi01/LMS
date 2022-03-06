@@ -15,7 +15,7 @@ module.exports.generateToken = function (req, res, login) {
         secret = trainerSecret;
     }
     console.log(secret);
-    const jwttoken = jwt.sign({ id: login.loginId, name: login.loginName, role: login.loginRole }, secret, { expiresIn: '30s' });
+    const jwttoken = jwt.sign({ id: login.loginId, name: login.loginName, role: login.loginRole }, secret, { expiresIn: '30 minutes' });
 
     res.header('Authorization', 'Bearer ' + jwttoken);
     return jwttoken;

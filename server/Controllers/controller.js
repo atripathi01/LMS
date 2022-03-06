@@ -1,14 +1,37 @@
 const express = require('express');
 const router = express.Router();
+const bodyparser = require("body-parser");
+const morgan = require('morgan');
+const _ = require('lodash');
 
+
+const fileUpload = require('express-fileupload');
+const cors = require('cors');
+
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+
+// enable files upload
+router.use(fileUpload({
+    createParentPath: true
+}));
+
+//add other middleware
+router.use(cors());
+router.use(bodyParser.json());
+router.use(bodyParser.urlencoded({ extended: true }));
+router.use(morgan('dev'));
+
+
+router.use(cookieParser());
 //importing models
 const mongoose = require('mongoose');
 const StudentSch = mongoose.model('StudentLogin');
 const TrainerSch = mongoose.model('TrainerLogin');
+const CourseSch = mongoose.model('Courses');
 
 const { generateToken, verifyToken } = require('./jwt');
 
-const bodyparser = require("body-parser");
 router.use(
     bodyparser.urlencoded({
         extended: true,
@@ -215,5 +238,198 @@ router.get('/homeTrainer', async (req, res) => {
 
 })
 
+
+router.post('/upload-one', async (req, res) => {
+    try {
+        const userVerify = await verifyToken(req, res, 'trainer');
+        // console.log(userVerify)
+
+        if (userVerify.name && (userVerify.role).toLowerCase() == 'trainer') {
+            if (!req.files) {
+                res.send({
+                    status: false,
+                    message: 'No file uploaded'
+                });
+            } else {
+
+                let mediaFile = req.files.mediaFile;    //
+
+                mediaFile.mv('./uploads/' + mediaFile.name);  //
+
+                // var filetype = mediaFile.mimetype.split('/')[1];    //
+                // var saveFileName = `${mediaFile.name}`;
+
+                uploadedFile = {
+                    name: mediaFile.name,
+                    mimetype: mediaFile.mimetype,
+                    size: mediaFile.size
+                }
+                const newCourse = new CourseSch({
+                    courseName: req.body.courseName,
+                    courseCode: req.body.courseCode,
+                    courseMedia: mediaFile.name
+                });
+                newCourse.save();
+                // res.json({
+                //     response: true,
+                //     msg: "New Course Added",
+                //     course: req.body.courseName,
+                //     courseCode: req.body.courseCode
+                // })
+
+
+                res.send({
+                    status: true,
+                    message: 'File is uploaded',
+                    data: {
+                        courseName: req.body.courseName,
+                        courseCode: req.body.courseCode,
+                        courseMedia: uploadedFile
+                    }
+                });
+            }
+        } else {
+            res.json({ response: 'Not Authenticated' })
+        }
+    } catch (err) {
+        res.status(500).send(err);
+    }
+});
+
+
+router.post('/upload-many', async (req, res) => {
+    try {
+        const userVerify = await verifyToken(req, res, 'trainer');
+        console.log(userVerify)
+        if (userVerify.name && (userVerify.role).toLowerCase() == 'trainer') {
+            if (!req.files) {
+                res.send({
+                    status: false,
+                    message: 'No file uploaded'
+                });
+            } else {
+                let data = [];
+
+                //loop all files
+                _.forEach(_.keysIn(req.files.mediaFiles), (key) => {
+                    let mediaFile = req.files.mediaFiles[key];
+
+                    //move mediaFile to uploads directory
+                    mediaFile.mv('./uploads/' + mediaFile.name);
+
+                    //push file details
+                    data.push({
+                        name: mediaFile.name,
+                        mimetype: mediaFile.mimetype,
+                        size: mediaFile.size
+                    });
+
+                    const newCourse = new CourseSch({
+                        courseName: req.body.courseName,
+                        courseCode: req.body.courseCode,
+                        courseMedia: mediaFile.name
+                    });
+                    newCourse.save();
+
+                });
+
+                //return response
+                res.send({
+                    status: true,
+                    message: 'Files are uploaded',
+                    data: data
+                });
+            }
+        } else {
+            res.json({ response: 'Not Authenticated' })
+        }
+
+    } catch (err) {
+        console.log(err);
+        res.json({
+            response: "Trainer ID not authenticated"
+        })
+    }
+
+
+});
+
+// router.post('/add-course', async (req, res) => {
+//     if (req.body.courseName) {
+//         var checkCourse = await CourseSch.findOne({
+//             courseCode: req.body.courseCode
+//         });
+
+//         if (checkCourse) {
+//             res.json({
+//                 response: false,
+//                 msg: "Course Code exists"
+//             })
+//         } else {
+
+//             const Course = new CourseSch({
+//                 courseName: req.body.courseName,
+//                 courseCode: req.body.courseCode,
+//                 courseMedia: req.body.courseMedia
+//             });
+//             Course.save();
+//             res.json({
+//                 response: true,
+//                 msg: "New Course Added",
+//                 course: req.body.courseName,
+//                 courseCode: req.body.courseCode
+//             })
+//         }
+//     } else {
+//         res.json({
+//             response: "invalid input"
+//         })
+//     }
+// })
+
+
+router.get('/get-file', async (req, res) => {
+    try {
+        const userVerify = await verifyToken(req, res, 'trainer');
+        console.log(userVerify)
+        if (userVerify) {
+            var checkFiles = await CourseSch.findOne({
+                $and: [{
+                    courseCode: req.body.courseCode
+
+                }, {
+                    courseMedia: req.body.courseMedia
+
+                }]
+            });
+
+            if (!checkFiles) {
+                res.json({
+                    response: false,
+                    msg: "No such file found"
+                })
+            } else {
+
+                res.json({
+                    response: true,
+                    msg: "Course media found",
+                    courseName: checkFiles.courseName,
+                    courseCode: checkFiles.courseCode,
+                    courseMedia: checkFiles.courseMedia
+                })
+            }
+        } else {
+            res.json({
+                response: "invalid input"
+            })
+        }
+
+    } catch (err) {
+        console.log(err);
+        res.json({
+            response: "Not Authenticated"
+        })
+    }
+});
 
 module.exports = router;
