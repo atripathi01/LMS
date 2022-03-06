@@ -30,7 +30,7 @@ const UserRegister = (props) => {
       type: type,
     });
   };
-  async function onSubmitSignup(event) {
+  function onSubmitSignup(event) {
     event.preventDefault();
 
     // condition for password and email checking
@@ -68,27 +68,33 @@ const UserRegister = (props) => {
       return;
     } else {
       const data = {
-        email:{email},
-        unm: {name},
-        pss: {passwordSignupConf},
-        role: { activeRole },
+        email: email ,
+        username: name ,
+        password: passwordSignupConf ,
+        role: activeRole ,
+        contact : "",
+        expertise: "javascript",
+        experience: "5"
       };
-      const res = await fetch(
-        activeRole === "Teacher" ? "/newTrainer" : "/newStudent",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ data }),
-        }
+      const api = activeRole === "Teacher" ? "/newTrainer" : "/newStudent";
+
+      console.log(api)
+
+      fetch(api, {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+          "accepts":"application/json"
+        },
+        body: JSON.stringify(data),
+      }
       )
         .then((response) => {
-          console.log("Data sended......Done");
-          res.json();
+          console.log("Data sent......Done");
+          return response.json();
         })
         .catch((error) => {
-          console.log("error ");
+          console.log("error ", error);
         });
       console.log("name", name);
       console.log("email", email);
@@ -96,132 +102,132 @@ const UserRegister = (props) => {
       console.log("conform", passwordSignupConf);
     }
   }
-    const TeacherLoginStructure =(
-      <form className={classes.LoginForm} method="POST">
-        <label className={classes.UserName}>Name*</label>
-        <br />
-        <input
-          placeholder="Enter your full name"
-          type="text"
-          required
-          autoFocus
-          value={name}
-          onChange={(e) => {
-            setName(e.target.value);
-          }}
-        ></input>
-        <br />
-        <label className={classes.LoginMail}>User Email*</label>
-        <br></br>
-        <input
-          type="email"
-          className={classes.LoginInput}
-          autoFocus
-          required
-          placeholder="Teacher User Email"
-          value={email}
-          onChange={(e) => {
-            setEmail(e.target.value);
-          }}
-        ></input>
-        <br />
-        <label className={classes.LoginPass}>Password*</label>
-        <br />
-        <input
-          type="password"
-          className={classes.LoginPassInput}
-          autoFocus
-          required
-          placeholder="User Password"
-          value={passwordSignup}
-          onChange={(e) => {
-            setPasswordSignUp(e.target.value);
-          }}
-        ></input>
-        <br />
-        <label className={classes.LoginPass}>Comfirm Password*</label>
-        <br />
-        <input
-          type="password"
-          className={classes.LoginPassInput}
-          autoFocus
-          required
-          placeholder="User Password"
-          value={passwordSignupConf}
-          onChange={(e) => {
-            setPasswordSignUpConf(e.target.value);
-          }}
-        ></input>
-        <br />
-        <button
-          className={classes.LoginBtn}
-          type={"submit"}
-          onClick={(event)=>onSubmitSignup(event)}
-        >
-          Teacher Register
-        </button>
-      </form>
-    );
+  const TeacherLoginStructure = (
+    <form className={classes.LoginForm} method="POST">
+      <label className={classes.UserName}>Name*</label>
+      <br />
+      <input
+        placeholder="Enter your full name"
+        type="text"
+        required
+        autoFocus
+        value={name}
+        onChange={(e) => {
+          setName(e.target.value);
+        }}
+      ></input>
+      <br />
+      <label className={classes.LoginMail}>User Email*</label>
+      <br></br>
+      <input
+        type="email"
+        className={classes.LoginInput}
+        autoFocus
+        required
+        placeholder="Teacher User Email"
+        value={email}
+        onChange={(e) => {
+          setEmail(e.target.value);
+        }}
+      ></input>
+      <br />
+      <label className={classes.LoginPass}>Password*</label>
+      <br />
+      <input
+        type="password"
+        className={classes.LoginPassInput}
+        autoFocus
+        required
+        placeholder="User Password"
+        value={passwordSignup}
+        onChange={(e) => {
+          setPasswordSignUp(e.target.value);
+        }}
+      ></input>
+      <br />
+      <label className={classes.LoginPass}>Comfirm Password*</label>
+      <br />
+      <input
+        type="password"
+        className={classes.LoginPassInput}
+        autoFocus
+        required
+        placeholder="User Password"
+        value={passwordSignupConf}
+        onChange={(e) => {
+          setPasswordSignUpConf(e.target.value);
+        }}
+      ></input>
+      <br />
+      <button
+        className={classes.LoginBtn}
+        type={"submit"}
+        onClick={(event) => onSubmitSignup(event)}
+      >
+        Teacher Register
+      </button>
+    </form>
+  );
 
-    const StudentLoginStructure  =(
-      <form className={classes.LoginForm} method="POST">
-        <label className={classes.UserName}>Name*</label>
-        <br />
-        <input
-          type="text"
-          className={classes.LoginPassInput}
-          autoFocus
-          required
-          placeholder="User Password"
-          value={name}
-          onChange={(e) => {
-            setName(e.target.value);
-          }}
-        ></input>
-        <br />
-        <label className={classes.LoginMail}>User Email*</label>
-        <br></br>
-        <input
-          type="email"
-          className={classes.LoginInput}
-          autoFocus
-          required
-          placeholder="Student User Email"
-          value={email}
-          onChange={(e) => {
-            setEmail(e.target.value);
-          }}
-        ></input>
-        <br />
-        <label className={classes.LoginPass}>Password*</label>
-        <br />
-        <input
-          type="password"
-          className={classes.LoginPassInput}
-          autoFocus
-          required
-          placeholder="User Password"
-          value={passwordSignup}
-          onChange={(e) => {
-            setPasswordSignUpConf(e.target.value);
-          }}
-        ></input>
-        <br />
-        <label className={classes.LoginPass}>Comfirm Password*</label>
-        <br />
-        <input
-          type="password"
-          className={classes.LoginPassInput}
-          autoFocus
-          required
-          placeholder="User Password"
-          value={passwordSignupConf}
-          onChange={(e) => {
-            setPasswordSignUpConf(e.target.value);
-          }}
-        ></input>
-        <br />
-        {/* <label className={classes.LoginPass}>Interest</label>
+  const StudentLoginStructure = (
+    <form className={classes.LoginForm} method="POST">
+      <label className={classes.UserName}>Name*</label>
+      <br />
+      <input
+        type="text"
+        className={classes.LoginPassInput}
+        autoFocus
+        required
+        placeholder="User Password"
+        value={name}
+        onChange={(e) => {
+          setName(e.target.value);
+        }}
+      ></input>
+      <br />
+      <label className={classes.LoginMail}>User Email*</label>
+      <br></br>
+      <input
+        type="email"
+        className={classes.LoginInput}
+        autoFocus
+        required
+        placeholder="Student User Email"
+        value={email}
+        onChange={(e) => {
+          setEmail(e.target.value);
+        }}
+      ></input>
+      <br />
+      <label className={classes.LoginPass}>Password*</label>
+      <br />
+      <input
+        type="password"
+        className={classes.LoginPassInput}
+        autoFocus
+        required
+        placeholder="User Password"
+        value={passwordSignup}
+        onChange={(e) => {
+          setPasswordSignUpConf(e.target.value);
+        }}
+      ></input>
+      <br />
+      <label className={classes.LoginPass}>Comfirm Password*</label>
+      <br />
+      <input
+        type="password"
+        className={classes.LoginPassInput}
+        autoFocus
+        required
+        placeholder="User Password"
+        value={passwordSignupConf}
+        onChange={(e) => {
+          setPasswordSignUpConf(e.target.value);
+        }}
+      ></input>
+      <br />
+      {/* <label className={classes.LoginPass}>Interest</label>
       <br />
       <input
         type="text"
@@ -231,79 +237,78 @@ const UserRegister = (props) => {
         value={}
       ></input>
       <br /> */}
-        <button
-          className={classes.LoginBtn}
-          type={"submit"}
-          onClick={ (event)=>onSubmitSignup(event)}
-        >
-          Student Register
-        </button>
-      </form>
-    );
+      <button
+        className={classes.LoginBtn}
+        type={"submit"}
+        onClick={(event) => onSubmitSignup(event)}
+      >
+        Student Register
+      </button>
+    </form>
+  );
 
-    const generateLoginStructure = () => {
-      switch (roles[activeRole]) {
-        case roles.Teacher:
-          return TeacherLoginStructure;
-        case roles.Student:
-          return StudentLoginStructure;
-        default:
-          return null;
-      }
-    };
+  const generateLoginStructure = () => {
+    switch (roles[activeRole]) {
+      case roles.Teacher:
+        return TeacherLoginStructure;
+      case roles.Student:
+        return StudentLoginStructure;
+      default:
+        return null;
+    }
+  };
 
-    return (
-      <div>
-        <div className={classes.loginPage}>
-          <div className={classes.loginBox}>
-            <div className={classes.loginRightBox}>
-              <div className={classes.role}>
-                {Object.keys(roles)?.map((key) => (
-                  <div
-                    className={`${classes.LoginRole} ${
-                      activeRole === key ? classes.active : ""
+  return (
+    <div>
+      <div className={classes.loginPage}>
+        <div className={classes.loginBox}>
+          <div className={classes.loginRightBox}>
+            <div className={classes.role}>
+              {Object.keys(roles)?.map((key) => (
+                <div
+                  className={`${classes.LoginRole} ${activeRole === key ? classes.active : ""
                     } `}
-                    key={key}
-                    onClick={() => setActiveRole(key)}
-                  >
-                    {roles[key]}
-                  </div>
-                ))}
-              </div>
-
-              <div className={classes.loginSection}>
-                {generateLoginStructure()}
-
-                <div className={classes.Divider}></div>
-              </div>
-              <div className={classes.SocailLogin}>
-                <ul className={classes.SocailLoginWrapper}>
-                  <li>
-                    <GoogleIcon />
-                  </li>
-                  <li>
-                    <FacebookIcon />
-                  </li>
-                </ul>
-              </div>
-              <div className={classes.newUser}>
-                Already Registered? Then{" "}
-                <Link to={LOGIN_PATH} className={classes.newUserSignUp}>
-                  {" "}
-                  Login
-                </Link>
-              </div>
+                  key={key}
+                  onClick={() => setActiveRole(key)}
+                >
+                  {roles[key]}
+                </div>
+              ))}
             </div>
-            <div className={classes.loginLeftBox}>
-              <img
-                src={ImageLogin}
-                alt="lms"
-                className={classes.logimage}
-              ></img>
+
+            <div className={classes.loginSection}>
+              {generateLoginStructure()}
+
+              <div className={classes.Divider}></div>
             </div>
+            <div className={classes.SocailLogin}>
+              <ul className={classes.SocailLoginWrapper}>
+                <li>
+                  <GoogleIcon />
+                </li>
+                <li>
+                  <FacebookIcon />
+                </li>
+              </ul>
+            </div>
+            <div className={classes.newUser}>
+              Already Registered? Then{" "}
+              <Link to={LOGIN_PATH} className={classes.newUserSignUp}>
+                {" "}
+                Login
+              </Link>
+            </div>
+          </div>
+          <div className={classes.loginLeftBox}>
+            <img
+              src={ImageLogin}
+              alt="lms"
+              className={classes.logimage}
+            ></img>
           </div>
         </div>
       </div>
-    );
-  };
+    </div>
+  );
+};
 export default UserRegister;

@@ -140,8 +140,9 @@ router.get('/homeStudent', async (req, res) => {
 
 
 router.post('/newTrainer', async function (req, res) {
-    console.log("newtrainr");
+    console.log("newtrainer");
 
+    console.log(req.body.data)
     if (req.body.username) {
         var checkExistingUser = await TrainerSch.findOne({
             username: req.body.username
@@ -149,15 +150,17 @@ router.post('/newTrainer', async function (req, res) {
 
 
         if (checkExistingUser) {
-            res.json({
+            res.status(406).json({
                 response: false,
                 msg: "Username is taken."
-            })
+            });
         } else {
+
             const TrainerList = new TrainerSch({
                 name: req.body.name,
                 username: req.body.username,
                 password: req.body.password,
+                email: req.body.email,
                 expertise: req.body.expertise,
                 contact: req.body.contact,
                 experience: req.body.experience
