@@ -50,7 +50,7 @@ router.post('/newStudent', async function (req, res) {
         });
 
         if (checkExistingUser) {
-            res.json({
+            res.status(406).json({
                 response: false,
                 msg: "Username is taken."
             })
@@ -63,14 +63,14 @@ router.post('/newStudent', async function (req, res) {
                 contact: req.body.contact
             });
             StudentLoginList.save();
-            res.json({
+            res.status(200).json({
                 response: true,
                 msg: "New Student ID Created",
                 name: req.body.name
             })
         }
     } else {
-        res.json({
+        res.status(406).json({
             response: "invalid input"
         })
     }
@@ -101,12 +101,12 @@ router.post('/loginStudent', async (req, res) => {
             }
 
             const jwttoken = await generateToken(req, res, login)
-            res.json({
+            res.status(200).json({
                 token: jwttoken,
                 msg: "login success"
             });
         } else {
-            res.json({
+            res.status(406).json({
                 title: "Login Error",
                 msg: "Username or Password not correct",
             })
@@ -123,7 +123,7 @@ router.get('/homeStudent', async (req, res) => {
         var loginName = userVerify.name;
         var role = userVerify.role;
 
-        res.json({
+        res.status(200).json({
             title: "Welcome Home",
             name: loginName,
             role: role
@@ -131,7 +131,7 @@ router.get('/homeStudent', async (req, res) => {
 
     } catch (err) {
         console.log(err);
-        res.json({
+        res.status(406).json({
             msg: "Student ID not authenticated"
         })
     }
@@ -166,7 +166,7 @@ router.post('/newTrainer', async function (req, res) {
                 experience: req.body.experience
             });
             TrainerList.save();
-            res.json({
+            res.status(200).json({
                 response: true,
                 msg: "New Trainer ID Created",
                 username: req.body.username
@@ -174,7 +174,7 @@ router.post('/newTrainer', async function (req, res) {
             console.log("saves");
         }
     } else {
-        res.json({
+        res.status(406).json({
             response: "invalid input"
         })
     }
@@ -206,12 +206,12 @@ router.post('/loginTrainer', async (req, res) => {
             }
 
             const jwttoken = await generateToken(req, res, login)
-            res.json({
+            res.status(200).json({
                 token: jwttoken,
                 msg: "login success"
             });
         } else {
-            res.json({
+            res.status(406).json({
                 title: "Login Error",
                 msg: "Username or Password not correct",
             })
@@ -229,7 +229,7 @@ router.get('/homeTrainer', async (req, res) => {
         var loginName = userVerify.name;
         var role = userVerify.role;
 
-        res.json({
+        res.status(200).json({
             title: "Welcome Home",
             name: loginName,
             role: role
@@ -237,7 +237,7 @@ router.get('/homeTrainer', async (req, res) => {
 
     } catch (err) {
         console.log(err);
-        res.json({
+        res.status(406).json({
             msg: "Trainer ID not authenticated"
         })
     }
@@ -252,7 +252,7 @@ router.post('/upload-one', async (req, res) => {
 
         if (userVerify.name && (userVerify.role).toLowerCase() == 'trainer') {
             if (!req.files) {
-                res.send({
+                res.status(406).send({
                     status: false,
                     message: 'No file uploaded'
                 });
@@ -284,7 +284,7 @@ router.post('/upload-one', async (req, res) => {
                 // })
 
 
-                res.send({
+                res.status(200).send({
                     status: true,
                     message: 'File is uploaded',
                     data: {
@@ -295,10 +295,10 @@ router.post('/upload-one', async (req, res) => {
                 });
             }
         } else {
-            res.json({ response: 'Not Authenticated' })
+            res.status(406).json({ response: 'Not Authenticated' })
         }
     } catch (err) {
-        res.status(500).send(err);
+        res.status(406).status(500).send(err);
     }
 });
 
@@ -309,7 +309,7 @@ router.post('/upload-many', async (req, res) => {
         console.log(userVerify)
         if (userVerify.name && (userVerify.role).toLowerCase() == 'trainer') {
             if (!req.files) {
-                res.send({
+                res.status(406).send({
                     status: false,
                     message: 'No file uploaded'
                 });
@@ -340,19 +340,19 @@ router.post('/upload-many', async (req, res) => {
                 });
 
                 //return response
-                res.send({
+                res.status(200).send({
                     status: true,
                     message: 'Files are uploaded',
                     data: data
                 });
             }
         } else {
-            res.json({ response: 'Not Authenticated' })
+            res.status(406).json({ response: 'Not Authenticated' })
         }
 
     } catch (err) {
         console.log(err);
-        res.json({
+        res.status(406).json({
             response: "Trainer ID not authenticated"
         })
     }
@@ -410,13 +410,13 @@ router.get('/get-file', async (req, res) => {
             });
 
             if (!checkFiles) {
-                res.json({
+                res.status(406).json({
                     response: false,
                     msg: "No such file found"
                 })
             } else {
 
-                res.json({
+                res.status(200).json({
                     response: true,
                     msg: "Course media found",
                     courseName: checkFiles.courseName,
@@ -425,14 +425,14 @@ router.get('/get-file', async (req, res) => {
                 })
             }
         } else {
-            res.json({
+            res.status(406).json({
                 response: "invalid input"
             })
         }
 
     } catch (err) {
         console.log(err);
-        res.json({
+        res.status(406).json({
             response: "Not Authenticated"
         })
     }
