@@ -140,11 +140,13 @@ router.get('/homeStudent', async (req, res) => {
 
 
 router.post('/newTrainer', async function (req, res) {
+    console.log("newtrainr");
 
     if (req.body.username) {
         var checkExistingUser = await TrainerSch.findOne({
             username: req.body.username
         });
+
 
         if (checkExistingUser) {
             res.json({
@@ -166,6 +168,7 @@ router.post('/newTrainer', async function (req, res) {
                 msg: "New Trainer ID Created",
                 username: req.body.username
             })
+            console.log("saves");
         }
     } else {
         res.json({

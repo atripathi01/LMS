@@ -15,5 +15,9 @@ const db = process.env.DATABASE;
     }
 });
 require('./studentLoginModel');
+<<<<<<< Updated upstream
 require('./TeacherLoginModel');
 require('./CourseModel');
+=======
+require('./teacherLoginModel');
+>>>>>>> Stashed changes

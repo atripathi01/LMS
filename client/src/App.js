@@ -19,20 +19,27 @@ function App() {
     Teacher: "Teacher",
     Student: "Student",
   };
-  
+  const dashboardSection = {
+    dashboard: "Dashboard",
+    courses: "Courses",
+    allpdf: "PDF's",
+  };
 
   return (
     <div>
       <Navbar />
       <Routes>
         <Route path={HOME_PATH} element={<Home />}></Route>
-        <Route path={DASH_BOARD} element={<Dashboard />}></Route>
+        <Route
+          path={DASH_BOARD}
+          element={<Dashboard dashboardSection={dashboardSection} />}
+        ></Route>
         <Route path={LOGIN_PATH} element={<UserLogin roles={roles} />}></Route>
         <Route
           path={REGISTER_PATH}
           element={<UserRegister roles={roles} />}
         ></Route>
-        <Route path={PROFILE} element={<UserProfile roles={roles}/>}></Route>
+        <Route path={PROFILE} element={<UserProfile roles={roles} />}></Route>
       </Routes>
     </div>
   );

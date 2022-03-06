@@ -43,10 +43,24 @@ const UserLogin = (props) => {
       return;
     } else {
       const data = {
-        email,
-        password,
+        email:{email},
+        pss:{password},
       };
+      const res=await fetch((activeRole==="Teacher")?("/loginTrainer"):("/loginStudent"),{
+            method:"POST",
+            headers:{
+              "Content-Type":"application/json"
+            },
+            body: JSON.stringify({data})
+      }).then(()=>{
+        console.log("login successful......great");
+        res.json();
+      }).catch((error)=>{console.log("error login");}
+      )
+
+      
       //////token verification and post the data in backend left
+
     }
   };
 

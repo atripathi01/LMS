@@ -32,7 +32,6 @@ const UserRegister = (props) => {
   };
   async function onSubmitSignup(event) {
     event.preventDefault();
-    props.clearAuthError();
 
     // condition for password and email checking
     let passwordCondition = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;

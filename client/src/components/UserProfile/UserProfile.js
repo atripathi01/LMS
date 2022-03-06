@@ -1,25 +1,9 @@
-import React, { Fragment, useState } from "react";
-import { useDropzone } from "react-dropzone";
-import { Button } from "@mui/material";
-import UploadIcon from '@mui/icons-material/Upload';
+import React, {  useState } from "react";
+
 
 const UserProfile = (props) => {
   const roles = props.roles;
-  const onDrop=(files)=>{
-     const formData=new FormData();
-     const config={
-         header:{'content-type':"multipart/form-data"}
-
-     }
-     console.log( files);
-     formData.append("file",files[0]);
-  }
-  const { acceptedFiles, getRootProps, getInputProps } = useDropzone({onDrop});
-  const files = acceptedFiles.map((file) => (
-    <li key={file.path}>
-      {file.path} - {file.size}bytes
-    </li>
-  ));
+  
   const profileItems = {
     Profile: "Profile",
     ProfileSetting: "Profile Setting",
@@ -40,20 +24,11 @@ const UserProfile = (props) => {
       </div> 
     </section>
   );
-  const upload = (
-  <div>
-      <section>
-          <div {...getRootProps()} style={{"width":"500px","height":"300px","border":"#acacac 2px dotted","display":"flex","justifyContent":"center"}}>
-              <input {...getInputProps()} />
-              <Button>upload vedio<UploadIcon /></Button>
-          </div>
-          <aside>
-              <h2>vedios</h2>
-              <ul>{files}</ul>
-          </aside>
-      </section>
-  </div>
-    );
+  // const upload = (
+  // <div>
+      
+  // </div>
+  //   );
 
   const generateActivePart = () => {
     switch (profileItems[activeSection]) {
@@ -63,7 +38,7 @@ const UserProfile = (props) => {
       case profileItems.ProfileSetting:
         return ProfileSection;
       case profileItems.Lougout:
-        return upload;
+        return ProfileSection;
 
       default:
         return null;
