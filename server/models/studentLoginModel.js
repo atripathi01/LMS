@@ -5,11 +5,14 @@ var studentSchema = new mongoose.Schema({
         type: String
     },
     username: {
-        type: String,
-        unique: true
+        type: String
     },
     password: {
         type: String
+    },
+    email : {
+        type: String,  
+        unique: true
     },
     contact: {
         type: String

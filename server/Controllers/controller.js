@@ -88,7 +88,7 @@ router.post('/loginStudent', async (req, res) => {
 
     if ((unm != "") && (pss != "")) {
         var chkLogin = await StudentSch.findOne({
-            $and: [{ username: unm }, { password: pss }]
+            $and: [{ email: unm }, { password: pss }]
         });
 
         if (chkLogin) {
