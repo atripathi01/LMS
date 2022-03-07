@@ -8,6 +8,9 @@ var trainerSchema = new mongoose.Schema({
         type: String,
         unique: true
     },
+    email: {
+        type: String
+    },
     password: {
         type: String
     },
@@ -22,4 +25,4 @@ var trainerSchema = new mongoose.Schema({
     }
 });
 
-mongoose.model('TrainerLogin', trainerSchema); //schemaname to export import here is Login
+mongoose.model('TrainerLogin', trainerSchema); 

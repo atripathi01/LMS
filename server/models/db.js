@@ -15,6 +15,8 @@ const db = process.env.DATABASE;
     }
 });
 require('./studentLoginModel');
+require('./trainerLoginModel');
+require('./CourseModel');
 
 require('./courseModel')
 

@@ -6,9 +6,11 @@ dotenv.config({path:'./config.env'})
 
 const controller = require('./Controllers/controller');
 
+const cors = require('cors');
 
 const app = express();
 
+app.use(cors());
 
 app.use('/', controller);
 
