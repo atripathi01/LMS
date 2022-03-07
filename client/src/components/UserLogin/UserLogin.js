@@ -3,11 +3,13 @@ import classes from "./userlogin.module.css";
 import GoogleIcon from "@mui/icons-material/Google";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import ImageLogin from "../images/croped.jpg";
-import { REGISTER_PATH } from "../../constants/pathContainer";
-import { Link } from "react-router-dom";
+import { HOME_PATH, REGISTER_PATH } from "../../constants/pathContainer";
+import { Link} from "react-router-dom";
 
 const UserLogin = (props) => {
+  // const history = useHistory();
   const roles = props.roles;
+
   const [activeRole, setActiveRole] = useState(Object.keys(roles)[0]);
 
   const [email, setEmail] = useState(" ");
@@ -43,24 +45,34 @@ const UserLogin = (props) => {
       return;
     } else {
       const data = {
-        email:{email},
-        pss:{password},
+        email: { email },
+        password: { password },
       };
-      const res=await fetch((activeRole==="Teacher")?("/loginTrainer"):("/loginStudent"),{
-            method:"POST",
-            headers:{
-              "Content-Type":"application/json"
-            },
-            body: JSON.stringify({data})
-      }).then(()=>{
-        console.log("login successful......great");
-        res.json();
-      }).catch((error)=>{console.log("error login");}
+      const res = await fetch(
+        activeRole === "Teacher" ? "/loginTrainer" : "/loginStudent",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
       )
+        .then((response) => {
+          console.log("login successful......great");
+          return response.json();
+        })
+        .catch((error) => {
+          console.log("error login");
+        });
+      if (res.status === 400 || !data) {
+        window.alert("failed");
+      } else {
+        window.alert("logined");
+        // history.push(HOME_PATH);
+      }
 
-      
       //////token verification and post the data in backend left
-
     }
   };
 

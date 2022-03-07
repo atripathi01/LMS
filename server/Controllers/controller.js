@@ -79,7 +79,7 @@ router.post('/newStudent', async function (req, res) {
 
 router.post('/loginStudent', async (req, res) => {
 
-    const unm = req.body.username;
+    const unm = req.body.email;
     const pss = req.body.password;
     const role = req.body.role;
 
@@ -181,7 +181,7 @@ router.post('/newTrainer', async function (req, res) {
 
 router.post('/loginTrainer', async (req, res) => {
 
-    const unm = req.body.username;
+    const unm = req.body.email;
     const pss = req.body.password;
     const role = req.body.role;
 
@@ -290,6 +290,7 @@ router.post('/upload-one', async (req, res) => {
                         courseMedia: uploadedFile
                     }
                 });
+                console.log("uploaded")
             }
         } else {
             res.json({ response: 'Not Authenticated' })

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import classes from "./navbar.module.css";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { Link } from "react-router-dom";
-import { HOME_PATH, LOGIN_PATH, PROFILE } from "../../constants/pathContainer";
+import { HOME_PATH, LOGIN_PATH, PROFILE, REGISTER_PATH } from "../../constants/pathContainer";
 import Avatar from "../images/useravatar.png";
 export default class Navbar extends Component {
   render() {
@@ -27,11 +27,16 @@ export default class Navbar extends Component {
                 </Link>
               </li>
               <li className={classes.items}>
-                <Link to={LOGIN_PATH}>
-                  <button className={classes.btnLogin}>Login</button>
+                <Link to={LOGIN_PATH} className={classes.btnLogin}>
+                 Login
                 </Link>
               </li>
               <li className={classes.items}>
+                <Link to={REGISTER_PATH}>
+                  <button className={classes.btnRegi}>Register</button>
+                </Link>
+              </li>
+              {/* <li className={classes.items}>
                 <Link to={PROFILE}>
                   {" "}
                   <img
@@ -40,7 +45,7 @@ export default class Navbar extends Component {
                     alt="user"
                   />
                 </Link>{" "}
-              </li>
+              </li> */}
             </ul>
           </div>
         </nav>

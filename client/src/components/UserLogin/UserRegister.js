@@ -68,12 +68,12 @@ const UserRegister = (props) => {
       return;
     } else {
       const data = {
-        email:{email},
-        unm: {name},
-        pss: {passwordSignupConf},
+        username:{email},
+        name: {name},
+        password: {passwordSignupConf},
         role: { activeRole },
       };
-      const res = await fetch(
+      await fetch(
         activeRole === "Teacher" ? "/newTrainer" : "/newStudent",
         {
           method: "POST",
@@ -85,7 +85,7 @@ const UserRegister = (props) => {
       )
         .then((response) => {
           console.log("Data sended......Done");
-          res.json();
+          return response.json();
         })
         .catch((error) => {
           console.log("error ");

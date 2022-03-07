@@ -43,7 +43,7 @@ ul {
   color: #000;
   text-decoration: none;
 }
-.btnLogin {
+.btnRegi {
   font-size: 20px;
   padding: 0.5rem 2rem;
   margin-right: 3rem;
@@ -54,7 +54,20 @@ ul {
   cursor: pointer;
   letter-spacing: 1.5px;
 }
-.btnLogin:hover {
+.btnRegi:hover {
   background-color: #3758ff;
   border: #3758ff 2px solid;
+}
+.btnLogin{
+  font-size: 20px;
+ 
+  text-decoration: none;
+  color: #000;
+  
+  
+  cursor: pointer;
+  letter-spacing: 1.5px;
+}
+.btnLogin:hover{
+  color: #06f;
 }

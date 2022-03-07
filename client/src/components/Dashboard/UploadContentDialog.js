@@ -12,6 +12,7 @@ import UploadIcon from "@mui/icons-material/Upload";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import TextareaAutosize from "@mui/material/TextareaAutosize";
+import axios from "axios";
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -33,6 +34,14 @@ export default function FullScreenDialog() {
     };
     console.log(files);
     formData.append("file", files[0]);
+
+    axios.post("/upload-one", formData, config).then((response) => {
+      if (response.data.success) {
+        console.log("upload successful");
+      } else {
+        alert("failed");
+      }
+    });
   };
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
     onDrop,
@@ -90,11 +99,11 @@ export default function FullScreenDialog() {
             </Button>
           </div>
           <aside>
-            <h2 style={{"marginLeft":"3rem"}}>Course Details</h2>
+            <h2 style={{ marginLeft: "3rem" }}>Course Details</h2>
             <ul>{files}</ul>
           </aside>
         </section>
-        <div style={{"marginLeft":"3rem"}}>
+        <div style={{ marginLeft: "3rem" }}>
           <section>
             <Box
               sx={{
@@ -114,8 +123,9 @@ export default function FullScreenDialog() {
             </Box>
             <br />
             <br />
-            <label>Discribtion</label><br />
-            
+            <label>Discribtion</label>
+            <br />
+
             <TextareaAutosize
               aria-label="minimum height"
               minRows={10}
