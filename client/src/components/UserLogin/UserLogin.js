@@ -5,6 +5,7 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import ImageLogin from "../images/croped.jpg";
 import { HOME_PATH, REGISTER_PATH } from "../../constants/pathContainer";
 import { Link} from "react-router-dom";
+import ErrorAlert from "../Nested/ErrorAlter";
 
 const UserLogin = (props) => {
   // const history = useHistory();
@@ -22,7 +23,7 @@ const UserLogin = (props) => {
       show: false,
     });
   };
-  const ShowSnackBar = (msg, type) => {
+  const showSnackBar = (msg, type) => {
     setAlert({
       show: true,
       msg: msg,
@@ -35,13 +36,13 @@ const UserLogin = (props) => {
     // this const is a condition where accept everything except whitespaces
     const emailOrUsernameCondition = /^[a-zA-Z0-9!-£]*$/;
     if (email === "") {
-      ShowSnackBar("please enter your email", "error");
+      showSnackBar("please enter your email", "error");
       return;
     } else if (password === "") {
-      ShowSnackBar("please enter your password", "error");
+      showSnackBar("please enter your password", "error");
       return;
     } else if (!emailOrUsernameCondition.test(String(email).trim())) {
-      ShowSnackBar("Invalid email", "error");
+      showSnackBar("Invalid email", "error");
       return;
     } else {
       const data = {
@@ -69,6 +70,7 @@ const UserLogin = (props) => {
         window.alert("failed");
       } else {
         window.alert("logined");
+        showSnackBar("Logged in","success")
         // history.push(HOME_PATH);
       }
 
@@ -170,6 +172,14 @@ const UserLogin = (props) => {
 
   return (
     <div>
+      <div>
+        {/* <ErrorAlert
+         AutoHideSnackbar={AutoHideSnackbar}
+         showSnackBar={showSnackBar}
+         message={alert.msg}
+         type={alert.type}       
+        /> */}
+      </div>
       <div className={classes.loginPage}>
         <div className={classes.loginBox}>
           <div className={classes.loginRightBox}>
