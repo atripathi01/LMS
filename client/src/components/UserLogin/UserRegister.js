@@ -5,13 +5,18 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import ImageLogin from "../images/croped.jpg";
 import { LOGIN_PATH } from "../../constants/pathContainer";
 import { Link } from "react-router-dom";
+// import ErrorAlert from "../Nested/ErrorAlter";
+import Snackbar from '@mui/material/Snackbar';
+// import MuiAlert from '@material-ui/lab/Alert';
+import MuiAlert from '@mui/material/Alert';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 const UserRegister = (props) => {
   const roles = props.roles;
   const [activeRole, setActiveRole] = useState(Object.keys(roles)[0]);
 
   const [email, setEmail] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
+  // const [showPassword, setShowPassword] = useState(false);
   const [passwordSignup, setPasswordSignUp] = useState("");
   const [passwordSignupConf, setPasswordSignUpConf] = useState("");
   const [name, setName] = useState("");
@@ -22,7 +27,9 @@ const UserRegister = (props) => {
       show: false,
     });
   };
-
+  function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled"/>;
+    }
   const showSnackBar = (msg, type) => {
     setAlert({
       show: true,
@@ -30,6 +37,28 @@ const UserRegister = (props) => {
       type: type,
     });
   };
+
+  const errorAlert=()=>{
+    <Snackbar
+    open={alert.show}
+    autoHideDuration={3000}
+    onClose={AutoHideSnackbar}
+    anchorOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+        width: "300px"
+        
+    }}>
+    <Alert  severity="error">
+        <p style={{marginTop:"0", fontWeight: '600',width:"fit-content" }}>{alert.msg}<ArrowForwardIcon /></p>
+        
+    </Alert>
+</Snackbar>
+
+
+
+
+  }
   function onSubmitSignup(event) {
     event.preventDefault();
 
@@ -40,18 +69,23 @@ const UserRegister = (props) => {
     // basic validation
     if (name === "") {
       showSnackBar("Please enter your name", "error");
+      window.alert("Please fill empty field");
       return;
     } else if (email === "") {
       showSnackBar("Please enter your email", "error");
+      window.alert("Please fill empty field");
       return;
     } else if (passwordSignup === "") {
       showSnackBar("Please enter a new password", "error");
+      window.alert("Please fill empty field");
       return;
     } else if (passwordSignupConf === "") {
       showSnackBar("Please confirm your new password", "error");
+      window.alert("Please fill empty field");
       return;
     } else if (passwordSignup !== passwordSignupConf) {
       showSnackBar("Passwords do not match", "error");
+      window.alert("passwords are not same")
       return;
     }
 
@@ -62,9 +96,11 @@ const UserRegister = (props) => {
         "Password must contain atleast one capital letter, Special character and a numerical value",
         "error"
       );
+      window.alert("Password must contain atleast one capital letter, Special character and a numerical value")
       return;
     } else if (!emailCondition.test(String(email).trim())) {
       showSnackBar("Please enter a valid email address", "error");
+      window.alert("Please enter a valid email address");
       return;
     } else {
       const data = {
@@ -92,11 +128,15 @@ const UserRegister = (props) => {
       )
         .then((response) => {
           console.log("Data sent......Done");
+          showSnackBar("Registered successful","success");
+          window.alert("Registered successfully");
           return response.json();
+          
         })
         .catch((error) => {
           console.log("error ", error);
         });
+
       console.log("name", name);
       console.log("email", email);
       console.log("password", passwordSignup);
@@ -261,6 +301,11 @@ const UserRegister = (props) => {
 
   return (
     <div>
+      <div>
+       {/* errorAlert() */}
+       {errorAlert()}
+
+      </div>
       <div className={classes.loginPage}>
         <div className={classes.loginBox}>
           <div className={classes.loginRightBox}>
