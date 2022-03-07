@@ -31,6 +31,7 @@ const TrainerSch = mongoose.model('TrainerLogin');
 const CourseSch = mongoose.model('Courses');
 
 const { generateToken, verifyToken } = require('./jwt');
+const { result } = require('lodash');
 
 router.use(
     bodyparser.urlencoded({
@@ -307,8 +308,8 @@ router.post('/upload-one', async (req, res) => {
 router.post('/upload-many', async (req, res) => {
     try {
         const userVerify = await verifyToken(req, res, 'trainer');
-        console.log(userVerify)
-        if (userVerify.name && (userVerify.role).toLowerCase() == 'trainer') {
+        console.log("cc",userVerify)
+        if (userVerify.id && (userVerify.role).toLowerCase() == 'trainer') {
             if (!req.files) {
                 res.status(406).send({
                     status: false,
@@ -435,6 +436,42 @@ router.get('/get-file', async (req, res) => {
         console.log(err);
         res.status(406).json({
             response: "Not Authenticated"
+        })
+    }
+});
+
+router.get('/get-all-file', async (req, res) => {
+    try {
+        const userVerify = await verifyToken(req, res, 'trainer');
+        console.log(userVerify)
+        if (userVerify) {
+            var checkFiles = await CourseSch.find({}).lean();
+       
+
+            if (!checkFiles) {
+                res.status(406).json({
+                    response: false,
+                    msg: "No such file found"
+                })
+            } else {
+                console.log(checkFiles)
+
+                res.status(200).json({
+                    response: true,
+                    msg: "Course media found",
+                    mediaData : checkFiles
+                })
+            }
+        } else {
+            res.status(406).json({
+                response: "Not Authenticated"
+            })
+        }
+
+    } catch (err) {
+        console.log(err);
+        res.status(406).json({
+            response: "Invalid Input"
         })
     }
 });
