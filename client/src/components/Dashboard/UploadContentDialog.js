@@ -33,7 +33,8 @@ export default function FullScreenDialog() {
       header: { "content-type": "multipart/form-data" },
     };
     console.log(files);
-    formData.append("file", files[0]);
+    formData.append("mediaFile", files[0]);
+    
 
     axios.post("/upload-one", formData, config).then((response) => {
       if (response.data.success) {

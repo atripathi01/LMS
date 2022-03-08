@@ -3,8 +3,8 @@ import classes from "./userlogin.module.css";
 import GoogleIcon from "@mui/icons-material/Google";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import ImageLogin from "../images/croped.jpg";
-import { LOGIN_PATH } from "../../constants/pathContainer";
-import { Link } from "react-router-dom";
+import { HOME_PATH, LOGIN_PATH } from "../../constants/pathContainer";
+import { Link, useNavigate } from "react-router-dom";
 // import ErrorAlert from "../Nested/ErrorAlter";
 import Snackbar from '@mui/material/Snackbar';
 // import MuiAlert from '@material-ui/lab/Alert';
@@ -12,9 +12,10 @@ import MuiAlert from '@mui/material/Alert';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 const UserRegister = (props) => {
+
   const roles = props.roles;
   const [activeRole, setActiveRole] = useState(Object.keys(roles)[0]);
-
+  const navigate=useNavigate();
   const [email, setEmail] = useState("");
   // const [showPassword, setShowPassword] = useState(false);
   const [passwordSignup, setPasswordSignUp] = useState("");
@@ -129,7 +130,13 @@ const UserRegister = (props) => {
         .then((response) => {
           console.log("Data sent......Done");
           showSnackBar("Registered successful","success");
-          window.alert("Registered successfully");
+          if(response.status===406|| !data){
+            window.alert("406")
+          }else{
+            window.alert("Registered successfully");
+            navigate(HOME_PATH)
+          }
+          
           return response.json();
           
         })

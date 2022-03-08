@@ -143,7 +143,7 @@ router.get('/homeStudent', async (req, res) => {
 router.post('/newTrainer', async function (req, res) {
     console.log("newtrainer");
 
-    console.log(req.body.data)
+    console.log(req.body)
     if (req.body.username) {
         var checkExistingUser = await TrainerSch.findOne({
             username: req.body.username
@@ -193,7 +193,7 @@ router.post('/loginTrainer', async (req, res) => {
 
     if ((unm != "") && (pss != "")) {
         var chkLogin = await TrainerSch.findOne({
-            $and: [{ username: unm }, { password: pss }]
+            $and: [{ email: unm }, { password: pss }]
         });
 
         if (chkLogin) {

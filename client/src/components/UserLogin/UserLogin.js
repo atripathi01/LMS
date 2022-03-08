@@ -6,11 +6,14 @@ import ImageLogin from "../images/croped.jpg";
 import { HOME_PATH, REGISTER_PATH } from "../../constants/pathContainer";
 import { Link} from "react-router-dom";
 import ErrorAlert from "../Nested/ErrorAlter";
+import {useNavigate} from "react-router-dom";
+
+
 
 const UserLogin = (props) => {
   // const history = useHistory();
   const roles = props.roles;
-
+  const navigate=useNavigate();
   const [activeRole, setActiveRole] = useState(Object.keys(roles)[0]);
 
   const [email, setEmail] = useState(" ");
@@ -45,11 +48,14 @@ const UserLogin = (props) => {
       showSnackBar("Invalid email", "error");
       return;
     } else {
+      console.log("done");
       const data = {
-        email: { email },
-        password: { password },
+        email:email ,
+        password:password,
+        role:activeRole === "Teacher" ? "trainer" : "student",
       };
-      const res = await fetch(
+      console.log(data);
+     await fetch(
         activeRole === "Teacher" ? "/loginTrainer" : "/loginStudent",
         {
           method: "POST",
@@ -59,20 +65,24 @@ const UserLogin = (props) => {
           body: JSON.stringify(data),
         }
       )
+      
         .then((response) => {
           console.log("login successful......great");
+          console.log("send",data);
+          if (response.status === 400 || !data) {
+            window.alert("failed");
+          } else {
+            window.alert("logined");
+            showSnackBar("Logged in","success")
+            navigate(HOME_PATH);
+          }
           return response.json();
+
         })
         .catch((error) => {
           console.log("error login");
         });
-      if (res.status === 400 || !data) {
-        window.alert("failed");
-      } else {
-        window.alert("logined");
-        showSnackBar("Logged in","success")
-        // history.push(HOME_PATH);
-      }
+    
 
       //////token verification and post the data in backend left
     }
@@ -113,7 +123,9 @@ const UserLogin = (props) => {
         ///show password icon function
       ></input>
       <br />
-      <button className={classes.LoginBtn}>Teacher Login</button>
+      <button className={classes.LoginBtn} onClick={(e)=>{
+        onSubmitLogin(e)
+      }}>Teacher Login</button>
     </form>
   );
 
