@@ -146,7 +146,7 @@ router.post('/newTrainer', async function (req, res) {
     console.log(req.body)
     if (req.body.username) {
         var checkExistingUser = await TrainerSch.findOne({
-            username: req.body.username
+            email: req.body.email
         });
 
 
