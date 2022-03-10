@@ -31,11 +31,11 @@ export default class Navbar extends Component {
                  Login
                 </Link>
               </li>
-              <li className={classes.items}>
+              {/* <li className={classes.items}>
                 <Link to={REGISTER_PATH}>
                   <button className={classes.btnRegi}>Register</button>
                 </Link>
-              </li>
+              </li> */}
               {/* <li className={classes.items}>
                 <Link to={PROFILE}>
                   {" "}

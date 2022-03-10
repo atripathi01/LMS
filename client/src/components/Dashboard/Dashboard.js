@@ -6,7 +6,22 @@ import classes from './dashboard.module.css'
 const Dashboard=(props)=> {
   const dashboardSection =props.dashboardSection;
    const [activvDashboardSection,setActiveDashboardSection]=useState(Object.keys(dashboardSection)[0]);
+  //  const [token,setToken]=useState("");
 
+  //  const userVerify=async(e)=>{
+  //     e.preventDefault();
+
+  //     if(token===""){
+  //       window.alert("please Login ");
+  //       return ;
+  //     }else{
+  //       console.log("user Login ")
+  //       await fetch(
+  //         activeRoleDash==="Teacher"?"/homeTrainer":"/homeStudent"
+  //       )
+  //     }
+
+  //  }
    const Dashboard=(<>
      <h1>Dashboard</h1>
      <div ><UploadContentDialog />

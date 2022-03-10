@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import Adver from "../images/homepage6.svg";
+import Adver from "../images/home7.svg";
 import classes from "./home.module.css";
 import Footer from "./PageComponents/Footer";
+import createCouresImg from '../images/createcourse.svg'
 
 const Home = () => {
   const buildCourse = {
@@ -21,7 +22,11 @@ const Home = () => {
   const [activateCourse, setActivatCourse] = useState(
     Object.keys(enrollCourse)[0]
   );
-  const CourseCreaterSection = <h1>CourseCreaterSection</h1>;
+  const CourseCreaterSection =(
+    <div style={{display:"flex",justifyContent:"center",alignItems:"center",marginLeft:"7rem"}}>
+      <img src={createCouresImg} alt="creater" />
+    </div>
+  );
   const uploadSection = <h1>uploadSection</h1>;
   const addQuizSection = <h1>addQuizSection</h1>;
   const enrollSection = <h1>enrollSection</h1>;

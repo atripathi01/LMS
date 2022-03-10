@@ -102,6 +102,7 @@ router.post('/loginStudent', async (req, res) => {
             }
 
             const jwttoken = await generateToken(req, res, login)
+            console.log(jwttoken);
             res.status(200).json({
                 token: jwttoken,
                 msg: "login success"
@@ -247,22 +248,28 @@ router.get('/homeTrainer', async (req, res) => {
 
 
 router.post('/upload-one', async (req, res) => {
+
+   
     try {
         const userVerify = await verifyToken(req, res, 'trainer');
-        // console.log(userVerify)
-
-        if (userVerify.name && (userVerify.role).toLowerCase() == 'trainer') {
-            if (!req.files) {
-                res.status(406).send({
-                    status: false,
-                    message: 'No file uploaded'
-                });
-            } else {
-
-                let mediaFile = req.files.mediaFile;    //
-
-                mediaFile.mv('./uploads/' + mediaFile.name);  //
-
+        // console.log(userVerify,"uswrbab")
+        // console.log(mediaFile);
+        console.log(req.body);
+        if (userVerify.id && (userVerify.role).toLowerCase() == 'trainer') {
+            console.log("verified","verif");
+             
+            // if (!req.files) {
+            //     res.status(406).send({
+            //         status: false,
+            //         message: 'No file uploaded'
+            //     });
+            // } else {
+                 
+                // let mediaFile = req.files.mediaFile;    //
+                let mediaFile = req.body.data.mediaFile.path;
+                console.log(mediaFile);   
+                // mediaFile.mv('./uploads/' + mediaFile.name);  //
+                mediaFile.mv('./uploads/' + mediaFile.name); 
                 // var filetype = mediaFile.mimetype.split('/')[1];    //
                 // var saveFileName = `${mediaFile.name}`;
 
@@ -276,6 +283,7 @@ router.post('/upload-one', async (req, res) => {
                     courseCode: req.body.courseCode,
                     courseMedia: mediaFile.name
                 });
+            console.log(newCourse);
                 newCourse.save();
                 // res.json({
                 //     response: true,
@@ -295,7 +303,7 @@ router.post('/upload-one', async (req, res) => {
                     }
                 });
                 console.log("uploaded")
-            }
+            // }
         } else {
             res.status(406).json({ response: 'Not Authenticated' })
         }

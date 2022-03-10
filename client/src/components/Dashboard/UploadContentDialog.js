@@ -12,6 +12,7 @@ import UploadIcon from "@mui/icons-material/Upload";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import TextareaAutosize from "@mui/material/TextareaAutosize";
+import classes from "./upoloadDialog.module.css";
 import axios from "axios";
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -19,7 +20,11 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 export default function FullScreenDialog() {
   const [open, setOpen] = React.useState(false);
-
+  const [courseTitle,setCourseTitle]=React.useState("");
+  const [discribtion,setDiscribtion]=React.useState("");
+  // const [accessToken,setAccessToken]=React.useState("");
+  const token=window.localStorage.getItem("token");
+  console.log(token,"localStorageToken");
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -29,20 +34,49 @@ export default function FullScreenDialog() {
   };
   const onDrop = (files) => {
     const formData = new FormData();
-    const config = {
-      header: { "content-type": "multipart/form-data" },
-    };
+    // const config = {
+    //   header: { "content-type": "multipart/form-data" },
+    // };
     console.log(files);
-    formData.append("mediaFile", files[0]);
-    
+    const uploadData = {
+      courseCode: "555",
+      courseName: "java",
+      mediaFile: files[0],
+    };
+    console.log(uploadData);
+    formData.append("mediaFiles", files[0]);
+    formData.append("courseCode", "555");
+    formData.append(
+      "courseName",
+      acceptedFiles.map((file) => (
+        <li key={file.path}>
+          {file.path} - {file.size}bytes
+        </li>
+      ))
+    );
+  
 
-    axios.post("/upload-one", formData, config).then((response) => {
-      if (response.data.success) {
-        console.log("upload successful");
-      } else {
-        alert("failed");
-      }
-    });
+    axios
+      .post("/upload-one", {
+        method:"POST",
+        // data: uploadData,
+       
+        body:JSON.stringify(uploadData),
+
+      },
+      {data:files[0]},
+     { headers: {
+        "content-type": "multipart/form-data",
+        "authorization": `Bearer ${token}`,
+      }},)
+
+      .then((response) => {
+        if (response.data.success) {
+          console.log("upload successful");
+        } else {
+          alert("failed");
+        }
+      });
   };
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
     onDrop,
@@ -55,8 +89,12 @@ export default function FullScreenDialog() {
 
   return (
     <div>
-      <Button variant="contained" onClick={handleClickOpen}>
-        Upload Content
+      <Button
+        className={classes.uploadButn}
+        variant="contained"
+        onClick={handleClickOpen}
+      >
+        Create Course
       </Button>
       <Dialog
         fullScreen
@@ -120,6 +158,8 @@ export default function FullScreenDialog() {
                 label="Title of Course"
                 id="fullWidth"
                 style={{ fontSize: "18px" }}
+                value={courseTitle}
+                onChange={(e)=>{setCourseTitle(e.target.value)}}
               />
             </Box>
             <br />
@@ -134,6 +174,8 @@ export default function FullScreenDialog() {
               style={{ width: "100%", maxWidth: "900px", fontSize: "18px" }}
               required
               autoFocus
+              value={discribtion}
+              onChange={(e)=>setDiscribtion(e.target.value)}
             />
             <div></div>
           </section>
