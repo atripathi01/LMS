@@ -48,6 +48,7 @@ export default function FullScreenDialog() {
 
     console.log(file);
     console.log(fileName);
+    
     const formData = new FormData();
     formData.append("file", file);
     formData.append("fileName", fileName);

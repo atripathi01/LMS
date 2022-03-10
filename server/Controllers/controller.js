@@ -409,19 +409,23 @@ router.post('/upload-many', async (req, res) => {
 // })
 
 
-router.get('/get-file', async (req, res) => {
+router.post('/get-file', async (req, res) => {
     try {
         const userVerify = await verifyToken(req, res, 'trainer');
         console.log(userVerify)
         if (userVerify) {
+            // var checkFiles = await CourseSch.findOne({
+            //     $and: [{
+            //         courseCode: req.body.courseCode
+
+            //     }, {
+            //         courseMedia: req.body.courseMedia
+
+            //     }]
+            // });
+
             var checkFiles = await CourseSch.findOne({
-                $and: [{
-                    courseCode: req.body.courseCode
-
-                }, {
-                    courseMedia: req.body.courseMedia
-
-                }]
+                 courseCode: req.body.courseCode
             });
 
             if (!checkFiles) {
