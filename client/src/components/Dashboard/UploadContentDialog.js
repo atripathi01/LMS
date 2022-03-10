@@ -14,17 +14,24 @@ import TextField from "@mui/material/TextField";
 import TextareaAutosize from "@mui/material/TextareaAutosize";
 import classes from "./upoloadDialog.module.css";
 import axios from "axios";
+import { useState } from "react";
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
 export default function FullScreenDialog() {
   const [open, setOpen] = React.useState(false);
-  const [courseTitle,setCourseTitle]=React.useState("");
-  const [discribtion,setDiscribtion]=React.useState("");
+  const [courseTitle, setCourseTitle] = React.useState("");
+  const [discribtion, setDiscribtion] = React.useState("");
   // const [accessToken,setAccessToken]=React.useState("");
-  const token=window.localStorage.getItem("token");
-  console.log(token,"localStorageToken");
+
+
+  const [file, setFile] = useState();
+  const [fileName, setFileName] = useState("");
+
+
+  const token = window.localStorage.getItem("token");
+  // console.log(token, "localStorageToken");
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -32,46 +39,31 @@ export default function FullScreenDialog() {
   const handleClose = () => {
     setOpen(false);
   };
+
+
   const onDrop = (files) => {
+
+    setFile(files[0]);
+    setFileName(files[0].name);
+
+    console.log(file);
+    console.log(fileName);
     const formData = new FormData();
-    // const config = {
-    //   header: { "content-type": "multipart/form-data" },
-    // };
-    console.log(files);
-    const uploadData = {
-      courseCode: "555",
-      courseName: "java",
-      mediaFile: files[0],
-    };
-    console.log(uploadData);
-    formData.append("mediaFiles", files[0]);
-    formData.append("courseCode", "555");
-    formData.append(
-      "courseName",
-      acceptedFiles.map((file) => (
-        <li key={file.path}>
-          {file.path} - {file.size}bytes
-        </li>
-      ))
-    );
-  
-
+    formData.append("file", file);
+    formData.append("fileName", fileName);
     axios
-      .post("/upload-one", {
-        method:"POST",
-        // data: uploadData,
-       
-        body:JSON.stringify(uploadData),
-
-      },
-      {data:files[0]},
-     { headers: {
-        "content-type": "multipart/form-data",
-        "authorization": `Bearer ${token}`,
-      }},)
+      .post("/upload-one", formData,
+        {
+          headers: {
+            "content-type": "multipart/form-data",
+            "authorization": `Bearer ${token}`,
+          }
+        })
 
       .then((response) => {
-        if (response.data.success) {
+        console.log(response)
+        console.log(response.data)
+        if (response.data.status) {
           console.log("upload successful");
         } else {
           alert("failed");
@@ -133,9 +125,11 @@ export default function FullScreenDialog() {
           >
             <input {...getInputProps()} />
             <Button>
-              upload vedio
+              upload video
               <UploadIcon />
             </Button>
+
+
           </div>
           <aside>
             <h2 style={{ marginLeft: "3rem" }}>Course Details</h2>
@@ -159,7 +153,7 @@ export default function FullScreenDialog() {
                 id="fullWidth"
                 style={{ fontSize: "18px" }}
                 value={courseTitle}
-                onChange={(e)=>{setCourseTitle(e.target.value)}}
+                onChange={(e) => { setCourseTitle(e.target.value) }}
               />
             </Box>
             <br />
@@ -175,7 +169,7 @@ export default function FullScreenDialog() {
               required
               autoFocus
               value={discribtion}
-              onChange={(e)=>setDiscribtion(e.target.value)}
+              onChange={(e) => setDiscribtion(e.target.value)}
             />
             <div></div>
           </section>

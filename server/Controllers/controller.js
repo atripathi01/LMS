@@ -252,26 +252,30 @@ router.post('/upload-one', async (req, res) => {
    
     try {
         const userVerify = await verifyToken(req, res, 'trainer');
-        // console.log(userVerify,"uswrbab")
+        console.log(userVerify)
         // console.log(mediaFile);
         console.log(req.body);
+        console.log(req.files);
+        // console.log(req.files.formData);
         if (userVerify.id && (userVerify.role).toLowerCase() == 'trainer') {
             console.log("verified","verif");
              
-            // if (!req.files) {
-            //     res.status(406).send({
-            //         status: false,
-            //         message: 'No file uploaded'
-            //     });
-            // } else {
+            if (!req.files) {
+                res.status(406).send({
+                    status: false,
+                    message: 'No file uploaded'
+                });
+            } else {
+                console.log("bbb");   
                  
-                // let mediaFile = req.files.mediaFile;    //
-                let mediaFile = req.body.data.mediaFile.path;
+                let mediaFile = req.files.file;    //
+                // let mediaFile = req.body;
+                console.log("bb");   
                 console.log(mediaFile);   
                 // mediaFile.mv('./uploads/' + mediaFile.name);  //
                 mediaFile.mv('./uploads/' + mediaFile.name); 
-                // var filetype = mediaFile.mimetype.split('/')[1];    //
-                // var saveFileName = `${mediaFile.name}`;
+                var filetype = mediaFile.mimetype.split('/')[1];    //
+                var saveFileName = `${mediaFile.name}`;
 
                 uploadedFile = {
                     name: mediaFile.name,
@@ -303,8 +307,9 @@ router.post('/upload-one', async (req, res) => {
                     }
                 });
                 console.log("uploaded")
-            // }
+            }
         } else {
+            console.log("token expired/ not authenticated")
             res.status(406).json({ response: 'Not Authenticated' })
         }
     } catch (err) {

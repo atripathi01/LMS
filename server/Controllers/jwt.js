@@ -32,12 +32,17 @@ module.exports.verifyToken = function (req, res, role) {
 
     var bearerToken;
     var bearerHeader = req.headers["authorization"];
-
+    console.log("inside jwt verify token")
+    console.log(typeof bearerHeader)
     if (typeof bearerHeader !== 'undefined') {
+        // console.log('1')
         var bearer = bearerHeader.split(" ");
         bearerToken = bearer[1];
         req.token = bearerToken;
-
+        
+        // const vrfy = jwt.verify(req.token, secret);
+        // console.log(vrfy.json())
+        
         return jwt.verify(req.token, secret);
     }
 }
