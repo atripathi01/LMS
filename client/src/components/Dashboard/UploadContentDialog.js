@@ -43,15 +43,15 @@ export default function FullScreenDialog() {
 
   const onDrop = (files) => {
 
-    setFile(files[0]);
-    setFileName(files[0].name);
+    // setFile(files[0]);
+    // setFileName(files[0].name);
 
-    console.log(file);
-    console.log(fileName);
+    // console.log(file);
+    // console.log(fileName);
     
     const formData = new FormData();
-    formData.append("file", file);
-    formData.append("fileName", fileName);
+    formData.append("file", files[0]);
+    formData.append("fileName", files[0].name);
     axios
       .post("/upload-one", formData,
         {

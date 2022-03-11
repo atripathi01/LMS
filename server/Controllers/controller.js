@@ -457,11 +457,12 @@ router.post('/get-file', async (req, res) => {
     }
 });
 
-router.get('/get-all-file', async (req, res) => {
+router.post('/get-all-file', async (req, res) => {
+    console.log("api hit by frontend");
     try {
-        const userVerify = await verifyToken(req, res, 'trainer');
-        console.log(userVerify)
-        if (userVerify) {
+        // const userVerify = await verifyToken(req, res, 'trainer');
+        // console.log(userVerify)
+        // if (userVerify) {
             var checkFiles = await CourseSch.find({}).lean();
        
 
@@ -479,11 +480,11 @@ router.get('/get-all-file', async (req, res) => {
                     mediaData : checkFiles
                 })
             }
-        } else {
-            res.status(406).json({
-                response: "Not Authenticated"
-            })
-        }
+        // } else {
+        //     res.status(406).json({
+        //         response: "Not Authenticated"
+        //     })
+        // }
 
     } catch (err) {
         console.log(err);
