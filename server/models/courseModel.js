@@ -8,7 +8,8 @@ var courseSchema = new mongoose.Schema({
         type: String
         // unique: true
     },
-    courseMedia: {type: String}
+    courseMedia: {type: String},
+    mediaType: {type: String}
 });
 
 mongoose.model('Courses', courseSchema); 

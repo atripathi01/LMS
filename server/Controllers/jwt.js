@@ -40,9 +40,9 @@ module.exports.verifyToken = function (req, res, role) {
         bearerToken = bearer[1];
         req.token = bearerToken;
         
-        // const vrfy = jwt.verify(req.token, secret);
-        // console.log(vrfy.json())
+        const tokenVerify = jwt.verify(req.token, secret);
+        // console.log(tokenVerify, "bihnbhihnuihniuji")
         
-        return jwt.verify(req.token, secret);
+        return tokenVerify;
     }
 }
