@@ -3,13 +3,13 @@
   justify-content: space-between;
   padding: auto 3rem;
   font-size: 22px;
-  background: rgba(255, 255, 255, 0.2);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  background-color: #edede9;
+  /* background: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); */
+  /* backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px); */
+  /* border-radius: 10px; */
+  border: 1px solid #acacac;
+  background-color: #fff;
   
 }
 ul {
@@ -19,6 +19,7 @@ ul {
   font-size: 30px;
   font-weight: 700;
   letter-spacing: 2px;
+  
 }
 .itemWrapper {
   display: flex;
@@ -26,12 +27,15 @@ ul {
   align-items: center;
 }
 .RouterLink1 {
-  color: #06f;
+  color: #cf3b38;
   text-decoration: none;
 }
 .RouterLink {
   color: #000;
   text-decoration: none;
+}
+.RouterLink:hover{
+  color: #cf3b38;
 }
 
 .items {
@@ -47,16 +51,16 @@ ul {
   font-size: 20px;
   padding: 0.5rem 2rem;
   margin-right: 3rem;
-  background-color: #06f;
+  background-color: #cf3b38;
   color: #fff;
   border-radius: 7px;
-  border: #06f 2px solid;
+  border: #cf3b38 2px solid;
   cursor: pointer;
   letter-spacing: 1.5px;
 }
 .btnRegi:hover {
-  background-color: #3758ff;
-  border: #3758ff 2px solid;
+  background-color: #272624;
+  border: #272624 2px solid;
 }
 .btnLogin{
   font-size: 20px;
@@ -69,5 +73,5 @@ ul {
   letter-spacing: 1.5px;
 }
 .btnLogin:hover{
-  color: #06f;
+  color: #cf3b38;
 }

@@ -1,17 +1,23 @@
 import Home from "./components/Home/Home";
 import { Route, Routes } from "react-router-dom";
 import {
+  ADMIN,
+  COURSE_DETAIL,
   DASH_BOARD,
   HOME_PATH,
   LOGIN_PATH,
   PROFILE,
   REGISTER_PATH,
+  UPLOAD_COURSES,
 } from "./constants/pathContainer";
 import Dashboard from "./components/Dashboard/Dashboard";
 import UserLogin from "./components/UserLogin/UserLogin";
 import Navbar from "./components/Navbar/Navbar";
 import UserRegister from "./components/UserLogin/UserRegister";
 import UserProfile from "./components/UserProfile/UserProfile";
+import CourseDetail from './components/Dashboard/courseDatail/courseDetail'
+import UploadCourses from "./components/Dashboard/UploadContentDialog";
+import Admin from "./components/admin/Admin";
 
 function App() {
   // teacher and student there are two role so these role passes on login and register page for detecting the login and register roles
@@ -40,6 +46,9 @@ function App() {
           element={<UserRegister roles={roles} />}
         ></Route>
         <Route path={PROFILE} element={<UserProfile roles={roles} />}></Route>
+        <Route path={COURSE_DETAIL} element={<CourseDetail/> }></Route>
+        <Route path={UPLOAD_COURSES} element={<UploadCourses />}></Route>
+        <Route path={ADMIN} element={<Admin />}></Route>
       </Routes>
     </div>
   );
