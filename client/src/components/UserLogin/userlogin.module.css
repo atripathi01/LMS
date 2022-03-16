@@ -4,6 +4,9 @@
   align-items: center;
   background-color: #fff;
 }
+/* input:focus{
+  outline: #272624 2px solid;
+} */
 .loginBox {
   width: 100%;
   max-width: 1100px;
@@ -16,7 +19,7 @@
   justify-content: center;
   flex-direction: row;
   background-color: #fff;
-  border-radius: 5px;
+  border-radius: 2px;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
 .loginRightBox {
@@ -39,11 +42,11 @@
   cursor: pointer;
 }
 .active {
-  background-color: #06f;
+  background-color: #272624;
   color: #fff;
   cursor: pointer;
   padding: 0.5rem 1rem;
-  border-radius: 5px;
+  border-radius: 2px;
 }
 
 .loginSection {
@@ -72,20 +75,21 @@
   margin-top: 2rem;
 }
 .LoginBtn {
-  font-size: 18px;
+  font-size: 17px;
   color: #fff;
-  background-color: #06f;
-  font-weight: 500;
-  padding: 0.5rem 1.5rem;
+  background-color: #cf3b38;
+  font-weight: 400;
+  padding: 0.5rem 1rem;
   margin-top: 3rem;
-  border: #06f 2px solid;
-  border-radius: 5px;
+  border: #272624 1px solid;
+  border-radius: 2px;
   cursor: pointer;
+  text-transform: uppercase;
 }
 .LoginBtn:hover {
   /* background-color: #0033ff; */
-  border: #3758ff 2px solid;
-  background-color: #3758ff;
+  border: #272624 2px solid;
+  background-color: #272624;
 }
 .Divider {
   width: 100%;
@@ -110,7 +114,7 @@
   margin-top: 1rem;
 }
 .newUserSignUp {
-  color: #06f;
+  color: #cf3b38;
   text-decoration: none;
   font-weight: 600;
 }

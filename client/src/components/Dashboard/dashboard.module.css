@@ -9,20 +9,25 @@
 .dashNav {
   width: 300px;
   border-right: #acacac 1px solid;
-  height: 90vh;
+  height:100vh;
   background: rgb(2, 0, 36);
-  background: linear-gradient(
+  /* background: linear-gradient(
     245deg,
     rgba(2, 0, 36, 1) 0%,
     rgba(239, 239, 245, 0.5) 0%,
     rgba(200, 226, 232, 0.5) 48%,
     rgba(223, 235, 238, 1) 100%,
     rgba(0, 212, 255, 1) 100%
-  );
+  ); */
+  background-color: #272624;
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
+  color: #fff;
+
 
 }
+
+
 .dashboardItems {
   padding: 1rem;
   border: none;
@@ -33,15 +38,16 @@ padding-left: 1rem;
   cursor: pointer;
 }
 .activeDash{
-  background: rgb(2, 0, 36);
-  background: linear-gradient(
+  /* background: rgb(2, 0, 36); */
+  /* background: linear-gradient(
     245deg,
     rgba(2, 0, 36, 1) 0%,
     rgba(31, 31, 144, 0.7) 0%,
     rgba(25, 144, 171, 0.7) 48%,
     rgba(31, 104, 122, 0.7) 100%,
     rgba(0, 212, 255, 1) 100%
-  );
+  ); */
+  color: #cf3b38;
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
 }

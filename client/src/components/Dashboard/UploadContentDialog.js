@@ -7,7 +7,7 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import CloseIcon from "@mui/icons-material/Close";
 import Slide from "@mui/material/Slide";
-import { useDropzone } from "react-dropzone";
+import  { useDropzone } from "react-dropzone";
 import UploadIcon from "@mui/icons-material/Upload";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
@@ -15,6 +15,8 @@ import TextareaAutosize from "@mui/material/TextareaAutosize";
 import classes from "./upoloadDialog.module.css";
 import axios from "axios";
 import { useState } from "react";
+import { Navigate } from "react-router-dom";
+import { DASH_BOARD } from "../../constants/pathContainer";
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -38,6 +40,7 @@ export default function FullScreenDialog() {
 
   const handleClose = () => {
     setOpen(false);
+    Navigate(DASH_BOARD)
   };
 
 
@@ -67,10 +70,13 @@ export default function FullScreenDialog() {
         if (response.data.status) {
           console.log("upload successful");
         } else {
-          alert("failed");
+          window.alert("failed");
         }
       });
   };
+
+  // using Dropzone library for upload files for the system 
+
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
     onDrop,
   });
@@ -110,6 +116,7 @@ export default function FullScreenDialog() {
             </Typography>
             <Button autoFocus color="inherit" onClick={handleClose}>
               Publish
+              
             </Button>
           </Toolbar>
         </AppBar>
