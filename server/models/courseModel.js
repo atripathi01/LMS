@@ -52,7 +52,7 @@ var courseMediaSchema = new mongoose.Schema({
         type: String
         // unique: true
     },
-    mediaUrl: { type: String },
+    mediaDescription: { type: String },
     mediaType: { type: String }
 });
 
