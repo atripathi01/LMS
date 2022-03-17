@@ -27,7 +27,8 @@ module.exports.verifyToken = function (req, res) {
     var bearerHeader = req.headers["authorization"];
     console.log("inside jwt verify token")
     console.log(typeof bearerHeader)
-    if (typeof bearerHeader !== 'undefined') {
+    if (bearerHeader) {
+        // if (typeof bearerHeader !== 'undefined') {
         console.log('1')
         var bearer = bearerHeader.split(" ");
         bearerToken = bearer[1];
@@ -37,5 +38,8 @@ module.exports.verifyToken = function (req, res) {
         console.log(tokenVerify, "bihnbhihnuihniuji")
 
         return tokenVerify;
+    } else {
+        console.log("Invalid token");
+        return false;
     }
 }

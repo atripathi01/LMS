@@ -12,9 +12,9 @@ const cookieParser = require("cookie-parser");
 
 // enable files upload
 router.use(
-  fileUpload({
-    createParentPath: true,
-  })
+    fileUpload({
+        createParentPath: true,
+    })
 );
 
 //add other middleware
@@ -33,19 +33,21 @@ const mongoose = require('mongoose');
 const LoginSch = mongoose.model('Login');
 const RegistrationSch = mongoose.model('Registration');
 const CourseSch = mongoose.model('Courses');
+// const CourseCategorySch = mongoose.model('CourseCategory');
+const CourseMediaSch = mongoose.model('CourseMedia');
 const AdminSch = mongoose.model('Admin');
 
 const { generateToken, verifyToken } = require('./jwt');
 
 
 router.use(
-  bodyparser.urlencoded({
-    extended: true,
-  })
+    bodyparser.urlencoded({
+        extended: true,
+    })
 );
 
 router.get("/", (req, res) => {
-  res.json({ msg: "hello" });
+    res.json({ msg: "hello" });
 });
 
 
@@ -324,8 +326,463 @@ router.get('/admin/get-all-learners', async (req, res) => {
         })
 
     }
-  
+
 });
+
+
+router.post('/admin/create-course', async (req, res) => {
+    try {
+        const userVerify = await verifyToken(req, res);
+        var loginName = userVerify.name;
+        var role = userVerify.role;
+        console.log(userVerify)
+        console.log('user verify->', loginName, role)
+        if (userVerify && userVerify.role === 'Admin') {
+            var checkExistingCourse = await CourseSch.findOne({ courseCode: req.body.courseCode });
+            console.log("vedfvefsdvedf", checkExistingCourse);
+            if (checkExistingCourse) {
+                console.log("course code exist");
+                res.status(406).json({
+                    msg: "course code already exist"
+                });
+            } else {
+                const NewCourse = new CourseSch({
+                    courseCategory: req.body.courseCategory,
+                    courseName: req.body.courseName,
+                    courseCode: req.body.courseCode,
+                    courseDescription: req.body.description,
+                    courseCreationTime: new Date(Date.now()),
+                    courseDuration: req.body.duration
+                });
+
+                NewCourse.save(function (err, data) {
+                    if (err) {
+                        console.log(err);
+                        res.status(406).json({
+                            response: false,
+                            error: err
+                        })
+                    } else {
+                        console.log(data);
+                        res.status(200).json({
+                            response: true,
+                            msg: "Course Created",
+                            course: data
+                            // courseCode: data.courseCode
+                        })
+                    }
+                });
+            }
+
+
+
+        } else {
+            console.log('Admin not verified');
+            res.status(406).json({
+                response: "Admin not verified"
+            })
+        }
+
+    } catch (err) {
+        console.log(err);
+        res.status(406).json({
+            msg: err.toString()
+        })
+    }
+});
+
+router.post('/admin/update-course/:code', async (req, res) => {
+    try {
+        console.log("vefv")
+        console.log(req.params.code)
+        const userVerify = await verifyToken(req, res);
+        var loginName = userVerify.name;
+        var role = userVerify.role;
+        console.log(userVerify)
+        console.log('user verify->', loginName, role)
+        if (userVerify && userVerify.role === 'Admin') {
+            var checkExistingCourse = await CourseSch.findOne({ courseCode: req.params.code });
+            console.log("vedfvefsdvedf", checkExistingCourse);
+            if (!checkExistingCourse) {
+                console.log("course code invalid");
+                res.status(406).json({
+                    msg: "course code invalid"
+                });
+            } else {
+                
+                console.log(checkExistingCourse);
+                CourseSch.updateOne({courseCode : req.params.code}, {$set:{
+                    courseCategory: req.body.courseCategory ? req.body.courseCategory : checkExistingCourse.courseCategory,
+                    courseName: req.body.courseName ? req.body.courseName : checkExistingCourse.courseName,
+                    courseDescription: req.body.description ? req.body.description : checkExistingCourse.courseDescription,
+                    lastUpdateTime: new Date(Date.now()),
+                    courseDuration: req.body.duration ? req.body.duration : checkExistingCourse.courseDuration
+                }} ,function (err, data) {
+                    if (err) {
+                        console.log(err);
+                        res.status(406).json({
+                            response: false,
+                            error: err
+                        })
+                    } else {
+
+                        console.log("fwdveeeeeeeeeeeeeeeeeeeeeeeee");
+                        console.log(data);
+                        res.status(200).json({
+                            response: true,
+                            msg: "Course Updated",
+                            course: data
+                            // courseCode: data.courseCode
+                        })
+                    }
+                });
+            }
+
+
+
+        } else {
+            console.log('Admin not verified');
+            res.status(406).json({
+                response: "Admin not verified"
+            })
+        }
+
+    } catch (err) {
+        console.log(err);
+        res.status(406).json({
+            msg: err.toString()
+        })
+    }
+});
+
+router.post('/admin/delete-course/:code', async (req, res) => {
+    try {
+        console.log("vefv")
+        console.log(req.params.code)
+        const userVerify = await verifyToken(req, res);
+        var loginName = userVerify.name;
+        var role = userVerify.role;
+        console.log(userVerify)
+        console.log('user verify->', loginName, role)
+        if (userVerify && userVerify.role === 'Admin') {
+            const checkExistingCourse = await CourseSch.findOne({ courseCode: req.params.code });
+            
+            if(checkExistingCourse) {
+                CourseSch.deleteOne({ courseCode: req.params.code }, function(err, result) {
+                    if(err) {
+                        console.log('error deleting course', err);
+                        res.status(406).json(err);
+                    } else {
+                        res.status(200).json({
+                            msg : "Course Deleted",
+                            course: result
+                        })
+                    }
+                });
+            } else {
+                console.log('course not found');
+                        res.status(406).json({
+                            msg : "course not found"
+                        });
+            }
+            
+            
+
+        } else {
+            console.log('Admin not verified');
+            res.status(406).json({
+                response: "Admin not verified"
+            })
+        }
+
+    } catch (err) {
+        console.log(err);
+        res.status(406).json({
+            msg: err.toString()
+        })
+    }
+});
+
+router.get('/all-courses', async (req, res) => {
+    try {
+        console.log('aaaaaa');
+        const userVerify = await verifyToken(req, res);
+        var loginName = userVerify.name;
+        var role = userVerify.role;
+        console.log(userVerify)
+        console.log('user verify->', loginName, role)
+        if (userVerify) {
+            var checkExistingCourse = await CourseSch.find();
+            console.log("vedfvefsdvedf", checkExistingCourse);
+            if (!checkExistingCourse) {
+                console.log("no course exist");
+                res.status(406).json({
+                    msg: "No course exist"
+                });
+            } else {
+                
+                        console.log(checkExistingCourse);
+                        res.status(200).json({
+                            response: true,
+                            msg: "Course found",
+                            course: checkExistingCourse
+                            // courseCode: data.courseCode
+                        })
+                    
+            }
+
+
+
+        } else {
+            console.log('User not verified');
+            res.status(406).json({
+                response: "User not verified"
+            })
+        }
+
+    } catch (err) {
+        console.log(err);
+        res.status(406).json({
+            msg: err.toString()
+        })
+    }
+});
+
+router.post('/get-course-by-course-code', async (req, res) => {
+    try {
+        if(req.body.courseCode) {
+            console.log('aaaaaa');
+            const userVerify = await verifyToken(req, res);
+            var loginName = userVerify.name;
+            var role = userVerify.role;
+            console.log(userVerify)
+            console.log('user verify->', loginName, role)
+            if (userVerify) {
+                var checkExistingCourse = await CourseSch.findOne({courseCode : req.body.courseCode});
+                console.log("vedfvefsdvedf", checkExistingCourse);
+                if (!checkExistingCourse) {
+                    console.log("no course exist");
+                    res.status(406).json({
+                        msg: "No course exist with given course code"
+                    });
+                } else {
+                    
+                            console.log(checkExistingCourse);
+                            res.status(200).json({
+                                response: true,
+                                msg: "Course found",
+                                course: checkExistingCourse
+                                // courseCode: data.courseCode
+                            })
+                        
+                }
+    
+    
+    
+            } else {
+                console.log('User not verified');
+                res.status(406).json({
+                    response: "User not verified"
+                })
+            }
+        } else {
+            console.log('invalid input')
+            res.json({
+                msg: "Invalid Input"
+            })
+        }
+        
+
+    } catch (err) {
+        console.log(err);
+        res.status(406).json({
+            msg: err.toString()
+        })
+    }
+});
+
+router.post('/get-course-by-course-name', async (req, res) => {
+    try {
+        if(req.body.courseName) {
+            console.log('aaaaaa');
+            const userVerify = await verifyToken(req, res);
+            var loginName = userVerify.name;
+            var role = userVerify.role;
+            console.log(userVerify)
+            console.log('user verify->', loginName, role)
+            if (userVerify) {
+                var checkExistingCourse = await CourseSch.find({courseName : req.body.courseName});
+                console.log("vedfvefsdvedf", checkExistingCourse);
+                if (!checkExistingCourse.length) {
+                    console.log("no course exist");
+                    res.status(406).json({
+                        msg: "No course exist with given course name"
+                    });
+                } else {
+                    
+                            console.log(checkExistingCourse);
+                            res.status(200).json({
+                                response: true,
+                                msg: "Course found",
+                                course: checkExistingCourse
+                                // courseCode: data.courseCode
+                            })
+                        
+                }
+    
+    
+    
+            } else {
+                console.log('User not verified');
+                res.status(406).json({
+                    response: "User not verified"
+                })
+            }
+        } else {
+            console.log('invalid input')
+            res.json({
+                msg: "Invalid Input"
+            })
+        }
+        
+
+    } catch (err) {
+        console.log(err);
+        res.status(406).json({
+            msg: err.toString()
+        })
+    }
+});
+
+router.post('/get-course-by-course-category', async (req, res) => {
+    try {
+        if(req.body.courseCategory) {
+            console.log('aaaaaa');
+            const userVerify = await verifyToken(req, res);
+            var loginName = userVerify.name;
+            var role = userVerify.role;
+            console.log(userVerify)
+            console.log('user verify->', loginName, role)
+            if (userVerify) {
+                var checkExistingCourse = await CourseSch.find({courseCategory : req.body.courseCategory});
+                console.log("vedfvefsdvedf", checkExistingCourse);
+                if (!checkExistingCourse.length) {
+                    console.log("no course exist");
+                    res.status(406).json({
+                        msg: "No course exist with given course category"
+                    });
+                } else {
+                    
+                            console.log(checkExistingCourse);
+                            res.status(200).json({
+                                response: true,
+                                msg: "Course found",
+                                course: checkExistingCourse
+                                // courseCode: data.courseCode
+                            })
+                        
+                }
+    
+    
+    
+            } else {
+                console.log('User not verified');
+                res.status(406).json({
+                    response: "User not verified"
+                })
+            }
+        } else {
+            console.log('invalid input')
+            res.json({
+                msg: "Invalid Input"
+            })
+        }
+        
+
+    } catch (err) {
+        console.log(err);
+        res.status(406).json({
+            msg: err.toString()
+        })
+    }
+});
+
+// router.post('/admin/upload-course-media', async (req, res) => {
+
+//     try {
+//         const userVerify = await verifyToken(req, res);
+
+//         if (userVerify && (userVerify.role).toLowerCase() == 'admin') {
+//             // console.log("verified","verif");
+
+//             if (!req.files) {
+//                 res.status(406).send({
+//                     status: false,
+//                     message: 'No file uploaded'
+//                 });
+//             } else {
+
+//                 let mediaFile = req.files.file;    //
+//                 const mediaType = mediaFile.mimetype.split('/')[1];
+//                 const fileTypes = ['pdf', 'mp4', 'doc', 'docx']
+//                 if (fileTypes.includes(mediaType)) {
+
+
+//                     // let mediaFile = req.body;
+//                     console.log("bb");
+//                     console.log(mediaFile);
+//                     // mediaFile.mv('./uploads/' + mediaFile.name);  //
+//                     mediaFile.mv('./uploads/' + mediaFile.name);
+//                     var filetype = mediaFile.mimetype.split('/')[1];    //
+//                     var saveFileName = `${mediaFile.name}`;
+
+
+//                     const newCourse = new CourseSch({
+//                         mediaFileName: req.body.courseName,
+//                         courseCode: req.body.courseCode,
+//                         mediaUrl: mediaFile.name,
+//                         mediaType: mediaType
+//                     });
+//                     console.log(newCourse);
+//                     newCourse.save();
+//                     // res.json({
+//                     //     response: true,
+//                     //     msg: "New Course Added",
+//                     //     course: req.body.courseName,
+//                     //     courseCode: req.body.courseCode
+//                     // })
+
+//                     uploadedFile = {
+//                         name: mediaFile.name,
+//                         mimetype: mediaFile.mimetype,
+//                         size: mediaFile.size,
+//                         mediaType: mediaType
+//                     }
+//                     res.status(200).send({
+//                         status: true,
+//                         message: 'File is uploaded',
+//                         data: {
+//                             courseName: req.body.courseName,
+//                             courseCode: req.body.courseCode,
+//                             courseMedia: uploadedFile
+//                         }
+//                     });
+//                     console.log("uploaded")
+//                 } else {
+//                     res.status(406).json({
+//                         response: 'Only PDF, Word and MP4 files are acceptable.'
+//                     })
+//                 }
+
+//             }
+//         } else {
+//             console.log("token expired/ not authenticated")
+//             res.status(406).json({ response: 'Not Authenticated' })
+//         }
+//     } catch (err) {
+//         res.status(406).send(err);
+//     }
+// });
 
 
 module.exports = router;
