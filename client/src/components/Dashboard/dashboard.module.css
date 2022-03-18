@@ -23,6 +23,7 @@
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
   color: #fff;
+  position: sticky;
 
 
 }
@@ -36,6 +37,7 @@
 padding-left: 1rem;
   font-size: 20px;
   cursor: pointer;
+  
 }
 .activeDash{
   /* background: rgb(2, 0, 36); */
@@ -52,3 +54,43 @@ padding-left: 1rem;
   -webkit-backdrop-filter: blur(5px);
 }
 
+.courseCard{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  max-width: 1300px;
+  align-items: left;
+}
+.card{
+  width: 200px;
+  height: 200px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  background-color: #cf3b38;
+  color: #fff;
+  margin: 1rem;
+  padding: 1rem 0.5rem;
+  border: none;
+  border-radius: 2px;
+}
+.courseNaamm{
+  font-size: 22px;
+  font-weight: 500;
+  margin-top: 2rem;
+}
+.viewCourseBtn{
+  padding: 0.5rem 1rem ;
+  font-size: 16px;
+  text-transform: uppercase;
+  background-color: #272624;
+  color: #fff;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  border: #272624 2px solid;
+  border-radius: 2px;
+
+}

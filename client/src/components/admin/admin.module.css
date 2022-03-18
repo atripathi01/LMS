@@ -29,3 +29,94 @@
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
 }
+
+.createAccount,.access_section{
+  margin-left: 2rem;
+  margin-top: 2rem;
+}
+.title,.access_title{
+  font-size: 46px ;
+  font-weight: 700;
+}
+.user_name, .user_email, .user_pass, .user_confpass{
+  font-size: 18px;
+  margin-top: 2rem ;
+  margin-bottom: 1rem;
+  font-weight: 500 ;
+}
+.user_name_input, .user_email_input, .user_pass_input, .user_conf_input{
+  margin-top: 0.5rem;
+  margin-bottom: 2rem;
+  font-size: 16px;
+  padding: 0.5rem 1rem;
+  min-width: 500px;
+  width: 100%;
+}
+input:focus{
+  outline: #272624;
+}
+
+.role_selector
+{
+  display: flex;
+  flex-direction: row;
+}
+.role_s{
+  padding: 0.3rem 0;
+  font-size: 18px;
+  font-weight: 500;
+  margin-right: 3rem;
+}
+.user_role
+{
+  font-size: 16px;
+  padding: 0.3rem 2rem;
+
+}
+
+.user_account_cr_btn{
+  margin-top: 2rem;
+  padding: 0.5rem 1.5rem;
+  border: none;
+  outline: none;
+  background-color: #272624;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+}
+.user_account_cr_btn:hover{
+  background-color: #cf3b38;
+
+}
+
+
+.std,.cus{
+  font-size: 18px;
+  font-weight: 500;
+  margin-right: 3rem;
+  width: 250px;
+  padding: 0.3rem 0;
+}
+.course_name,.std_id{
+  display: flex;
+  flex-direction: row;
+  margin: 1rem 0.5rem;
+}
+.select_std_id,.select_course{
+  font-size: 16px;
+  padding: 0.3rem 0.8rem;
+
+}
+.giveAccess{
+  font-size: 18px;
+  color: #fff;
+  background-color: #272624;
+  padding: 0.5rem 1.5rem;
+  outline: none;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.giveAccess:hover{
+  background-color: #cf3b38;
+}

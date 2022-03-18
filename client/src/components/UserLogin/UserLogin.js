@@ -3,20 +3,23 @@ import classes from "./userlogin.module.css";
 // import GoogleIcon from "@mui/icons-material/Google";
 // import FacebookIcon from "@mui/icons-material/Facebook";
 import ImageLogin from "../images/croped.jpg";
-import { HOME_PATH } from "../../constants/pathContainer";
+import { ADMIN_LOGIN, DASH_BOARD, HOME_PATH } from "../../constants/pathContainer";
 // import { Link } from "react-router-dom";
 // import ErrorAlert from "../Nested/ErrorAlter";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import {login} from '../../features/userSlice'
+import {useDispatch} from 'react-redux'
 
 const UserLogin = (props) => {
   // const history = useHistory();
 
-  const roles = props.roles;
+  // const roles = props.roles;
   const navigate = useNavigate();
+  const dispatch=useDispatch();
 
   //-------------->Intialize the state----------------
 
-  const [activeRole, setActiveRole] = useState(Object.keys(roles)[1]);
+  // const [activeRole, setActiveRole] = useState(Object.keys(roles)[1]);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   // const [showPassword, setShowPassword] = useState(false);
@@ -60,11 +63,11 @@ const UserLogin = (props) => {
       const data = {
         email: email,
         password: password,
-        role: activeRole === "Teacher" ? "trainer" : "student",
+        // role: activeRole === "Teacher" ? "trainer" : "student",
       };
       console.log(data);
       //------------->fecth api of backend for login----------------
-      fetch(activeRole === "Teacher" ? "/loginTrainer" : "/loginStudent", {
+      fetch("/sign-in", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -85,7 +88,15 @@ const UserLogin = (props) => {
           } else {
             // window.alert("logined");
             // showSnackBar("Logged in", "success");
-            navigate(HOME_PATH);
+            dispatch(login({
+              // data
+              name:res.name,
+              email:email,
+              password:password,
+              role:res.role,
+              isLogin:true,
+            }))
+            navigate(DASH_BOARD);
           }
         })
         .catch((error) => {
@@ -94,108 +105,151 @@ const UserLogin = (props) => {
     }
   };
 
-  // ----------------Teacher login Structur or UI of login page--------------
+  // // ----------------Teacher login Structur or UI of login page--------------
 
-  const TeacherLoginStructure = (
-    <form className={classes.LoginForm}>
-      <label className={classes.LoginMail}>User Email*</label>
-      <br></br>
-      <input
-        type="email"
-        className={classes.LoginInput}
-        autoFocus
-        required
-        placeholder="Teacher User Email"
-        value={email}
-        onChange={(e) => {
-          e.preventDefault();
-          setEmail(e.target.value);
-        }}
-      ></input>
-      <br />
-      <label className={classes.LoginPass}>User Password*</label>
-      <br />
-      <input
-        type="password"
-        className={classes.LoginPassInput}
-        autoFocus
-        required
-        placeholder="User Password"
-        value={password}
-        onChange={(e) => {
-          e.preventDefault();
-          setPassword(e.target.value);
-        }}
-      ></input>
-      <br />
-      <button
-        className={classes.LoginBtn}
-        onClick={(e) => {
-          onSubmitLogin(e);
-        }}
-      >
-        Teacher Login
-      </button>
-    </form>
-  );
+  // const TeacherLoginStructure = (
+  //   <form className={classes.LoginForm}>
+  //     <label className={classes.LoginMail}>User Email*</label>
+  //     <br></br>
+  //     <input
+  //       type="email"
+  //       className={classes.LoginInput}
+  //       autoFocus
+  //       required
+  //       placeholder="Teacher User Email"
+  //       value={email}
+  //       onChange={(e) => {
+  //         e.preventDefault();
+  //         setEmail(e.target.value);
+  //       }}
+  //     ></input>
+  //     <br />
+  //     <label className={classes.LoginPass}>User Password*</label>
+  //     <br />
+  //     <input
+  //       type="password"
+  //       className={classes.LoginPassInput}
+  //       autoFocus
+  //       required
+  //       placeholder="User Password"
+  //       value={password}
+  //       onChange={(e) => {
+  //         e.preventDefault();
+  //         setPassword(e.target.value);
+  //       }}
+  //     ></input>
+  //     <br />
+  //     <button
+  //       className={classes.LoginBtn}
+  //       onClick={(e) => {
+  //         onSubmitLogin(e);
+  //       }}
+  //     >
+  //       Teacher Login
+  //     </button>
+  //   </form>
+  // );
 
-    // ----------------Student login Structur or UI of login page--------------
+  // // ----------------Student login Structur or UI of login page--------------
 
+  // const StudentLoginStructure = (
+  //   <form className={classes.LoginForm}>
+  //     <label className={classes.LoginMail}>User Email*</label>
+  //     <br></br>
+  //     <input
+  //       type="email"
+  //       className={classes.LoginInput}
+  //       autoFocus
+  //       required
+  //       placeholder="Student User Email"
+  //       value={email}
+  //       onChange={(e) => {
+  //         e.preventDefault();
+  //         setEmail(e.target.value);
+  //       }}
+  //     ></input>
+  //     <br />
+  //     <label className={classes.LoginPass}>User Password*</label>
+  //     <br />
+  //     <input
+  //       type="password"
+  //       className={classes.LoginPassInput}
+  //       autoFocus
+  //       required
+  //       placeholder="User Password"
+  //       value={password}
+  //       onChange={(e) => {
+  //         e.preventDefault();
+  //         setPassword(e.target.value);
+  //       }}
+  //     ></input>
+  //     <br />
+  //     <button
+  //       className={classes.LoginBtn}
+  //       type={"submit"}
+  //       onClick={(e) => onSubmitLogin(e)}
+  //     >
+  //       Student Login
+  //     </button>
+  //   </form>
+  // );
 
-  const StudentLoginStructure = (
-    <form className={classes.LoginForm}>
-      <label className={classes.LoginMail}>User Email*</label>
-      <br></br>
-      <input
-        type="email"
-        className={classes.LoginInput}
-        autoFocus
-        required
-        placeholder="Student User Email"
-        value={email}
-        onChange={(e) => {
-          e.preventDefault();
-          setEmail(e.target.value);
-        }}
-      ></input>
-      <br />
-      <label className={classes.LoginPass}>User Password*</label>
-      <br />
-      <input
-        type="password"
-        className={classes.LoginPassInput}
-        autoFocus
-        required
-        placeholder="User Password"
-        value={password}
-        onChange={(e) => {
-          e.preventDefault();
-          setPassword(e.target.value);
-        }}
-      ></input>
-      <br />
-      <button
-        className={classes.LoginBtn}
-        type={"submit"}
-        onClick={(e) => onSubmitLogin(e)}
-      >
-        Student Login
-      </button>
-    </form>
-  );
+  // // ------------------generate switch case for user is teacher or student-------------------
 
-  // ------------------generate switch case for user is teacher or student-------------------
+  // const generateLoginStructure = () => {
+  //   switch (roles[activeRole]) {
+  //     case roles.Teacher:
+  //       return TeacherLoginStructure;
+  //     case roles.Student:
+  //       return StudentLoginStructure;
+  //     default:
+  //       return null;
+  //   }
+  // };
+  // const loginForm = () => {
+  //   <form className={classes.LoginForm}>
+  //     <label className={classes.LoginMail}>User Email*</label>
+  //     <br></br>
+  //     <input
+  //       type="email"
+  //       className={classes.LoginInput}
+  //       autoFocus
+  //       required
+  //       placeholder="Student User Email"
+  //       value={email}
+  //       onChange={(e) => {
+  //         e.preventDefault();
+  //         setEmail(e.target.value);
+  //       }}
+  //     ></input>
+  //     <br />
+  //     <label className={classes.LoginPass}>User Password*</label>
+  //     <br />
+  //     <input
+  //       type="password"
+  //       className={classes.LoginPassInput}
+  //       autoFocus
+  //       required
+  //       placeholder="User Password"
+  //       value={password}
+  //       onChange={(e) => {
+  //         e.preventDefault();
+  //         setPassword(e.target.value);
+  //       }}
+  //     ></input>
 
-  const generateLoginStructure = () => {
-    switch (roles[activeRole]) {
-      case roles.Teacher:
-        return TeacherLoginStructure;
-      case roles.Student:
-        return StudentLoginStructure;
-      default:
-        return null;
-    }
-  };
+  //     <br />
+  //     <label className={classes.LoginPass}>Role*</label>
+  //     <br />
+  //     <button
+  //       className={classes.LoginBtn}
+  //       type={"submit"}
+  //       onClick={(e) => onSubmitLogin(e)}
+  //     >
+  //       Student Login
+  //     </button>
+  //   </form>;
+  // };
 
   return (
     <div>
@@ -203,7 +257,7 @@ const UserLogin = (props) => {
       <div className={classes.loginPage}>
         <div className={classes.loginBox}>
           <div className={classes.loginRightBox}>
-            <div className={classes.role}>
+            {/* <div className={classes.role}>
               {Object.keys(roles)?.map((key) => (
                 <div
                   className={`${classes.LoginRole} ${
@@ -215,30 +269,56 @@ const UserLogin = (props) => {
                   {roles[key]}
                 </div>
               ))}
-            </div>
+            </div> */}
 
             <div className={classes.loginSection}>
-              {generateLoginStructure()} 
+              {/* {generateLoginStructure()}  */}
+              <div>DONO LMS</div>
+              <form className={classes.LoginForm}>
+                <label className={classes.LoginMail}>User Email*</label>
+                <br></br>
+                <input
+                  type="email"
+                  className={classes.LoginInput}
+                  autoFocus
+                  required
+                  placeholder="Student User Email"
+                  value={email}
+                  onChange={(e) => {
+                    e.preventDefault();
+                    setEmail(e.target.value);
+                  }}
+                ></input>
+                <br />
+                <label className={classes.LoginPass}>User Password*</label>
+                <br />
+                <input
+                  type="password"
+                  className={classes.LoginPassInput}
+                  autoFocus
+                  required
+                  placeholder="User Password"
+                  value={password}
+                  onChange={(e) => {
+                    e.preventDefault();
+                    setPassword(e.target.value);
+                  }}
+                ></input>
+
+                <br />
+
+                <button
+                  className={classes.LoginBtn}
+                  type={"submit"}
+                  onClick={(e) => onSubmitLogin(e)}
+                >
+                  Login
+                </button>
+              </form>
 
               <div className={classes.Divider}></div>
+              If you are admin then login from here!<Link to={ADMIN_LOGIN}>Admin Login</Link>
             </div>
-            {/* <div className={classes.SocailLogin}>
-              <ul className={classes.SocailLoginWrapper}>
-                <li>
-                  <GoogleIcon />
-                </li>
-                <li>
-                  <FacebookIcon />
-                </li>
-              </ul>
-            </div>
-            <div className={classes.newUser}>
-              New User?{" "}
-              <Link to={REGISTER_PATH} className={classes.newUserSignUp}>
-                {" "}
-                Sign Up
-              </Link>
-            </div> */}
           </div>
           <div className={classes.loginLeftBox}>
             <img src={ImageLogin} alt="lms" className={classes.logimage}></img>
