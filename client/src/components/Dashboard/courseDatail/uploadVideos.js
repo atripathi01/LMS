@@ -66,7 +66,7 @@ const UploadVideos = () => {
           },
         
         })
-       .then((response)=>{return response.json()})
+       .then((response)=>{return response})
       .then((responses) => {
          console.log(responses)
         if (responses) {
@@ -74,6 +74,8 @@ const UploadVideos = () => {
         } else {
           window.alert("failed");
         }
+      }).catch(err => {
+        console.log(err);
       });
   };
 
