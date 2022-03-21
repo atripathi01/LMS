@@ -9,6 +9,8 @@ import { ADMIN_LOGIN, DASH_BOARD, HOME_PATH } from "../../constants/pathContaine
 import { Link, useNavigate } from "react-router-dom";
 import {login} from '../../features/userSlice'
 import {useDispatch} from 'react-redux'
+import { useSelector } from "react-redux";
+import { selectUser } from "../../features/userSlice";
 
 const UserLogin = (props) => {
   // const history = useHistory();
@@ -16,7 +18,7 @@ const UserLogin = (props) => {
   // const roles = props.roles;
   const navigate = useNavigate();
   const dispatch=useDispatch();
-
+  const user=useSelector(selectUser);
   //-------------->Intialize the state----------------
 
   // const [activeRole, setActiveRole] = useState(Object.keys(roles)[1]);
@@ -79,22 +81,26 @@ const UserLogin = (props) => {
           console.log("login successful......great");
           console.log("send", data);
           // setToken(res.token);
-          console.log(res.token);
-          console.log(res.role);
-          window.localStorage.setItem("token", res.token);
-          window.localStorage.setItem("role", res.role);
+        //   console.log(res.token);
+        //   console.log(res.role);
+        //   window.localStorage.setItem("token", res.token);
+        //   window.localStorage.setItem("role", res.role);
           if (response.status !== 200 || !data) {
             window.alert("failed");
           } else {
             // window.alert("logined");
             // showSnackBar("Logged in", "success");
+            window.localStorage.setItem('name',res.name);
+            window.localStorage.setItem('email',email);
+            window.localStorage.setItem('role',res.role);
+            window.localStorage.setItem('token',res.token);
+
             dispatch(login({
               // data
               name:res.name,
               email:email,
-              password:password,
               role:res.role,
-              isLogin:true,
+              token:user.token
             }))
             navigate(DASH_BOARD);
           }

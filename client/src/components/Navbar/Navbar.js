@@ -4,10 +4,9 @@ import { Link, Navigate } from "react-router-dom";
 import { DASH_BOARD, HOME_PATH, LOGIN_PATH, PROFILE, } from "../../constants/pathContainer";
 import {selectUser , logout} from '../../features/userSlice'
 import {useDispatch, useSelector } from 'react-redux'
-import { Avatar } from "../images/useravatar.png";
+// import { Avatar } from "../images/useravatar.png";
 const Navbar = () => {
-  const token = window.localStorage.getItem("token");
-  console.log(token, "navbar");
+  
   // useEffect(() => {
 
   // }, [])
@@ -16,13 +15,26 @@ const Navbar = () => {
   //   localStorage.clear();
   //   Navigate(HOME_PATH);
   // };
-  const user=useSelector(selectUser);
   const dispatch=useDispatch();
+  const user=useSelector(selectUser);
   const handleLogout=(e)=>{
-    e.prevemtDefault();
+    e.preventDefault();
     dispatch(logout());
+    Navigate(LOGIN_PATH)
 
   }
+  
+  console.log(user);
+ 
+  
+     
+   const userData=  user?( {
+        name:user.name,
+        role:user.role,
+        token:user.token,
+    }):("")
+  console.log(userData);
+  window.localStorage.setItem("user",userData);
   return (
     <div>
       <nav className={classes.navbar}>
@@ -44,6 +56,8 @@ const Navbar = () => {
             </li>
           </ul>
         </div>
+        {/* {console.log(user.name)} */}
+       { console.log(user)}
         <div className={classes.itemCon}>
           <ul className={classes.itemWrapper}>
             {/* <li className={classes.items}>
@@ -55,11 +69,11 @@ const Navbar = () => {
         {/* ------------------condition of userlogin or not------------ */}
             {/* {user?<button onClick={handleLogout()}>logout</button>:<button >login</button>} */}
 
-            {localStorage.getItem("token") ? (
+            {user.token? (
               <li className={classes.items}>
                 <Link
                   to={HOME_PATH}
-                  onClick={logout}
+                  onClick={(e)=>handleLogout(e)}
                   className={classes.btnLogin}
                 >
                   Logout
@@ -82,11 +96,11 @@ const Navbar = () => {
               <li className={classes.items}>
               <Link to={PROFILE}>
                 {" "}
-                <img
-                  src={Avatar}
+                {/* <img
+                  src={""}
                   style={{ width: "40px", height: "auto" }}
                   alt="user"
-                />
+                /> */}
                 <span>{user.name}</span>
               </Link>{" "}
             </li>

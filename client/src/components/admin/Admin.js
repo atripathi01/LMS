@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import classes from "./admin.module.css";
 import axios from "axios";
+import {selectUser} from '../../features/userSlice'
+import {useSelector} from 'react-redux'
 
 const Admin = () => {
+    const user=useSelector(selectUser);
   const adminSection = {
     createAccount: "Create Account",
     courseAccesses: "Course Access",
@@ -14,16 +17,47 @@ const Admin = () => {
   const [userConfPassword, setUserConfPassword] = useState("");
   const [student, setStudent] = useState("");
   const [courseCode, setCourseCode] = useState("");
-  const [selectedCourse, setSelectedCourse] = useState("");
-  // console.log(trainerName,trainerEmail,trainerPassword,trainerConfPassword,studentName,studentEmail,studentConfPassword,studentPassword,student,courseCode);
+  const [selectedRole, setSelectedRole] = useState("");
+  const [learnerList,setLearnerList ]=useState([]);
+  const [coursesList,setCourseList]=useState([]);
+   console.log(learnerList);
+   console.log(coursesList)
+   console.log(user);
+  async function fetchStudentList() {
+      await axios.get("/admin/get-all-learners",{
+          headers:{
+            "Content-Type": "application/json",
+            accepts: "application/json",
+           'Authorization':`Bearer ${user.token}`,
+          }
+      }).then((response)=>{
+        //   console.log(response.data[0].name)
+          setLearnerList(response.data)
+          
+      })
+      
+  }
+  async function fetchCourseList(){
+      await axios.get("/all-courses",{
+          headers:{
+            "Content-Type": "application/json",
+            accepts: "application/json",
+           'Authorization':`Bearer ${user.token}`,
+          }
+      }).then((response)=>{
+        //   console.log(response.data);
+          setCourseList(response.data.course)
+      })
+  }
 
   useEffect(() => {
-    axios.get("/admin/get-all-learners").then((response) => {
-      console.log(response);
-    });
-  }, []);
+    fetchCourseList();
+    fetchStudentList();
+  }, [])
+  
 
   function submitData(event) {
+      
     event.preventDefault();
 
     // condition for password and email checking
@@ -36,7 +70,7 @@ const Admin = () => {
     if (userName === "") {
       window.alert("Please fill empty field");
       return;
-    } else if (userEmail === "") {
+    } else if (userEmail === ""||selectedRole==="") {
       window.alert("Please fill empty field");
       return;
     } else if (userPassword === "") {
@@ -60,13 +94,20 @@ const Admin = () => {
       window.alert("Please enter a valid email address");
       return;
     } else {
-      const data = {};
+      const data = {
+          name:userName,
+          email:userEmail,
+          password:userConfPassword,
+          role:selectedRole,
+
+      };
 
       fetch("/admin/member-register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           accepts: "application/json",
+         'Authorization':`Bearer ${user.token}`,
         },
         body: JSON.stringify(data),
       })
@@ -147,9 +188,9 @@ const Admin = () => {
             <br />
             <select
               className={classes.user_role}
-              value={selectedCourse}
+              value={selectedRole}
               onChange={(e) => {
-                setSelectedCourse(e.target.value);
+                setSelectedRole(e.target.value);
               }}
             >
               <option className={classes.trainer}>Trainer</option>
@@ -162,10 +203,10 @@ const Admin = () => {
         <button
           className={classes.user_account_cr_btn}
           type="submit"
-          onSubmit={submitData}
+          onClick={user.role==='Admin' && submitData}
         >
           Submit
-        </button>
+        </button>   
       </div>
     </div>
   );
@@ -217,6 +258,7 @@ const Admin = () => {
   //     </div>
   //   </>
   // );
+
   const giveAccessOfCourese = (
     <div className={classes.access_section}>
       <h1 className={classes.access_title}>Course Access for Student</h1>
@@ -229,14 +271,14 @@ const Admin = () => {
           }}
           className={classes.select_std_id}
         >
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
-          <option>4</option>
-          <option>5</option>
-          <option>6</option>
-          <option>7</option>
-          <option>8</option>
+         {learnerList.map((list)=>(
+                
+              <option>
+                  {list.email}
+              </option>
+        
+        ))}
+      
         </select>
       </div>
       <div className={classes.course_name}>
@@ -248,14 +290,9 @@ const Admin = () => {
           }}
           className={classes.select_course}
         >
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
-          <option>4</option>
-          <option>5</option>
-          <option>6</option>
-          <option>7</option>
-          <option>8</option>
+        {coursesList.map((courses)=>(
+            <option>{courses.courseCode}{" "}{courses.courseName}</option>
+        ))}
         </select>
       </div>
       <button type="submit" className={classes.giveAccess}>
@@ -279,6 +316,7 @@ const Admin = () => {
 
   return (
     <>
+     
       <section className={classes.adminPage}>
         <div className={classes.adminSideNavbar}>
           {Object.keys(adminSection)?.map((key) => (

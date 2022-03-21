@@ -1,8 +1,11 @@
 import axios from "axios";
 import React, { useState } from "react";
 import Dropzone from "react-dropzone";
+import { selectUser } from "../../../features/userSlice"; 
+import {useSelector} from 'react-redux'
 
 const UploadCourse = () => {
+    const user=useSelector(selectUser);
   const [filePath, setFilePath] = useState("");
   const [title, setTitle] = useState();
   const [discribtion, setDiscribtion] = useState();
@@ -13,17 +16,22 @@ const UploadCourse = () => {
   const onSubmit = (event) => {
     event.preventDefault();
     const coursData = {
-      user: "",
+      courseName: user.name,
       title: title,
-      discribtion: discribtion,
+      discription: discribtion,
       thumbnail: thumbnailImg,
-      filePath: filePath,
+      courseCode:"CDn454",
+      courseCatagory:"yuwebfs",
+      duration:"51:23"
+      
     };
-    console.log(coursData)
-    axios.post("", {
+    // console.log(user.token)
+    const tk=user.token;
+    fetch("/admin/create-course", {
+        method:"POST",
       headers: {
         "content-type": "application/json",
-        authorization: `Bearer ${token}`,
+        "authorization": `Bearer ${tk}`,
       },
       body:JSON.stringify(coursData),
     }).then((response)=>{
@@ -60,7 +68,7 @@ const UploadCourse = () => {
   return (
     <div>
       {" "}
-      <form onSubmit={onSubmit}>
+      <form onSubmit={user.role==="Admin" && onSubmit}>
         <div>
           <Dropzone onDrop={onDrop} multiple={false} maxSize={800000000}>
             {({ getRootProps, getInputProps }) => (
@@ -104,7 +112,7 @@ const UploadCourse = () => {
             onChange={(e) => setThumbnailImg(e.target.value)}
           />
         </div>
-        <button type="submit" onSubmit={onSubmit}>Submit</button>
+        <button type="submit" onSubmit={user.role==='Admin'&& onSubmit}>Submit</button>
       </form>
     </div>
   );

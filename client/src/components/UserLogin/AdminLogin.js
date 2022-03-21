@@ -3,10 +3,17 @@ import { Link, useNavigate } from "react-router-dom";
 import ImageLogin from "../images/croped.jpg";
 import { ADMIN, ADMIN_LOGIN, HOME_PATH, LOGIN_PATH } from "../../constants/pathContainer";
 import classes from "./userlogin.module.css";
+import {login} from '../../features/userSlice'
+import {useDispatch} from 'react-redux'
+
 const AdminLogin = () => {
     const navigate = useNavigate();
+    const dispatch=useDispatch();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+
+
+    
     const onSubmitLogin=(e)=>{
         e.preventDefault();
         const emailOrUsernameCondition = /^[a-zA-Z0-9!-£]*$/;
@@ -29,7 +36,7 @@ const AdminLogin = () => {
         password: password,
         // role: activeRole === "Teacher" ? "trainer" : "student",
       };
-      console.log(data);
+    //   console.log(data);
       //------------->fecth api of backend for login----------------
       fetch("/admin/sign-in", {
         method: "POST",
@@ -40,18 +47,26 @@ const AdminLogin = () => {
       })
         .then(async (response) => {
           const res = await response.json();
-          console.log("login successful......great");
-          console.log("send", data);
-          // setToken(res.token);
-          console.log(res.token);
-          console.log(res.role);
           window.localStorage.setItem("token", res.token);
           window.localStorage.setItem("role", res.role);
+          window.localStorage.setItem("name",res.name);
+          window.localStorage.setItem("email",email);
+          
           if (response.status !== 200 || !data) {
             window.alert("failed");
           } else {
             // window.alert("logined");
             // showSnackBar("Logged in", "success");
+            console.log(response)
+            dispatch(login({
+                // data
+                name:res.name,
+                email:email,
+                // password:password,
+                role:localStorage.getItem("role"),
+                // isLogin:true,
+                token:localStorage.getItem("token"),
+              }))
             navigate(ADMIN);
           }
         })
@@ -80,10 +95,10 @@ const AdminLogin = () => {
               ))}
             </div> */}
 
-            <div className={classes.loginSection}>
+            <div className={classes.loginSection} >
               {/* {generateLoginStructure()}  */}
               <div>DONO LMS</div>
-              <form className={classes.LoginForm}>
+              <form className={classes.LoginForm} onSubmit={(e)=>onSubmitLogin(e)}>
                 <label className={classes.LoginMail}>Admin Email*</label>
                 <br></br>
                 <input
@@ -119,7 +134,7 @@ const AdminLogin = () => {
                 <button
                   className={classes.LoginBtn}
                   type={"submit"}
-                  onClick={(e) => onSubmitLogin(e)}
+               
                 >
                   Login
                 </button>

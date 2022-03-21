@@ -7,38 +7,46 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import CloseIcon from "@mui/icons-material/Close";
 import Slide from "@mui/material/Slide";
-import  { useDropzone } from "react-dropzone";
-import UploadIcon from "@mui/icons-material/Upload";
+// import  { useDropzone } from "react-dropzone";
+// import UploadIcon from "@mui/icons-material/Upload";
 import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
+// import TextField from "@mui/material/TextField";
 import TextareaAutosize from "@mui/material/TextareaAutosize";
 import classes from "./upoloadDialog.module.css";
-import axios from "axios";
+// import axios from "axios";
 import { useState } from "react";
 import { Navigate } from "react-router-dom";
 import { DASH_BOARD } from "../../constants/pathContainer";
+import {selectUser} from '../../features/userSlice'
+import {useSelector} from 'react-redux'
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
+
+
 export default function FullScreenDialog() {
+    const user=useSelector(selectUser);
   const [open, setOpen] = React.useState(false);
+  const [courseCode, setCourseCode] = React.useState("");
   const [courseTitle, setCourseTitle] = React.useState("");
-  const [discribtion, setDiscribtion] = React.useState("");
-  // const [accessToken,setAccessToken]=React.useState("");
+  const [courseCategory, setCourseCategory] = React.useState("");
+  const [description, setDescription] = React.useState("");
+  const [items,setItems]=useState("");
 
 
-  const [file, setFile] = useState();
-  const [fileName, setFileName] = useState("");
+
+//   const [file, setFile] = useState();
+//   const [fileName, setFileName] = useState("");
 
 
-  const token = window.localStorage.getItem("token");
+//   const token = window.localStorage.getItem("token");
   // console.log(token, "localStorageToken");
   const handleClickOpen = () => {
     setOpen(true);
   };
 
-  const handleClose = () => {
+  const handleClickClose = () => {
     setOpen(false);
     Navigate(DASH_BOARD)
   };
@@ -55,12 +63,12 @@ export default function FullScreenDialog() {
     const formData = new FormData();
     formData.append("file", files[0]);
     formData.append("fileName", files[0].name);
-    axios
-      .post("/upload-one", formData,
+    fetch("/upload-one", formData,
         {
+            method:"POST",
           headers: {
             "content-type": "multipart/form-data",
-            "authorization": `Bearer ${token}`,
+            "authorization": `Bearer ${user.token}`,
           }
         })
 
@@ -85,6 +93,34 @@ export default function FullScreenDialog() {
       {file.path} - {file.size}bytes
     </li>
   ));
+    function onSubmit(e){
+     
+      const courseData={
+          courseCode:courseCode,
+          courseName:courseTitle,
+          description:description,
+          courseCategory:courseCategory,
+          
+      }
+      console.log(courseData);
+       fetch("/admin/create-course",{
+           method:"POST",
+        headers: {
+            "content-type": "application/json",
+            "authorization": `Bearer ${user.token}`,
+          },
+          body:JSON.stringify(courseData),
+       }).then((response)=>{
+           return response.json();
+
+       }).then((res)=>{
+           console.log(res);
+           setItems(res.course);
+           handleClickClose();
+       })
+
+    //    handleClickClose();
+  }
 
   return (
     <div>
@@ -98,7 +134,7 @@ export default function FullScreenDialog() {
       <Dialog
         fullScreen
         open={open}
-        onClose={handleClose}
+        onClose={handleClickClose}
         TransitionComponent={Transition}
       >
         <AppBar sx={{ position: "relative" }}>
@@ -106,21 +142,21 @@ export default function FullScreenDialog() {
             <IconButton
               edge="start"
               color="inherit"
-              onClick={handleClose}
+              onClick={handleClickClose}
               aria-label="close"
             >
               <CloseIcon />
             </IconButton>
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-              Upload Content (only video(in mp4 formate) & PDF is accepted )
+              Create Course Folder
             </Typography>
-            <Button autoFocus color="inherit" onClick={handleClose}>
-              Publish
+            <Button autoFocus color="inherit"  onClick={(e)=>onSubmit(e)}>
+              CREATE
               
             </Button>
           </Toolbar>
         </AppBar>
-        <section>
+        {/* <section>
           <div
             {...getRootProps()}
             style={{
@@ -143,9 +179,9 @@ export default function FullScreenDialog() {
             <h2 style={{ marginLeft: "3rem" }}>Course Details</h2>
             <ul>{files}</ul>
           </aside>
-        </section>
+        </section> */}
         <div style={{ marginLeft: "3rem" }}>
-          <section>
+          <form >
             <Box
               sx={{
                 width: 500,
@@ -153,7 +189,17 @@ export default function FullScreenDialog() {
                 fontSize: "18px",
               }}
             >
-              <TextField
+                <label>Course Code* <small>{" "}(atleast two capital letter and two number)</small></label><br />
+                <input
+                 required
+                 autoFocus
+                 maxLength={6}
+                 value={courseCode}
+                 onChange={(e)=>{setCourseCode(e.target.value)}}
+                />
+                <br />
+                <label>Course Name*</label><br />
+              <input
                 fullWidth
                 required
                 autoFocus
@@ -163,24 +209,42 @@ export default function FullScreenDialog() {
                 value={courseTitle}
                 onChange={(e) => { setCourseTitle(e.target.value) }}
               />
-            </Box>
-            <br />
-            <br />
-            <label>Discribtion</label>
+               <br />
+            <label>Description*</label>
             <br />
 
             <TextareaAutosize
               aria-label="minimum height"
               minRows={10}
-              placeholder="Discribtion of Course"
+              placeholder="Description of Course"
               style={{ width: "100%", maxWidth: "900px", fontSize: "18px" }}
               required
               autoFocus
-              value={discribtion}
-              onChange={(e) => setDiscribtion(e.target.value)}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
             />
+            <br />
+            <label>Course category*</label>
+            <br />
+            <select
+            required
+            autoFocus
+               value={courseCategory}
+               onChange={(e)=>{setCourseCategory(e.target.value)}}
+            >
+                <option>Frontend stack</option>
+                <option>backend stack</option>
+                <option>fullstack</option>
+                <option>machine learning</option>
+                <option>reactjs</option>
+                <option>python</option>
+                <option>javascript</option>
+                <option>AI</option>
+            </select>
+            </Box>
+            
             <div></div>
-          </section>
+          </form>
         </div>
       </Dialog>
     </div>

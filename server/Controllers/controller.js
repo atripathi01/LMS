@@ -520,14 +520,15 @@ router.get('/all-courses', async (req, res) => {
         if (userVerify) {
             var checkExistingCourse = await CourseSch.find();
             console.log("vedfvefsdvedf", checkExistingCourse);
-            if (!checkExistingCourse) {
+            if (!checkExistingCourse.length) {
                 console.log("no course exist");
                 res.status(406).json({
                     msg: "No course exist"
                 });
             } else {
-
+                console.log("529");
                 console.log(checkExistingCourse);
+                console.log("5300");
                 res.status(200).json({
                     response: true,
                     msg: "Course found",

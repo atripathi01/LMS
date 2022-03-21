@@ -9,7 +9,7 @@ import { Viewer } from "@react-pdf-viewer/core";
 import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
 import "@react-pdf-viewer/default-layout/lib/styles/index.css";
 import VideoPlayer from "react-video-js-player";
-
+import UploadVideos from './uploadVideos';
 
 const CourseDetail = (props) => {
     const [items, setItems] = useState([]);
@@ -40,6 +40,7 @@ const CourseDetail = (props) => {
      let{course_id}=useParams();
      console.log(course_id);
   return (<>
+  <UploadVideos />
     <h1>
         courseDetail of {course_id}
     </h1>

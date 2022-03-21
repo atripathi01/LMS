@@ -26,6 +26,7 @@ module.exports.verifyToken = function (req, res) {
     var bearerToken;
     var bearerHeader = req.headers["authorization"];
     console.log("inside jwt verify token")
+    console.log(req.headers);
     console.log(typeof bearerHeader)
     if (bearerHeader) {
         // if (typeof bearerHeader !== 'undefined') {
@@ -33,7 +34,7 @@ module.exports.verifyToken = function (req, res) {
         var bearer = bearerHeader.split(" ");
         bearerToken = bearer[1];
         req.token = bearerToken;
-
+         console.log(bearerToken);
         const tokenVerify = jwt.verify(req.token, secret);
         console.log(tokenVerify, "bihnbhihnuihniuji")
 
