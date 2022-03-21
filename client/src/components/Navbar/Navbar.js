@@ -1,12 +1,17 @@
-import React from "react";
-import classes from "./navbar.module.css";
-import { Link, Navigate } from "react-router-dom";
-import { DASH_BOARD, HOME_PATH, LOGIN_PATH, PROFILE, } from "../../constants/pathContainer";
-import {selectUser , logout} from '../../features/userSlice'
-import {useDispatch, useSelector } from 'react-redux'
-// import { Avatar } from "../images/useravatar.png";
+import React from 'react';
+import classes from './navbar.module.css';
+import { Link, Navigate } from 'react-router-dom';
+import {
+  DASH_BOARD,
+  HOME_PATH,
+  LOGIN_PATH,
+  PROFILE,
+} from '../../constants/pathContainer';
+import { selectUser, logout } from '../../features/userSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import Avatar from '@mui/material/Avatar';
+import ava from '../images/useravatar.png';
 const Navbar = () => {
-  
   // useEffect(() => {
 
   // }, [])
@@ -15,33 +20,32 @@ const Navbar = () => {
   //   localStorage.clear();
   //   Navigate(HOME_PATH);
   // };
-  const dispatch=useDispatch();
-  const user=useSelector(selectUser);
-  const handleLogout=(e)=>{
+  const dispatch = useDispatch();
+  const user = useSelector(selectUser);
+  const handleLogout = (e) => {
     e.preventDefault();
     dispatch(logout());
-    Navigate(LOGIN_PATH)
+    Navigate(HOME_PATH);
+  };
 
-  }
-  
   console.log(user);
- 
-  
-     
-   const userData=  user?( {
-        name:user.name,
-        role:user.role,
-        token:user.token,
-    }):("")
+
+  const userData = user
+    ? {
+        name: user.name,
+        role: user.role,
+        token: user.token,
+      }
+    : '';
   console.log(userData);
-  window.localStorage.setItem("user",userData);
+  window.localStorage.setItem('user', userData);
   return (
     <div>
       <nav className={classes.navbar}>
         <div className={classes.logoCont}>
           <ul className={classes.navLogo}>
             <li className={classes.logo}>
-              {window.localStorage.getItem("token") ? (
+              {user.token ? (
                 <Link to={DASH_BOARD} className={classes.RouterLink1}>
                   Dono LMS
                 </Link>
@@ -57,7 +61,7 @@ const Navbar = () => {
           </ul>
         </div>
         {/* {console.log(user.name)} */}
-       { console.log(user)}
+        {console.log(user)}
         <div className={classes.itemCon}>
           <ul className={classes.itemWrapper}>
             {/* <li className={classes.items}>
@@ -66,14 +70,14 @@ const Navbar = () => {
                 <KeyboardArrowDownIcon />
               </Link>
             </li> */}
-        {/* ------------------condition of userlogin or not------------ */}
+            {/* ------------------condition of userlogin or not------------ */}
             {/* {user?<button onClick={handleLogout()}>logout</button>:<button >login</button>} */}
 
-            {user.token? (
+            {user.token ? (
               <li className={classes.items}>
                 <Link
                   to={HOME_PATH}
-                  onClick={(e)=>handleLogout(e)}
+                  onClick={(e) => handleLogout(e)}
                   className={classes.btnLogin}
                 >
                   Logout
@@ -92,19 +96,20 @@ const Navbar = () => {
                   <button className={classes.btnRegi}>Register</button>
                 </Link>
               </li> */}
-            {user?(
+            {user.token ? (
               <li className={classes.items}>
-              <Link to={PROFILE}>
-                {" "}
-                {/* <img
-                  src={""}
-                  style={{ width: "40px", height: "auto" }}
-                  alt="user"
-                /> */}
-                <span>{user.name}</span>
-              </Link>{" "}
-            </li>
-            ):("")}
+                <div className={classes.profi}>
+                  {' '}
+                  <span className={classes.avat}>
+                    {' '}
+                    <Avatar src={ava} />
+                  </span>
+                  <span className={classes.userName}>{user.name}</span>
+                </div>{' '}
+              </li>
+            ) : (
+              ''
+            )}
           </ul>
         </div>
       </nav>

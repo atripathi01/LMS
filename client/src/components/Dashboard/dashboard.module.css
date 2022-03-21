@@ -4,12 +4,11 @@
   align-items: flex-start;
   flex-direction: row;
   background-color: #fff;
-
 }
 .dashNav {
   width: 300px;
   border-right: #acacac 1px solid;
-  height:100vh;
+  height: 250vh;
   background: rgb(2, 0, 36);
   /* background: linear-gradient(
     245deg,
@@ -24,22 +23,18 @@
   -webkit-backdrop-filter: blur(5px);
   color: #fff;
   position: sticky;
-
-
 }
-
 
 .dashboardItems {
   padding: 1rem;
   border: none;
   border-radius: 15px 0 0 15px;
   margin: 1rem 0 1rem 1rem;
-padding-left: 1rem;
+  padding-left: 1rem;
   font-size: 20px;
   cursor: pointer;
-  
 }
-.activeDash{
+.activeDash {
   /* background: rgb(2, 0, 36); */
   /* background: linear-gradient(
     245deg,
@@ -54,7 +49,7 @@ padding-left: 1rem;
   -webkit-backdrop-filter: blur(5px);
 }
 
-.courseCard{
+.courseCard {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -63,27 +58,28 @@ padding-left: 1rem;
   max-width: 1300px;
   align-items: left;
 }
-.card{
+.card {
   width: 200px;
   height: 200px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-direction: column;
-  background-color: #cf3b38;
-  color: #fff;
+  background-color: #ffffff;
+  color: #272624;
   margin: 1rem;
   padding: 1rem 0.5rem;
   border: none;
   border-radius: 2px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
-.courseNaamm{
-  font-size: 22px;
+.courseNaamm {
+  font-size: 18px;
   font-weight: 500;
   margin-top: 2rem;
 }
-.viewCourseBtn{
-  padding: 0.5rem 1rem ;
+.viewCourseBtn {
+  padding: 0.5rem 1rem;
   font-size: 16px;
   text-transform: uppercase;
   background-color: #272624;
@@ -92,5 +88,107 @@ padding-left: 1rem;
   margin-bottom: 1rem;
   border: #272624 2px solid;
   border-radius: 2px;
+}
+.head {
+  font-size: 30px;
+  font-weight: 700;
+  color: #272624;
+}
+.heading {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  align-items: center;
+  flex-direction: column;
+  margin-top: -5rem;
+}
+.subtitle {
+  color: #cf3b38;
+  font-size: 18px;
+}
+.cate {
+  color: #cf3b38;
+}
+.dasss {
+  color: #272624;
+  font-size: 30px;
+  display: flex;
+  width: 100%;
+  margin-left: 3rem;
+}
+.uploadButn {
+  background-color: #cf3b38;
+  font-size: 16px;
+  text-transform: uppercase;
+  padding: 0.5rem 0.8rem;
+  color: #fff;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  border-radius: 3px;
+}
+.uploadButn:hover {
+  background-color: #272624;
+}
+.bt {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
 
+.folderForm {
+  margin-top: 3rem;
+  margin-left: 2rem;
+}
+label {
+  font-size: 18px;
+  font-weight: 500;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+input {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  padding: 0.8rem 1.5rem;
+  outline: #acacac 2px solid;
+  font-size: 16px;
+  min-width: 400px;
+  border: none;
+  border-radius: 5px;
+}
+input:focus {
+  outline: #272624 2px solid;
+}
+.desInput {
+  margin-top: 1rem;
+  padding: 0.5rem 0.8rem;
+  outline: #acacac 2px solid;
+  border: none;
+  border-radius: 5px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+.desInput:focus {
+  outline: #272624 2px solid;
+}
+.toptool {
+  background-color: #cf3b38;
+}
+.creatbtn {
+  background-color: #272624;
+  color: #fff;
+}
+.creatbtn:hover {
+  background-color: #272624;
+}
+.cateInput {
+  outline: #acacac 2px solid;
+  border: none;
+  border-radius: 5px;
+  margin-top: 1rem;
+  padding: 0.5rem 0.8rem;
+  font-size: 16px;
+}
+.cateInput:focus {
+  outline: #272624 2px solid;
 }

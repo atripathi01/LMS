@@ -1,38 +1,38 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 // import UploadContentDialog from "./UploadContentDialog";
-import classes from "./dashboard.module.css";
+import classes from './dashboard.module.css';
 // import VideoPlayer from "react-video-js-player";
 // import axios from "axios";
-import Box from "@mui/material/Box";
+import Box from '@mui/material/Box';
 // import Modal from "@mui/material/Modal";
 // import { Worker } from "@react-pdf-viewer/core";
-import "@react-pdf-viewer/core/lib/styles/index.css";
+import '@react-pdf-viewer/core/lib/styles/index.css';
 // import { Viewer } from "@react-pdf-viewer/core";
 // import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
-import "@react-pdf-viewer/default-layout/lib/styles/index.css";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import {selectUser} from '../../features/userSlice'
-import {useSelector} from 'react-redux'
-import UploadCourse from "./uploadCourses/UploadCourse";
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import CloseIcon from "@mui/icons-material/Close";
-import Slide from "@mui/material/Slide";
-import folderImg from "../images/folder.svg";
+import '@react-pdf-viewer/default-layout/lib/styles/index.css';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import { selectUser } from '../../features/userSlice';
+import { useSelector } from 'react-redux';
+import UploadCourse from './uploadCourses/UploadCourse';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import CloseIcon from '@mui/icons-material/Close';
+import Slide from '@mui/material/Slide';
+import folderImg from '../images/folder.svg';
 // import  { useDropzone } from "react-dropzone";
 // import UploadIcon from "@mui/icons-material/Upload";
 // import Box from "@mui/material/Box";
 // import TextField from "@mui/material/TextField";
-import TextareaAutosize from "@mui/material/TextareaAutosize";
+import TextareaAutosize from '@mui/material/TextareaAutosize';
 // import classes from "./upoloadDialog.module.css";
 // import axios from "axios";
 // import { useState } from "react";
-import { Navigate } from "react-router-dom";
-import { DASH_BOARD } from "../../constants/pathContainer";
+import { Navigate } from 'react-router-dom';
+import { DASH_BOARD } from '../../constants/pathContainer';
 // import {selectUser} from '../../features/userSlice'
 // import {useSelector} from 'react-redux'
 
@@ -41,146 +41,159 @@ import { DASH_BOARD } from "../../constants/pathContainer";
 
 // import { Document, Page } from "react-pdf";
 
-
 const Transition = React.forwardRef(function Transition(props, ref) {
-    return <Slide direction="up" ref={ref} {...props} />;
-  });
-  
+  return <Slide direction='up' ref={ref} {...props} />;
+});
+
 const Dashboard = (props) => {
   //---------> passing all props from app.js page<------------
   const dashboardSection = props.dashboardSection;
-  const user=useSelector(selectUser);
+  const user = useSelector(selectUser);
   // ------------> intialize state
   const [items, setItems] = useState([]);
-  const [opens, setOpens] = React.useState(false);
-  const [courseCode, setCourseCode] = React.useState("");
-  const [courseTitle, setCourseTitle] = React.useState("");
-  const [courseCategory, setCourseCategory] = React.useState("");
-  const [description, setDescription] = React.useState("");
-//   const [items,setItems]=useState("");
+  const [opens, setOpens] = useState(false);
+  const [courseCode, setCourseCode] = React.useState('');
+  const [courseTitle, setCourseTitle] = React.useState('');
+  const [courseCategory, setCourseCategory] = React.useState('');
+  const [description, setDescription] = React.useState('');
+  //   const [items,setItems]=useState("");
   const [activvDashboardSection, setActiveDashboardSection] = useState(
     Object.keys(dashboardSection)[0]
   );
-//   const [open, setOpen] = React.useState(false);
-//   const handleOpen = () => setOpen(true);
-//   const handleClose = () => setOpen(false);
+
+  //   const [open, setOpen] = React.useState(false);
+  //   const handleOpen = () => setOpen(true);
+  //   const handleClose = () => setOpen(false);
 
   // -------------> fetch token And role from localStorage
-//   const token = window.localStorage.getItem("token");
-//   const role = window.localStorage.getItem("role");
+  //   const token = window.localStorage.getItem("token");
+  //   const role = window.localStorage.getItem("role");
 
-//   const defaultLayoutPluginInstance = defaultLayoutPlugin();
+  //   const defaultLayoutPluginInstance = defaultLayoutPlugin();
 
   // console.log(token);
   // console.log(items);
- 
+  const handleClickOpen = () => {
+    return setOpens(true);
+  };
+
+  const handleClickClose = () => {
+    console.log('kuch bhi');
+    return setOpens(false);
+  };
   useEffect(() => {
-    fetch("/all-courses",{
-        "method":"GET",
-        headers: {
-            "Content-Type": "application/json",
-            "accepts": "application/json",
-            "authorization":`Bearer ${user.token}`,
-
-          },
-      })
-      .then(async(response)=>{
-         const res=await response.json()
-      
-         if (response.status === 200) {
-           console.log("fetched", res.course);
-           setItems(res.course);
-         } else {
-           console.log("failed fetch");
-         }})
-     
-      .catch((err) => {
-        console.log("error", err);
-      });
-  },[]);
-
-
-  function onSubmit(e){
-     
-    const courseData={
-        courseCode:courseCode,
-        courseName:courseTitle,
-        description:description,
-        courseCategory:courseCategory,
-        
-    }
-    console.log(courseData);
-     fetch("/admin/create-course",{
-         method:"POST",
+    fetch('/all-courses', {
+      method: 'GET',
       headers: {
-          "content-type": "application/json",
-          "authorization": `Bearer ${user.token}`,
-        },
-        body:JSON.stringify(courseData),
-     }).then(async(response)=>{
-         const res= await response.json();
+        'Content-Type': 'application/json',
+        accepts: 'application/json',
+        authorization: `Bearer ${user.token}`,
+      },
+    })
+      .then(async (response) => {
+        const res = await response.json();
 
-        
-         if(response.status!==200){
-            window.alert(res.msg)
+        if (response.status === 200) {
+          console.log('fetched', res.course);
+          setItems(res.course);
+        } else {
+          console.log('failed fetch');
+        }
+      })
+
+      .catch((err) => {
+        console.log('error', err);
+      });
+  }, []);
+
+  function onSubmit(e) {
+    if (
+      courseCode === '' ||
+      courseTitle === '' ||
+      description === '' ||
+      courseCategory === ''
+    ) {
+      window.alert('Please fill the blank field');
+    } else {
+      const courseData = {
+        courseCode: courseCode,
+        courseName: courseTitle,
+        description: description,
+        courseCategory: courseCategory,
+      };
+      console.log(courseData);
+      fetch('/admin/create-course', {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+          authorization: `Bearer ${user.token}`,
+        },
+        body: JSON.stringify(courseData),
+      })
+        .then(async (response) => {
+          const res = await response.json();
+
+          if (response.status !== 200) {
+            window.alert(res.msg);
             console.log(response.status);
             console.log(res.msg);
+          } else if (response.status === 200) {
+            setOpens(false);
+            // Navigate(DASH_BOARD);
+            window.alert('Folder Created Successfully!!');
+          }
+        })
+        .catch((err) => {
+          window.alert('Failed!!');
+          console.log(err);
+        });
+    }
 
-         }
-         else if(response.status===200){
-             setOpens(false);
-            window.alert("Folder Created Successfully!!")
-            
-         }
-     }).catch((err)=>{
-         window.alert("Failed!!")
-         console.log(err)
-     })
+    //    handleClickCollo();
+  }
 
-  //    handleClickCollo();
-}
+  const createFolderButton = () => {
+    return (
+      <div>
+        {user.token && user.role === 'Admin' ? (
+          <div className={classes.bt}>
+            <button
+              className={classes.uploadButn}
+              variant='contained'
+              onClick={handleClickOpen}
+            >
+              Create Course Folder
+            </button>
+          </div>
+        ) : (
+          ''
+        )}
 
-const createFolderButton=()=>{
-    const handleClickOpen = () => {
-        return setOpens(true);
-      };
-    
-      const handleClickClose = () => {
-        Navigate(DASH_BOARD)
-         return setOpens(false);
-        
-      };
-    return(
-        <div>
-        <Button
-          className={classes.uploadButn}
-          variant="contained"
-          onClick={handleClickOpen}
-        >
-          Create Course
-        </Button>
         <Dialog
           fullScreen
           open={opens}
           onClose={handleClickClose}
           TransitionComponent={Transition}
         >
-          <AppBar sx={{ position: "relative" }}>
-            <Toolbar>
+          <AppBar sx={{ position: 'relative' }}>
+            <Toolbar className={classes.toptool}>
               <IconButton
-                edge="start"
-                color="inherit"
+                edge='start'
+                color='inherit'
                 onClick={handleClickClose}
-                aria-label="close"
+                aria-label='close'
               >
                 <CloseIcon />
               </IconButton>
-              <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+              <Typography sx={{ ml: 2, flex: 1 }} variant='h6' component='div'>
                 Create Course Folder
               </Typography>
-              <Button autoFocus color="inherit"  onClick={(e)=>onSubmit(e)}>
+              <Button
+                autoFocus
+                className={classes.creatbtn}
+                onClick={(e) => onSubmit(e)}
+              >
                 CREATE
-                
               </Button>
             </Toolbar>
           </AppBar>
@@ -208,58 +221,74 @@ const createFolderButton=()=>{
               <ul>{files}</ul>
             </aside>
           </section> */}
-          <div style={{ marginLeft: "3rem" }}>
-            <form >
+          <div style={{ marginLeft: '3rem' }}>
+            <form className={classes.folderForm}>
               <Box
                 sx={{
                   width: 500,
-                  maxWidth: "100%",
-                  fontSize: "18px",
+                  maxWidth: '100%',
+                  fontSize: '18px',
                 }}
               >
-                  <label>Course Code* <small>{" "}(atleast two capital letter and two number)</small></label><br />
-                  <input
-                   required
-                   autoFocus
-                   maxLength={6}
-                   value={courseCode}
-                   onChange={(e)=>{setCourseCode(e.target.value)}}
-                  />
-                  <br />
-                  <label>Course Name*</label><br />
+                <h1>COURSE FOLDER CREATER</h1>
+                <label className={classes.courCode}>
+                  Course Code*{' '}
+                  <small> (atleast two capital letter and two number)</small>
+                </label>
+                <br />
                 <input
+                  required
+                  autoFocus
+                  maxLength={6}
+                  value={courseCode}
+                  className={classes.codeInput}
+                  onChange={(e) => {
+                    setCourseCode(e.target.value);
+                  }}
+                />
+                <br />
+                <label className={classes.courNam}>Course Name*</label>
+                <br />
+                <input
+                  className={classes.courNamInput}
                   fullWidth
                   required
                   autoFocus
-                  label="Title of Course"
-                  id="fullWidth"
-                  style={{ fontSize: "18px" }}
+                  label='Title of Course'
+                  id='fullWidth'
+                  style={{ fontSize: '18px' }}
                   value={courseTitle}
-                  onChange={(e) => { setCourseTitle(e.target.value) }}
+                  onChange={(e) => {
+                    setCourseTitle(e.target.value);
+                  }}
                 />
-                 <br />
-              <label>Description*</label>
-              <br />
-  
-              <TextareaAutosize
-                aria-label="minimum height"
-                minRows={10}
-                placeholder="Description of Course"
-                style={{ width: "100%", maxWidth: "900px", fontSize: "18px" }}
-                required
-                autoFocus
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-              />
-              <br />
-              <label>Course category*</label>
-              <br />
-              <select
-              required
-              autoFocus
-                 value={courseCategory}
-                 onChange={(e)=>{setCourseCategory(e.target.value)}}
-              >
+                <br />
+                <label className={classes.des}>Description*</label>
+                <br />
+
+                <TextareaAutosize
+                  className={classes.desInput}
+                  aria-label='minimum height'
+                  minRows={10}
+                  placeholder='Description of Course'
+                  style={{ width: '100%', maxWidth: '900px', fontSize: '18px' }}
+                  required
+                  autoFocus
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                />
+                <br />
+                <label className={classes.codeCate}>Course category*</label>
+                <br />
+                <select
+                  className={classes.cateInput}
+                  required
+                  autoFocus
+                  value={courseCategory}
+                  onChange={(e) => {
+                    setCourseCategory(e.target.value);
+                  }}
+                >
                   <option>Frontend stack</option>
                   <option>backend stack</option>
                   <option>fullstack</option>
@@ -268,25 +297,30 @@ const createFolderButton=()=>{
                   <option>python</option>
                   <option>javascript</option>
                   <option>AI</option>
-              </select>
+                </select>
               </Box>
-              
+
               <div></div>
             </form>
           </div>
         </Dialog>
       </div>
     );
-}
+  };
   //_------------------> dashboard section of dashboard page
   const Courses = (
-    <>
-      <div style={{ margin: "2rem" }}>
-        {user.token && user.role === "Admin" ? createFolderButton() : ""}
+    <div >
+      <div style={{ margin: '2rem' }}>
+        {user.token && user.role === 'Admin' ? createFolderButton() : ''}
       </div>
-      <section style={{ marginLeft: "2rem" }}>
+      <section style={{ marginLeft: '2rem' }}>
         <div>
-          <h1>Dashboard</h1>
+          <div className={classes.heading}>
+            <h1 className={classes.head}>COURSE LISTS</h1>
+            <h3 className={classes.subtitle}>
+              Here all uploaded courses are avaiable...
+            </h3>
+          </div>
           <div
             className={classes.courseCard}
             // style={{
@@ -348,11 +382,13 @@ const createFolderButton=()=>{
               // </div>
               <div key={course._id}>
                 <div className={classes.card}>
-                    <img src={folderImg} style={{"width":"50px"}} alt="folder" />
-                  <div className={classes.courseNaamm}>{course.courseCode}{" "}{course.courseName}</div>
-                  <div>{course.courseCategory}</div>
+                  <img src={folderImg} style={{ width: '50px' }} alt='folder' />
+                  <div className={classes.courseNaamm}>
+                    {course.courseCode} {course.courseName}
+                  </div>
+                  <div className={classes.cate}>{course.courseCategory}</div>
                   <a href={`/dashboard/${course.courseCode}`}>
-                    <button className={classes.viewCourseBtn} type="button">
+                    <button className={classes.viewCourseBtn} type='button'>
                       Veiw Course <ArrowForwardIcon />
                     </button>
                   </a>
@@ -362,18 +398,14 @@ const createFolderButton=()=>{
           </div>
         </div>
       </section>
-    </>
+    </div>
   );
 
   //-------------->course section of dashboard page
-  const Dashboard= (
-    <h1 style={{ width: "900px", textAlign: "center" }}>Courses</h1>
-  );
+  const Dashboard = <h1 className={classes.dasss}>DASHBOARD</h1>;
 
   //--------------> Coursess section of dashboard page
-  const Coursess = (
-      <UploadCourse />
-  );
+  const Coursess = <UploadCourse />;
 
   const generateDashboardSection = () => {
     switch (dashboardSection[activvDashboardSection]) {
@@ -381,8 +413,8 @@ const createFolderButton=()=>{
         return Dashboard; //dashboard section
       case dashboardSection.courses:
         return Courses; //course section
-      case dashboardSection.allpdf:
-        return Coursess; //Coursess section
+      //   case dashboardSection.allpdf:
+      //     return Coursess; //Coursess section
       default:
         return null;
     }
@@ -398,7 +430,7 @@ const createFolderButton=()=>{
           {Object.keys(dashboardSection)?.map((key) => (
             <div
               className={`${classes.dashboardItems} ${
-                activvDashboardSection === key ? classes.activeDash : " "
+                activvDashboardSection === key ? classes.activeDash : ' '
               }`}
               key={key}
               onClick={() => setActiveDashboardSection(key)}
@@ -409,7 +441,7 @@ const createFolderButton=()=>{
         </div>
 
         {/* ------------------> detail section of side menu item <--------------------- */}
-        <div className={classes.dashItemDetail}>
+        <div className={classes.dashItemDetail} style={{width:"100%"}}>
           {generateDashboardSection()}
         </div>
       </section>

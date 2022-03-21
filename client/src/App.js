@@ -30,7 +30,7 @@ function App() {
   const dashboardSection = {
     dashboard: "Dashboard",
     courses: "Courses",
-    allpdf: "PDF's",
+    // allpdf: "PDF's",
   };
 
   return (

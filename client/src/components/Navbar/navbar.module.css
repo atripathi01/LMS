@@ -64,7 +64,7 @@ ul {
 }
 .btnLogin{
   font-size: 20px;
- 
+  font-weight: 500;
   text-decoration: none;
   color: #000;
   
@@ -74,4 +74,19 @@ ul {
 }
 .btnLogin:hover{
   color: #cf3b38;
+}
+.userName{
+    color: #cf3b38;
+    font-size: 18px;
+    font-weight: 600;
+}
+.profi{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.avat{
+    border: #272624 2px solid;
+    border-radius: 50%;
+    margin-right: 5px;
 }
