@@ -39,7 +39,7 @@ const UploadVideos = () => {
   }
   
   const onDrop = (files) => {
-    console.log("ho")
+    console.log("abc")
     // setFile(files[0]);
     // setFileName(files[0].name);
 
@@ -51,18 +51,15 @@ const UploadVideos = () => {
     formData.append("fileName", files[0].name);
     formData.append("courseCode",course_id);
     // formData.append("description",mediaDescription);
-    console.log(files[0],files[0].name,course_id)
-    // const data={
-    //     courseCode:course_id,
-    //    description:mediaDescription,
-    // }
-    console.log(formData.values)
-    // for (let [key, value] of formData) {
-    //     console.log(`${key}: ${value}`)
-    //   }
-    fetch("/admin/upload-course-media", formData,
+    // console.log(files[0])
+    // console.log(files[0].name)
+    // console.log(course_id)
+    console.log('form appended data -> ')
+    console.log(Object.fromEntries(formData))
+    
+    axios.post("/admin/upload-course-media", formData,
         {
-            method:"POST",
+            // method:"POST",
           headers: {
             "content-type": "multipart/form-data",
             "authorization": `Bearer ${user.token}`,
