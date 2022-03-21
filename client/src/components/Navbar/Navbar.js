@@ -23,9 +23,9 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
   const handleLogout = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     dispatch(logout());
-    Navigate(HOME_PATH);
+    // Navigate(HOME_PATH);
   };
 
   console.log(user);
