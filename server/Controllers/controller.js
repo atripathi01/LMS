@@ -719,16 +719,24 @@ router.post('/admin/upload-course-media', async (req, res) => {
     try {
         const userVerify = await verifyToken(req, res);
          console.log(userVerify,"user");
-        if (userVerify && (userVerify.role).toLowerCase() == 'admin') {
+        if (userVerify && userVerify.role == 'Admin') {
+            console.log('if part');
+            
             if (!req.files) {
+                console.log('if of if');
+                // console.log(req);
                 res.status(406).send({
                     status: false,
                     message: 'No file to upload'
                 });
             } else {
+                // console.log(req.files);
+                // console.log("else");
 
                 let mediaFile = req.files.file;
+                console.log(mediaFile);
                 const mediaType = mediaFile.mimetype.split('/')[1];
+                console.log(mediaType);
                 const fileTypes = ['pdf', 'mp4', 'doc', 'docx']
                 if (fileTypes.includes(mediaType)) {
 

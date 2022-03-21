@@ -41,39 +41,13 @@ const UploadVideos = () => {
 
   const onDrop = (files) => {
     console.log('ho');
-    // setFile(files[0]);
-    // setFileName(files[0].name);
-
-    // console.log(file);
-    // console.log(fileName);
+    
 
     const formData = new FormData();
     formData.append('file', files[0]);
     formData.append('fileName', files[0].name);
     formData.append('courseCode', course_id);
-    // formData.append("description",mediaDescription);
-    // console.log(files[0], files[0].name, course_id);
-    // const data={
-    //     courseCode:course_id,
-    //    description:mediaDescription,
-    // }
-
-    console.log('form appended data -> ');
-    console.log(Object.fromEntries(formData));
-    axios
-      .post('/admin/upload-course-media', formData, {
-        // method:"POST",
-        headers: {
-          'content-type': 'multipart/form-data',
-          authorization: `Bearer ${user.token}`,
-        },
-      })
-      .then((response) => {
-        return response;
-      })
-    // console.log(files[0])
-    // console.log(files[0].name)
-    // console.log(course_id)
+    
     console.log('form appended data -> ')
     console.log(Object.fromEntries(formData))
     
@@ -141,7 +115,7 @@ const UploadVideos = () => {
             }}
           >
             <input {...getInputProps()} />
-            <button className={classes.upl}>upload video</button>
+            <button className={classes.upl}>Upload File</button>
           </div>
         </div>
 
