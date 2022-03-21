@@ -4,6 +4,7 @@ import { selectUser } from '../../../features/userSlice';
 import {useSelector} from 'react-redux'
 import  { useDropzone } from "react-dropzone";
 import { useParams } from 'react-router-dom'
+import axios from 'axios';
 const customStyles = {
     content: {
       top: '50%',
@@ -19,7 +20,7 @@ const UploadVideos = () => {
     const user=useSelector(selectUser);
     const [isOpen, setIsOpen] = useState(false);
     const [mediaDescription, setMediaDescription]=useState("");
-    console.log(mediaDescription);
+    // console.log(mediaDescription);
     let{course_id}=useParams();
     console.log(course_id);
     let subtitle;
@@ -38,7 +39,7 @@ const UploadVideos = () => {
   }
   
   const onDrop = (files) => {
-
+    console.log("ho")
     // setFile(files[0]);
     // setFileName(files[0].name);
 
@@ -48,10 +49,17 @@ const UploadVideos = () => {
     const formData = new FormData();
     formData.append("file", files[0]);
     formData.append("fileName", files[0].name);
-    const data={
-        courseCode:course_id,
-       description:mediaDescription,
-    }
+    formData.append("courseCode",course_id);
+    // formData.append("description",mediaDescription);
+    console.log(files[0],files[0].name,course_id)
+    // const data={
+    //     courseCode:course_id,
+    //    description:mediaDescription,
+    // }
+    console.log(formData.values)
+    // for (let [key, value] of formData) {
+    //     console.log(`${key}: ${value}`)
+    //   }
     fetch("/admin/upload-course-media", formData,
         {
             method:"POST",
@@ -59,13 +67,12 @@ const UploadVideos = () => {
             "content-type": "multipart/form-data",
             "authorization": `Bearer ${user.token}`,
           },
-          body: JSON.stringify(data),
+        
         })
-
-      .then((response) => {
-        console.log(response)
-        console.log(response.data)
-        if (response.data.status) {
+       .then((response)=>{return response.json()})
+      .then((responses) => {
+         console.log(responses)
+        if (responses) {
           console.log("upload successful");
         } else {
           window.alert("failed");
@@ -83,7 +90,8 @@ const UploadVideos = () => {
       {file.path} - {file.size}bytes
     </li>
   ));
-  return (
+//   console.log(files);
+   return (
     <div>
          <button onClick={openModal}>Open Modal</button>
       <Modal
@@ -93,6 +101,7 @@ const UploadVideos = () => {
         style={customStyles}
         contentLabel="Example Modal"
       >
+        
         <h2 ref={(_subtitle) => (subtitle = _subtitle)}>UPLOAD VIDEOS OR PDF'S <small>(only accepted mp4 and pdf files)</small></h2>
          <div>
          <div
@@ -120,7 +129,10 @@ const UploadVideos = () => {
        
         <button onClick={closeModal}>Cancel</button>
         <button onClick={closeModal}>Upload</button>
-       
+        <aside>
+            <h2 style={{ marginLeft: "3rem" }}>Course Details</h2>
+            <ul>{files}</ul>
+          </aside>
       </Modal>
     </div>
   )

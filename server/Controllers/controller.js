@@ -715,10 +715,10 @@ router.post('/get-course-by-course-category', async (req, res) => {
 });
 
 router.post('/admin/upload-course-media', async (req, res) => {
-
+         console.log("upload");
     try {
         const userVerify = await verifyToken(req, res);
-
+         console.log(userVerify,"user");
         if (userVerify && (userVerify.role).toLowerCase() == 'admin') {
             if (!req.files) {
                 res.status(406).send({

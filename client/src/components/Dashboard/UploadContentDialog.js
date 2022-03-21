@@ -52,47 +52,47 @@ export default function FullScreenDialog() {
   };
 
 
-  const onDrop = (files) => {
+//   const onDrop = (files) => {
 
-    // setFile(files[0]);
-    // setFileName(files[0].name);
+//     // setFile(files[0]);
+//     // setFileName(files[0].name);
 
-    // console.log(file);
-    // console.log(fileName);
+//     // console.log(file);
+//     // console.log(fileName);
     
-    const formData = new FormData();
-    formData.append("file", files[0]);
-    formData.append("fileName", files[0].name);
-    fetch("/upload-one", formData,
-        {
-            method:"POST",
-          headers: {
-            "content-type": "multipart/form-data",
-            "authorization": `Bearer ${user.token}`,
-          }
-        })
+//     const formData = new FormData();
+//     formData.append("file", files[0]);
+//     formData.append("fileName", files[0].name);
+//     fetch("/upload-one", formData,
+//         {
+//             method:"POST",
+//           headers: {
+//             "content-type": "multipart/form-data",
+//             "authorization": `Bearer ${user.token}`,
+//           }
+//         })
 
-      .then((response) => {
-        console.log(response)
-        console.log(response.data)
-        if (response.data.status) {
-          console.log("upload successful");
-        } else {
-          window.alert("failed");
-        }
-      });
-  };
+//       .then((response) => {
+//         console.log(response)
+//         console.log(response.data)
+//         if (response.data.status) {
+//           console.log("upload successful");
+//         } else {
+//           window.alert("failed");
+//         }
+//       });
+//   };
 
   // using Dropzone library for upload files for the system 
 
-  const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
-    onDrop,
-  });
-  const files = acceptedFiles.map((file) => (
-    <li key={file.path}>
-      {file.path} - {file.size}bytes
-    </li>
-  ));
+//   const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
+//     onDrop,
+//   });
+//   const files = acceptedFiles.map((file) => (
+//     <li key={file.path}>
+//       {file.path} - {file.size}bytes
+//     </li>
+//   ));
     function onSubmit(e){
      
       const courseData={
@@ -241,6 +241,7 @@ export default function FullScreenDialog() {
                 <option>javascript</option>
                 <option>AI</option>
             </select>
+            
             </Box>
             
             <div></div>
