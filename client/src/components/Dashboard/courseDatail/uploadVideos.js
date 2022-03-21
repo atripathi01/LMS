@@ -52,7 +52,7 @@ const UploadVideos = () => {
     formData.append('fileName', files[0].name);
     formData.append('courseCode', course_id);
     // formData.append("description",mediaDescription);
-    console.log(files[0], files[0].name, course_id);
+    // console.log(files[0], files[0].name, course_id);
     // const data={
     //     courseCode:course_id,
     //    description:mediaDescription,
@@ -71,6 +71,22 @@ const UploadVideos = () => {
       .then((response) => {
         return response;
       })
+    // console.log(files[0])
+    // console.log(files[0].name)
+    // console.log(course_id)
+    console.log('form appended data -> ')
+    console.log(Object.fromEntries(formData))
+    
+    axios.post("/admin/upload-course-media", formData,
+        {
+            // method:"POST",
+          headers: {
+            "content-type": "multipart/form-data",
+            "authorization": `Bearer ${user.token}`,
+          },
+        
+        })
+       .then((response)=>{return response})
       .then((responses) => {
         console.log(responses);
         if (responses) {
@@ -79,8 +95,7 @@ const UploadVideos = () => {
         } else {
           window.alert('failed');
         }
-      })
-      .catch((err) => {
+      }).catch(err => {
         console.log(err);
       });
   };

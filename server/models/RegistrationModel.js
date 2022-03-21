@@ -6,8 +6,8 @@ var registrationSchema = new mongoose.Schema({
 	email : {type: String, unique: true},
 	password : {type: String},
 	registrationDate : {type: Date},
-	role : {type: String}
-
+	role : {type: String},
+	courseAccess : [{type: String}]
 });
 
 mongoose.model('Registration', registrationSchema); 

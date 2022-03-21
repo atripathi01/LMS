@@ -888,4 +888,69 @@ router.post('/admin/delete-course-media/:courseCode/:mediaName', async (req, res
     }
 });
 
+router.post('/admin/assign-course/:courseCode/:email', async (req, res) => {
+    try {
+        const userVerify = await verifyToken(req, res);
+        console.log(userVerify)
+        if (userVerify && userVerify.role === 'Admin') {
+
+            var checkUser = await RegistrationSch.findOne({
+                email: req.params.email
+            });
+
+            var checkCourse = await CourseSch.findOne({
+                courseCode: req.params.courseCode
+            });
+
+            if (!checkUser) {
+                console.log('User email not found')
+                res.status(406).json({
+                    response: false,
+                    msg: "User email not found"
+                })
+            } else if(!checkCourse) {
+                console.log('Course code not found')
+                res.status(406).json({
+                    response: false,
+                    msg: "Course code not found"
+                })
+            } else {
+                var courseAccess = await RegistrationSch.findOne({$and: [{email: req.params.email}, {courseAccess: req.params.courseCode}]})
+                console.log(courseAccess)
+                if(courseAccess) {
+                    res.status(406).json({
+                        response: false,
+                        msg: "Course access already provided"
+                    })
+                } else {
+                    RegistrationSch.findOneAndUpdate(checkUser, {$push: {courseAccess: req.params.courseCode}}, function (err, data) {
+                        if (err) {
+                            res.status(406).json(err)
+                        } else {
+                            res.status(200).json({
+                                response: true,
+                                msg: "Course access provided",
+                                user: req.params.email,
+                                course: req.params.courseCode
+                            })
+                        }
+                    })
+                }
+              
+
+            }
+        } else {
+            res.status(406).json({
+                response: "invalid token"
+            })
+        }
+
+    } catch (err) {
+        console.log(err);
+        res.status(406).json({
+            response: err
+        })
+    }
+});
+
 module.exports = router;
