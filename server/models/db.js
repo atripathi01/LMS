@@ -14,7 +14,6 @@ const db = process.env.DATABASE;
         console.log('Connection Failed');
     }
 });
-require('./LoginModel');
 require('./RegistrationModel');
 require('./AdminModel');
 require('./courseModel');

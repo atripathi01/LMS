@@ -7,7 +7,7 @@ const secret = process.env.PRIVATE_KEY;
 
 module.exports.generateToken = function (req, res, login) {
 
-    console.log("Secret :----", secret);
+    // console.log("Secret :----", secret);
     const jwttoken = jwt.sign({
         id: login.loginId,
         name: login.loginName,
