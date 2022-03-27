@@ -40,8 +40,6 @@ const allCourses = async (req, res) => {
 
             }
 
-
-
         } else {
             console.log('User not verified');
             res.status(406).json({

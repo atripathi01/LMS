@@ -467,10 +467,18 @@ try {
                const newCourse = new CourseMediaSch({
                    mediaFileName: saveFileName,
                    courseCode: req.body.courseCode,
+                   mediaTitle: req.body.title,
                    mediaDescription: req.body.description,
                    mediaType: mediaType
                });
-               newCourse.save();
+               newCourse.save(function(err) {
+                   if(err) {
+                       console.log(err);
+                       throw err;
+                   } else {
+                       console.log('course media uploaded');
+                   }
+               });
 
                uploadedFile = {
                    name: saveFileName,
@@ -486,7 +494,7 @@ try {
                        courseMedia: uploadedFile
                    }
                });
-               console.log("uploaded")
+            //    console.log("uploaded")
            } else {
                res.status(406).json({
                    response: 'Only PDF, Word and MP4 files are acceptable.'
