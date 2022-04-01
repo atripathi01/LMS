@@ -1,4 +1,5 @@
 
+
 const mongoose = require('mongoose');
 
 const RegistrationSch = mongoose.model('Registration');
@@ -74,3 +75,6 @@ module.exports = {
     active,
     signIn
 }
+
+
+

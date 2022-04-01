@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
-import { classNames, Worker } from '@react-pdf-viewer/core';
+import { Worker } from '@react-pdf-viewer/core';
 import '@react-pdf-viewer/core/lib/styles/index.css';
 import { Viewer } from '@react-pdf-viewer/core';
 import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
@@ -14,46 +14,76 @@ import { selectUser } from '../../../features/userSlice';
 import { useSelector } from 'react-redux';
 import pdfim from '../../images/pdf.png'
 import classes from './courseDetail.module.css';
+
+
+///////////////////////////////////////////////////////////////////////////////////////
+///          COURSE DETAIL PAGE WHERE CONTENT RELATED TO COURSE ARE AVAIABLE      /////
+///////////////////////////////////////////////////////////////////////////////////////
+
+
 const CourseDetail = (props) => {
+
+  //  ----------intailise states
   const [items, setItems] = useState([]);
-  console.log(items);
+
+  // fetch user data from redux 
   const user = useSelector(selectUser);
+
+
   const [open, setOpen] = React.useState(false);
+
+  // handle toogle for open and close for PDF views popup
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  // const token = window.localStorage.getItem("token");
-  // const role=window.localStorage.getItem("role");
+  
+  // default layout
   const defaultLayoutPluginInstance = defaultLayoutPlugin();
 
+  // split course code from url using params
   let { course_id } = useParams();
-  console.log(course_id);
-  useEffect(() => {
+
+  function getAllMedia(){
+       // GET api for fetching video and pdf of perticular course 
     axios
-      .get(`/course-media/${course_id}`, {
-        headers: {
-          'content-type': 'multipart/form-data',
-          authorization: `Bearer ${user.token}`,
-        },
-      })
-      .then((response) => {
-        if (response.status === 200) {
-          console.log('fetched', response.data);
-          setItems(response.data.courseMedia);
-        } else {
-          console.log('failed fetch');
-        }
-      })
-      .catch((err) => {
-        console.log('error', err);
-      });
+    .get(`/course-media/${course_id}`, {
+      headers: {
+        'content-type': 'multipart/form-data',
+        authorization: `Bearer ${user.token}`,
+      },
+    })
+    .then((response) => {
+      if (response.status === 200) {
+        console.log('fetched', response.data);
+        setItems(response.data.courseMedia);
+      } else {
+        console.log('failed fetch');
+      }
+    })
+    .catch((err) => {
+      console.log('error', err);
+    });
+  }
+
+  //useEffect
+   
+  useEffect(() => {
+   getAllMedia();
+   
   }, []);
+
 
   return (
     <>
-      {user.token && user.role === 'Admin' ? <UploadVideos /> : ''}
-      <h1 style={{marginTop:"-2rem",marginLeft:"1rem"}}>COURSE DETAIL OF COURSE CODE({course_id})</h1>
+     
+      {/*       Button of uplaod video or PDF file inside the course        */}
+
+      {user.token && user.role === 'Admin' ? <UploadVideos getAllMedia={getAllMedia}/> : ''}
+
+      <h1 style={{marginTop:"",marginLeft:"1rem"}}>COURSE DETAIL OF COURSE CODE({course_id})</h1>
+      
       <div>
         <section className={classes.fl}>
+           {/* mapping course items */}
           {items.map((course) => (
             <div>
               {course.mediaType === 'mp4' ? (
@@ -86,7 +116,7 @@ const CourseDetail = (props) => {
                       style={{ width: '100px', height: 'auto' }}
                     />
                   </button>
-                  <p>{course.mediaFileName}</p>
+                  
 
                   <Modal
                     open={open}

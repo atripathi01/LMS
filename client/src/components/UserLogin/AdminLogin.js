@@ -1,112 +1,100 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import ImageLogin from "../images/croped.jpg";
-import { ADMIN, ADMIN_LOGIN, HOME_PATH, LOGIN_PATH } from "../../constants/pathContainer";
-import classes from "./userlogin.module.css";
-import {login} from '../../features/userSlice'
-import {useDispatch} from 'react-redux'
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import ImageLogin from '../images/croped.jpg';
+import { DASH_BOARD, LOGIN_PATH } from '../../constants/pathContainer';
+import classes from './userlogin.module.css';
+import { login } from '../../features/userSlice';
+import { useDispatch } from 'react-redux';
+import { ADMIN_SIGNIN } from '../../constants/ApiPathContainer';
+
+///////////////////////////////////////////////////////////
+////            Admin Login page                        ///
+///////////////////////////////////////////////////////////
 
 const AdminLogin = () => {
-    const navigate = useNavigate();
-    const dispatch=useDispatch();
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
+  // onSubmit login button function
+  const onSubmitLogin = (e) => {
+    e.preventDefault();
+    // condition for valid email or userName
+    const emailOrUsernameCondition = /^[a-zA-Z0-9!-£]*$/;
 
-    
-    const onSubmitLogin=(e)=>{
-        e.preventDefault();
-        const emailOrUsernameCondition = /^[a-zA-Z0-9!-£]*$/;
-    if (email === "") {
-      // showSnackBar("please enter your email", "error");
-      window.alert("please enter your email");
+    if (email === '') {
+      window.alert('please enter your email');
       return;
-    } else if (password === "") {
-      // showSnackBar("please enter your password", "error");
-      window.alert("please enter your password");
+    } else if (password === '') {
+      window.alert('please enter your password');
       return;
     } else if (!emailOrUsernameCondition.test(String(email).trim())) {
-      // showSnackBar("Invalid email", "error");
-      window.alert("Invalid email");
+      window.alert('Invalid email');
       return;
     } else {
-      console.log("done");
       const data = {
         email: email,
         password: password,
-        // role: activeRole === "Teacher" ? "trainer" : "student",
       };
-    //   console.log(data);
-      //------------->fecth api of backend for login----------------
-      fetch("/admin/sign-in", {
-        method: "POST",
+
+      // -----POST api for Admin sign in
+      fetch(ADMIN_SIGNIN, {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(data),
       })
         .then(async (response) => {
           const res = await response.json();
-          window.localStorage.setItem("token", res.token);
-          window.localStorage.setItem("role", res.role);
-          window.localStorage.setItem("name",res.name);
-          window.localStorage.setItem("email",email);
-          
+
+          // set all Admin user data on winodw localStorge
+          window.localStorage.setItem('token', res.token);
+          window.localStorage.setItem('role', res.role);
+          window.localStorage.setItem('name', res.name);
+          window.localStorage.setItem('email', email);
+
           if (response.status !== 200 || !data) {
-            window.alert("failed");
+            window.alert('failed');
           } else {
-            // window.alert("logined");
-            // showSnackBar("Logged in", "success");
-            console.log(response)
-            dispatch(login({
-                // data
-                name:res.name,
-                email:email,
-                // password:password,
-                role:localStorage.getItem("role"),
-                // isLogin:true,
-                token:localStorage.getItem("token"),
-              }))
-            navigate(ADMIN);
+            dispatch(
+              login({
+                name: res.name,
+                email: email,
+                role: localStorage.getItem('role'),
+                token: localStorage.getItem('token'),
+              })
+            );
+
+            navigate(DASH_BOARD);
           }
         })
         .catch((error) => {
-          console.log("error login", error);
+          console.log('error login', error);
         });
     }
-    }
+  };
   return (
     <div>
       <div></div>
       <div className={classes.loginPage}>
         <div className={classes.loginBox}>
           <div className={classes.loginRightBox}>
-            {/* <div className={classes.role}>
-              {Object.keys(roles)?.map((key) => (
-                <div
-                  className={`${classes.LoginRole} ${
-                    activeRole === key ? classes.active : ""
-                  } `}
-                  key={key}
-                  onClick={() => setActiveRole(key)}
-                >
-                  {roles[key]}  
-                </div>
-              ))}
-            </div> */}
-
-            <div className={classes.loginSection} >
-              {/* {generateLoginStructure()}  */}
+            <div className={classes.loginSection}>
               <div>DONO LMS</div>
-              <form className={classes.LoginForm} onSubmit={(e)=>onSubmitLogin(e)}>
+              <form
+                className={classes.LoginForm}
+                onSubmit={(e) => onSubmitLogin(e)}
+              >
                 <label className={classes.LoginMail}>Admin Email*</label>
                 <br></br>
                 <input
-                  type="email"
+                  type='email'
                   className={classes.LoginInput}
                   autoFocus
                   required
-                  placeholder="Admin Email"
+                  placeholder='Admin Email'
                   value={email}
                   onChange={(e) => {
                     e.preventDefault();
@@ -117,11 +105,11 @@ const AdminLogin = () => {
                 <label className={classes.LoginPass}>Admin Password*</label>
                 <br />
                 <input
-                  type="password"
+                  type='password'
                   className={classes.LoginPassInput}
                   autoFocus
                   required
-                  placeholder="Admin Password"
+                  placeholder='Admin Password'
                   value={password}
                   onChange={(e) => {
                     e.preventDefault();
@@ -131,35 +119,32 @@ const AdminLogin = () => {
 
                 <br />
 
-                <button
-                  className={classes.LoginBtn}
-                  type={"submit"}
-               
-                >
+                <button className={classes.LoginBtn} type={'submit'}>
                   Login
                 </button>
                 <p
-                 style={{
-                     marginTop:"1rem",
-                     fontSize:'12px',
-                     fontWeight:"500px",
-                     color:"red"
-                 }}
-                
-                >NOTE: this login page only for admin.</p>
+                  style={{
+                    marginTop: '1rem',
+                    fontSize: '12px',
+                    fontWeight: '500px',
+                    color: 'red',
+                  }}
+                >
+                  NOTE: this login page only for admin.
+                </p>
               </form>
-
               <div className={classes.Divider}></div>
-              If you are trainer or learn, then <Link to={LOGIN_PATH}>Login</Link>
+              If you are trainer or learn, then{' '}
+              <Link to={LOGIN_PATH}>Login</Link>
             </div>
           </div>
           <div className={classes.loginLeftBox}>
-            <img src={ImageLogin} alt="lms" className={classes.logimage}></img>
+            <img src={ImageLogin} alt='lms' className={classes.logimage}></img>
           </div>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default AdminLogin
+export default AdminLogin;

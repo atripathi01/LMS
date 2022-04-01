@@ -6,6 +6,11 @@ import { useDropzone } from 'react-dropzone';
 import { useParams } from 'react-router-dom';
 import classes from './courseDetail.module.css';
 import axios from 'axios';
+
+/////////////////////////////////////////////////////////////////////////////
+//        Upload Video and PDF content on Course PopUp  Page               //
+/////////////////////////////////////////////////////////////////////////////
+
 const customStyles = {
   content: {
     top: '50%',
@@ -17,13 +22,16 @@ const customStyles = {
   },
 };
 
-const UploadVideos = () => {
+const UploadVideos = ({getAllMedia}) => {
+    
+  // fetch user data from redux
   const user = useSelector(selectUser);
+
   const [isOpen, setIsOpen] = useState(false);
-  const [mediaDescription, setMediaDescription] = useState('');
-  // console.log(mediaDescription);
+
+  // split course Code from url by using params
   let { course_id } = useParams();
-  console.log(course_id);
+
   let subtitle;
 
   function openModal() {
@@ -39,56 +47,64 @@ const UploadVideos = () => {
     setIsOpen(false);
   }
 
+  // onDrop funtion - when user select the file for our system after selecting the file will automatically upload..
+
   const onDrop = (files) => {
     console.log('ho');
-    
 
+    // append formData
     const formData = new FormData();
     formData.append('file', files[0]);
     formData.append('fileName', files[0].name);
     formData.append('courseCode', course_id);
-    
-    console.log('form appended data -> ')
-    console.log(Object.fromEntries(formData))
-    
-    axios.post("/admin/upload-course-media", formData,
-        {
-            // method:"POST",
-          headers: {
-            "content-type": "multipart/form-data",
-            "authorization": `Bearer ${user.token}`,
-          },
-        
-        })
-       .then((response)=>{return response})
+
+    // console.log('form appended data -> ')
+    // console.log(Object.fromEntries(formData))
+
+    // POST api for uplaoding the files
+    axios
+      .post('/admin/upload-course-media', formData, {
+        headers: {
+          'content-type': 'multipart/form-data',
+          authorization: `Bearer ${user.token}`,
+        },
+      })
       .then((responses) => {
         console.log(responses);
         if (responses) {
           setIsOpen(false);
           console.log('upload successful');
+          getAllMedia();
         } else {
           window.alert('failed');
         }
-      }).catch(err => {
+      })
+      .catch((err) => {
         console.log(err);
       });
   };
 
   // using Dropzone library for upload files for the system
-
-  const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
+  const {
+    //   acceptedFiles,
+    getRootProps,
+    getInputProps,
+  } = useDropzone({
     onDrop,
   });
-  const files = acceptedFiles.map((file) => (
-    <li key={file.path}>
-      {file.path} - {file.size}bytes
-    </li>
-  ));
-  //   console.log(files);
+
+  //-------------------------> checking the uplaod file list on screen
+  //   const files = acceptedFiles.map((file) => (
+  //     <li key={file.path}>
+  //       {file.path} - {file.size}bytes
+  //     </li>
+  //   ));
+  //   //   console.log(files);
+
   return (
     <div className={classes.uploadCont}>
       <div className={classes.lef}>
-        <button  className={classes.uplo} onClick={openModal}>
+        <button className={classes.uplo} onClick={openModal}>
           Upload content
         </button>
       </div>
@@ -100,7 +116,7 @@ const UploadVideos = () => {
         contentLabel='Example Modal'
       >
         <h2 ref={(_subtitle) => (subtitle = _subtitle)}>
-          UPLOAD VIDEOS OR PDF'S{' '}
+          UPLOAD VIDEOS OR PDF'S
           <small>(only accepted mp4 and pdf files)</small>
         </h2>
         <div>
@@ -119,10 +135,13 @@ const UploadVideos = () => {
           </div>
         </div>
 
-        <button onClick={closeModal} className={classes.cancelbtn}>Cancel</button>
+        <button onClick={closeModal} className={classes.cancelbtn}>
+          Cancel
+        </button>
       </Modal>
     </div>
   );
+        
 };
 
 export default UploadVideos;

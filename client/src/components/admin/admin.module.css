@@ -14,6 +14,7 @@
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
   color: #fff;
+  margin-top: 5.15rem;
 }
 .adminItems{
     padding: 1rem;
@@ -32,7 +33,7 @@
 
 .createAccount,.access_section{
   margin-left: 2rem;
-  margin-top: 2rem;
+  margin-top: 5.2rem;
 }
 .title,.access_title{
   font-size: 46px ;
