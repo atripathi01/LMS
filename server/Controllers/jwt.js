@@ -1,4 +1,5 @@
 
+
 const dotenv = require("dotenv");
 dotenv.config({ path: './config.env' })
 const jwt = require('jsonwebtoken');
@@ -43,4 +44,5 @@ module.exports.verifyToken = function (req, res) {
         console.log("Invalid token");
         return false;
     }
+
 }

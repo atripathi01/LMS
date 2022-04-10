@@ -1,16 +1,13 @@
 .navbar {
   display: flex;
   justify-content: space-between;
-  padding: auto 3rem;
+  padding:  0rem 1rem;
   font-size: 22px;
-  /* background: rgba(255, 255, 255, 0.2);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); */
-  /* backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px); */
-  /* border-radius: 10px; */
   border: 1px solid #acacac;
   background-color: #fff;
-  
+  height: 5rem;
+  position: fixed;
+  width: 100%;
 }
 ul {
   list-style: none;
@@ -19,7 +16,6 @@ ul {
   font-size: 30px;
   font-weight: 700;
   letter-spacing: 2px;
-  
 }
 .itemWrapper {
   display: flex;
@@ -34,7 +30,7 @@ ul {
   color: #000;
   text-decoration: none;
 }
-.RouterLink:hover{
+.RouterLink:hover {
   color: #cf3b38;
 }
 
@@ -62,31 +58,30 @@ ul {
   background-color: #272624;
   border: #272624 2px solid;
 }
-.btnLogin{
+.btnLogin {
   font-size: 20px;
   font-weight: 500;
   text-decoration: none;
   color: #000;
-  
-  
+
   cursor: pointer;
   letter-spacing: 1.5px;
 }
-.btnLogin:hover{
+.btnLogin:hover {
   color: #cf3b38;
 }
-.userName{
-    color: #cf3b38;
-    font-size: 18px;
-    font-weight: 600;
+.userName {
+  color: #cf3b38;
+  font-size: 18px;
+  font-weight: 600;
 }
-.profi{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+.profi {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
-.avat{
-    border: #272624 2px solid;
-    border-radius: 50%;
-    margin-right: 5px;
+.avat {
+  border: #272624 2px solid;
+  border-radius: 50%;
+  margin-right: 5px;
 }

@@ -6,15 +6,21 @@ import createCouresImg from "../images/createcourse.svg";
 import EnrolImg from "../images/enrolse.png";
 import { DASH_BOARD, LOGIN_PATH } from "../../constants/pathContainer";
 import { Link } from "react-router-dom";
+
+/////////////////////////////////////////////////////////////////////////////////////
+///                  HOME PAGE OR LANDING PAGE                                    ///
+/////////////////////////////////////////////////////////////////////////////////////
+
 const Home = () => {
-
-  
-
+   
+   // create object for build section of landing page
   const buildCourse = {
     createCourse: "Create courses easily",
     uploadPDFnNotes: "Upload PDF's and Notes",
     adTestnQuiz: "Add Tests and Quizzes",
   };
+
+  // create object for enroll section of landing page
   const enrollCourse = {
     enrollCourses: "Enroll the Course, just in a click",
     downloadPDF: "Download PDF's and Notes",
@@ -27,7 +33,11 @@ const Home = () => {
   const [activateCourse, setActivatCourse] = useState(
     Object.keys(enrollCourse)[0]
   );
+
+  // fetching token form local storage 
   const token = window.localStorage.getItem("token");
+
+  //  createCourse section of buildCourse object
   const CourseCreaterSection = (
     <div
       style={{
@@ -45,6 +55,8 @@ const Home = () => {
       </p>
     </div>
   );
+
+  // uploadPDFnNotes section of buildCourse object
   const uploadSection = (
     <p className={classes.para}>
       At Open LMS, one of the ways we support learning is via our commitment to
@@ -55,6 +67,8 @@ const Home = () => {
       adapt your open-source LMS without vendor and commitment pressure.
     </p>
   );
+
+  // adTestnQuiz section of buildCourse object
   const addQuizSection = (
     <p className={classes.para}>
       Set up detailed learning paths and completion rules to guide learner
@@ -62,6 +76,8 @@ const Home = () => {
       what they’re looking for.
     </p>
   );
+
+  // enrollCourses section of enrollCourse object
   const enrollSection = (
     <div
       style={{
@@ -79,6 +95,8 @@ const Home = () => {
       </p>
     </div>
   );
+  
+  // downlaodPDF section of enrollCourse object
   const downloadSection = (
     <p>
       Keep learners engaged by staying in touch when you can’t be face to face.
@@ -86,6 +104,8 @@ const Home = () => {
       messages, and more.
     </p>
   );
+
+  // startQuiz section of enrollCourse object
   const StartTestSection = (
     <p className={classes.para}>
       Create unlimited sub-accounts to match your organization’s structure and
@@ -94,6 +114,7 @@ const Home = () => {
     </p>
   );
 
+  // switch cases for buildCourses object
   const generatonCreate = () => {
     switch (buildCourse[activeBuildpart]) {
       case buildCourse.createCourse:
@@ -106,6 +127,8 @@ const Home = () => {
         return null;
     }
   };
+
+  //switch cases for enrollCourse object
   const generateEnroll = () => {
     switch (enrollCourse[activateCourse]) {
       case enrollCourse.enrollCourses:
@@ -118,6 +141,7 @@ const Home = () => {
         return null;
     }
   };
+
 
   return (
     <section className={classes.HomePage}>
@@ -141,7 +165,6 @@ const Home = () => {
                 <button className={classes.homepgResiBtn}>Login</button>
               </Link>
             )}
-            {/* <button className={classes.HomepageLoginbtn}>Login</button> */}
           </div>
         </div>
         <div className={classes.rightPart}>

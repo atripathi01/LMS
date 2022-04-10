@@ -2,4 +2,19 @@
     text-align: center;
     width: 100%;
     font-size: 69px;
+} 
+.NavIcon{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+}
+.imgFix{
+    height: 50px;
+    width: auto;
+}
+.fontSiz{
+    font-size: 13px;
+    font-weight: 600;
 }
