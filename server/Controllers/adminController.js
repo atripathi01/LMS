@@ -2,23 +2,22 @@
 const fs = require('fs');
 const mongoose = require('mongoose');
 
-const RegistrationSch = mongoose.model('Registration');
+// const conn = require('../models/db')
+const LearnerSch = mongoose.model('Learner');
+const TrainerSch = mongoose.model('Trainer');
+const mediaFileSchema = require('../models/mediaFileSchema')
+// const MemberSch = mongoose.model('members')
 const CourseSch = mongoose.model('Courses');
-const CourseMediaSch = mongoose.model('CourseMedia');
-const AdminSch = mongoose.model('Admin');
+// const CourseMediaSch = mongoose.model('CourseMedia');
 const { hashPassword, comparePassword } = require('./hashed');
 
 const { generateToken, verifyToken } = require('./jwt');
 
-// const async = require('async');
-
-// const { response } = require('express');
-
-const signIn =  async (req, res) => {
+const signIn = async (req, res) => {
     try {
         if (req.body.email && req.body.password) {
 
-            var checkAdmin = await AdminSch.findOne({
+            var checkAdmin = await LearnerSch.findOne({
                 $and: [{
                     email: req.body.email
                 },
@@ -62,7 +61,7 @@ const signIn =  async (req, res) => {
 
 };
 
-const memberRegister= async (req, res) => {
+const memberRegister = async (req, res) => {
     try {
         const userVerify = await verifyToken(req, res);
         var loginName = userVerify.name;
@@ -71,35 +70,48 @@ const memberRegister= async (req, res) => {
         console.log('user verify->', loginName, role)
         if (userVerify && userVerify.role === 'Admin') {
             if (req.body.email) {
-                var checkExistingUser = await RegistrationSch.findOne({
+                var checkExistingUser = await LearnerSch.findOne({
                     email: req.body.email
                 });
 
                 if (checkExistingUser) {
                     res.status(406).json({
-                        response: false,
+
                         msg: "Email is taken."
                     })
                 } else {
-                    const password = (await hashPassword(req.body.password)).toString()
-                    const NewRegistration = new RegistrationSch({
-                        name: req.body.name,
-                        email: req.body.email,
-                        password: password,
-                        registrationDate: new Date(Date.now()),
-                        role: req.body.role
-                    });
+                    const password = (await hashPassword(req.body.password)).toString();
+                    var NewRegistration;
+                    if (req.body.role == 'Trainer') {
+                        NewRegistration = new TrainerSch({
+                            name: req.body.name,
+                            email: req.body.email,
+                            password: password,
+                            registrationDate: new Date(Date.now()),
+                            role: req.body.role
+                        });
+                    } else if (req.body.role == 'Learner') {
+                        NewRegistration = new LearnerSch({
+                            name: req.body.name,
+                            email: req.body.email,
+                            password: password,
+                            registrationDate: new Date(Date.now()),
+                            role: req.body.role
+
+                        });
+                    }
+
 
                     NewRegistration.save(function (err) {
                         if (err) {
                             console.log(err);
                             res.status(406).json({
-                                response: false,
+
                                 error: err
                             })
                         } else {
                             res.status(200).json({
-                                response: true,
+
                                 msg: "Member Successfully Registered",
                                 name: req.body.name,
                                 email: req.body.email,
@@ -138,12 +150,15 @@ const getAllMembers = async (req, res) => {
 
         console.log('user verify->', loginName, role)
         if (userVerify && userVerify.role === 'Admin') {
+            // console.log(conn.connection.json());
+            // console.log(conn.connections.json());
+            // var checkExistingUser = await conn.collection('members')
+            var checkExistingUser = await LearnerSch.find({ role: { $ne: 'Admin' } });
 
-            var checkExistingUser = await RegistrationSch.find();
 
-            if (!checkExistingUser) {
+            if (!checkExistingUser.length) {
                 res.status(406).json({
-                    response: false,
+
                     msg: "No registered users found."
                 })
             } else {
@@ -176,11 +191,11 @@ const getAllTrainers = async (req, res) => {
         console.log('user verify->', loginName, role)
         if (userVerify && userVerify.role === 'Admin') {
 
-            var checkExistingTrainers = await RegistrationSch.find({ role: 'Trainer' });
+            var checkExistingTrainers = await TrainerSch.find({ role: 'Trainer' });
             console.log(checkExistingTrainers.length);
             if (!checkExistingTrainers.length) {
                 res.status(406).json({
-                    response: false,
+
                     msg: "No registered trainers found."
                 })
             } else {
@@ -213,11 +228,11 @@ const getAllLearners = async (req, res) => {
         console.log('user verify->', loginName, role)
         if (userVerify && userVerify.role === 'Admin') {
 
-            var checkExistingLearners = await RegistrationSch.find({ role: 'Learner' });
+            var checkExistingLearners = await LearnerSch.find({ role: 'Learner' });
 
             if (!checkExistingLearners.length) {
                 res.status(406).json({
-                    response: false,
+
                     msg: "No registered learners found."
                 })
             } else {
@@ -262,23 +277,22 @@ const createCourse = async (req, res) => {
                 const NewCourse = new CourseSch({
                     courseCategory: req.body.courseCategory,
                     courseName: req.body.courseName,
+                    subCategory:req.body.subCategory,
                     courseCode: req.body.courseCode,
-                    courseDescription: req.body.description,
-                    courseCreationTime: new Date(Date.now()),
-                    courseDuration: req.body.duration
+                    hierarchy: req.body.hierarchy && req.body.hierarchy,
+                    courseDescription: req.body.courseDescription,
+                    courseDuration: req.body.courseDuration
                 });
 
                 NewCourse.save(function (err, data) {
                     if (err) {
                         console.log(err);
                         res.status(406).json({
-                            response: false,
                             error: err
                         })
                     } else {
                         console.log(data);
                         res.status(200).json({
-                            response: true,
                             msg: "Course Created",
                             course: data
                             // courseCode: data.courseCode
@@ -287,12 +301,10 @@ const createCourse = async (req, res) => {
                 });
             }
 
-
-
         } else {
             console.log('Admin not verified');
             res.status(406).json({
-                response: "Admin not verified"
+                msg: "Admin not verified"
             })
         }
 
@@ -336,7 +348,6 @@ const updateCourse = async (req, res) => {
                     if (err) {
                         console.log(err);
                         res.status(406).json({
-                            response: false,
                             error: err
                         })
                     } else {
@@ -344,7 +355,6 @@ const updateCourse = async (req, res) => {
                         console.log("fwdveeeeeeeeeeeeeeeeeeeeeeeee");
                         console.log(data);
                         res.status(200).json({
-                            response: true,
                             msg: "Course Updated",
                             courseCode: req.params.code,
                             course: data
@@ -419,96 +429,125 @@ const deleteCourse = async (req, res) => {
     }
 };
 
-const uploadCourseMedia = async (req, res) => {
+const uploadModuleMedia = async (req, res) => {
     console.log("upload");
-try {
-   const userVerify = await verifyToken(req, res);
-    console.log(userVerify,"user");
-   if (userVerify && userVerify.role == 'Admin') {
-       console.log('if part');
-       
-       if (!req.files) {
-           console.log('if of if');
-           // console.log(req);
-           res.status(406).send({
-               status: false,
-               message: 'No file to upload'
-           });
-       } else {
-           // console.log(req.files);
-           // console.log("else");
+    try {
+        const userVerify = await verifyToken(req, res);
+        console.log(userVerify, "user");
+        if (userVerify && userVerify.role == 'Admin') {
+            console.log('if part');
 
-           let mediaFile = req.files.file;
-           console.log(mediaFile);
-           const mediaType = mediaFile.mimetype.split('/')[1];
-           console.log(mediaType);
-           const fileTypes = ['pdf', 'mp4', 'doc', 'docx']
-           if (fileTypes.includes(mediaType)) {
+            if (!req.files) {
+                console.log('if of if');
+                // console.log(req);
+                res.status(406).send({
+                    status: false,
+                    message: 'No file to upload'
+                });
+            } else {
+                // console.log(req.files);
+                console.log("else");
 
-               var mediaSerial = 1;
-               var getCourse = await CourseMediaSch.find({ courseCode: req.body.courseCode });
-               if (getCourse.length > 0) {
+                let mediaFile = req.files.file;
+                // console.log(mediaFile);
+                const mediaType = mediaFile.mimetype.split('/')[1];
+                console.log(mediaType);
+                const fileTypes = ['pdf', 'mp4', 'doc', 'docx']
+                if (fileTypes.includes(mediaType)) {
+                    // var x = 
+                    if (await CourseSch.findOne({ courseCode: req.body.courseCode, "modules._id": req.body.moduleId })) {
+                        console.log('fdsfs')
+                        // var mediaSerial = 1;
+                        var getCourseModule = await CourseSch.findOne({ courseCode: req.body.courseCode }, { modules: { $elemMatch: { _id: req.body.moduleId } } });
+                        console.log(" \n\n")
+                        console.log(getCourseModule);
 
-                   for (let courseInfo in getCourse) {
-                       let obj = getCourse[courseInfo];
-                       mediaSerial = obj['mediaFileName'];
-                   }
-                   mediaSerial = parseInt(mediaSerial.split('_')[1].split('.')[0]) + 1;
-                   console.log("mediaSerial", mediaSerial)
+                        getModuleName = getCourseModule.modules[0].moduleName.replace(" ", "")
 
-               }
+                        console.log(getModuleName);
+                        var filetype = mediaFile.mimetype.split('/')[1];
 
-               var filetype = mediaFile.mimetype.split('/')[1];    //
-               var saveFileName = `${req.body.courseCode}_${mediaSerial}.${filetype}`;
+                        var mediaLength = getCourseModule.modules[0].moduleMedia.length
+                        var mediaSerial = mediaLength ? (mediaLength + 1) : 1
+                        console.log(mediaSerial);
+                        var saveFileName = `${getModuleName}-${mediaSerial}.${filetype}`;
 
-               // mediaFile.mv('./uploads/' + mediaFile.name);  //
-               mediaFile.mv('./uploads/' + saveFileName);
 
-               const newCourse = new CourseMediaSch({
-                   mediaFileName: saveFileName,
-                   courseCode: req.body.courseCode,
-                   mediaTitle: req.body.title,
-                   mediaDescription: req.body.description,
-                   mediaType: mediaType
-               });
-               newCourse.save(function(err) {
-                   if(err) {
-                       console.log(err);
-                       throw err;
-                   } else {
-                       console.log('course media uploaded');
-                   }
-               });
+                        mediaFile.mv(`./uploads/${req.body.courseCode}/${getModuleName}/` + saveFileName);
 
-               uploadedFile = {
-                   name: saveFileName,
-                   mimetype: mediaFile.mimetype,
-                   size: mediaFile.size,
-                   mediaType: mediaType
-               }
-               res.status(200).send({
-                   status: true,
-                   message: 'File is uploaded',
-                   data: {
-                       courseCode: req.body.courseCode,
-                       courseMedia: uploadedFile
-                   }
-               });
-            //    console.log("uploaded")
-           } else {
-               res.status(406).json({
-                   response: 'Only PDF, Word and MP4 files are acceptable.'
-               })
-           }
+                        const newMedia = {
+                            mediaSerial: saveFileName,
+                            mediaFileName: mediaFile.name,
+                            courseCode: req.body.courseCode,
+                            mediaTitle: req.body.title,
+                            mediaDescription: req.body.description,
+                            mediaType: mediaType
+                        };
 
-       }
-   } else {
-       console.log("token expired/ not authenticated")
-       res.status(406).json({ response: 'Not Authenticated' })
-   }
-} catch (err) {
-   res.status(406).send(err);
-}
+                        // console.log(getCourseModule[0].modules[0].moduleMedia);
+                        CourseSch.findOneAndUpdate({ courseCode: req.body.courseCode, modules: { $elemMatch: { _id: req.body.moduleId } } }, {
+                            $push: {
+                                "modules.$.moduleMedia": newMedia
+                            }
+                        }, { new: true }, function (err, data) {
+                            if (err || !data) {
+                                console.log(err || data);
+                                res.status(406).json({
+                                    error: err || data
+                                })
+                            } else {
+                                console.log(data, 'data');
+                                res.status(200).json({
+                                    msg: "Module media uploaded",
+                                    course: data
+                                })
+                            }
+                        });
+                    } else {
+                        console.log('Module id not found');
+                        res.status(406).json({
+                            msg: "Module id not found"
+                        })
+                    }
+
+
+                    // getCourseModule.updateOne()
+                    // newMedia.save(function (err) {
+                    //     if (err) {
+                    //         console.log(err);
+                    //         throw err;
+                    //     } else {
+                    //         console.log('course media uploaded');
+                    //     }
+                    // });
+                    // console.log("new media file");
+                    // console.log(newMedia);
+
+
+                    // res.status(200).send({
+                    //     status: true,
+                    //     message: 'File is uploaded',
+                    //     data: {
+                    //         courseCode: req.body.courseCode,
+                    //         courseMedia: newMedia
+                    //     }
+                    // });
+                    //    console.log("uploaded")
+                } else {
+                    res.status(406).json({
+                        response: 'Only PDF, Word and MP4 files are acceptable.'
+                    })
+                }
+
+            }
+        } else {
+            console.log("token expired/ not authenticated")
+            res.status(406).json({ response: 'Not Authenticated' })
+        }
+    } catch (err) {
+        console.log("error", err);
+        res.status(406).send(err);
+    }
 };
 
 const deleteCourseMedia = async (req, res) => {
@@ -531,7 +570,7 @@ const deleteCourseMedia = async (req, res) => {
             if (!checkFiles) {
                 console.log('no file found')
                 res.status(406).json({
-                    response: false,
+
                     msg: "No file found"
                 })
             } else {
@@ -548,7 +587,7 @@ const deleteCourseMedia = async (req, res) => {
                         res.status(406).json(err)
                     } else {
                         res.status(200).json({
-                            response: true,
+
                             msg: "Course media deleted",
                             courseMedia: checkFiles
                         })
@@ -576,7 +615,7 @@ const assignCourse = async (req, res) => {
         console.log(userVerify)
         if (userVerify && userVerify.role === 'Admin') {
 
-            var checkUser = await RegistrationSch.findOne({
+            var checkUser = await LearnerSch.findOne({
                 email: req.params.email
             });
 
@@ -587,30 +626,31 @@ const assignCourse = async (req, res) => {
             if (!checkUser) {
                 console.log('User email not found')
                 res.status(406).json({
-                    response: false,
+
                     msg: "User email not found"
                 })
-            } else if(!checkCourse) {
+            } else if (!checkCourse) {
                 console.log('Course code not found')
                 res.status(406).json({
-                    response: false,
+
                     msg: "Course code not found"
                 })
             } else {
-                var courseAccess = await RegistrationSch.findOne({$and: [{email: req.params.email}, {courseAccess: req.params.courseCode}]})
+                var courseAccess = await LearnerSch.findOne({ $and: [{ email: req.params.email }, { courseAccess: req.params.courseCode }] })
                 console.log(courseAccess)
-                if(courseAccess) {
+                if (courseAccess) {
                     res.status(406).json({
-                        response: false,
+
                         msg: "Course access already provided"
                     })
                 } else {
-                    RegistrationSch.findOneAndUpdate(checkUser, {$push: {courseAccess: req.params.courseCode}}, function (err, data) {
+
+                    LearnerSch.findOneAndUpdate(checkUser, { $push: { courseAccess: req.params.courseCode } }, function (err, data) {
                         if (err) {
                             res.status(406).json(err)
                         } else {
                             res.status(200).json({
-                                response: true,
+
                                 msg: "Course access provided",
                                 user: req.params.email,
                                 course: req.params.courseCode
@@ -618,7 +658,7 @@ const assignCourse = async (req, res) => {
                         }
                     })
                 }
-              
+
 
             }
         } else {
@@ -635,6 +675,277 @@ const assignCourse = async (req, res) => {
     }
 };
 
+const createCourseAssignment = async (req, res) => {
+    try {
+        const userVerify = await verifyToken(req, res);
+        var loginName = userVerify.name;
+        var role = userVerify.role;
+        console.log(userVerify)
+        console.log('user verify->', loginName, role)
+        if (userVerify && userVerify.role === 'Admin') {
+            // if (true) {
+            var checkExistingCourse = await CourseSch.findOne({ courseCode: req.body.courseCode });
+            console.log("vedfvefsdvedf", checkExistingCourse);
+            if (!checkExistingCourse) {
+                console.log("course code does not exist");
+                res.status(406).json({
+                    msg: "course code does not exist"
+                });
+            } else {
+
+                var assignmentMedia = null
+                if (req.files) {
+                    // console.log(req.files);
+                    // console.log("else");
+
+                    let mediaFile = req.files.file;
+                    // console.log(mediaFile);
+                    const mediaType = mediaFile.mimetype.split('/')[1];
+                    // console.log(mediaType);
+                    const fileTypes = ['pdf', 'mp4', 'doc', 'docx']
+                    if (fileTypes.includes(mediaType)) {
+
+
+                        assignmentCount = checkExistingCourse.assignment.length;
+                        console.log('assignmentCount', assignmentCount);
+                        // asg = checkExistingCourse.modules[0].moduleAssignment;
+                        // asg = asg[asg.length-1].assignmentMedia.mediaFileName
+                        // console.log(asg);
+                        var filetype = mediaFile.mimetype.split('/')[1];    //
+
+                        var saveFileName = `${req.body.courseCode}-asg-${assignmentCount + 1}.${filetype}`;
+
+                        assignmentMedia = {
+                            mediaFileName: saveFileName,
+                            mediaType: mediaType
+                        }
+
+                        mediaFile.mv(`./uploads/${req.body.courseCode}/` + saveFileName);
+
+                    } else {
+                        res.status(406).json({
+                            response: 'Only PDF, Word and MP4 files are acceptable.'
+                        })
+                    }
+
+                }
+                // CourseSch.findOneAndUpdate({ "courseCode": req.body.courseCode, "modules._id": req.body.moduleId }, {
+                CourseSch.findOneAndUpdate({ courseCode: req.body.courseCode }, {
+                    $push: {
+                        "assignment": {
+
+                            assignmentName: req.body.assignmentName,
+                            assignmentMedia: assignmentMedia,
+                            totalMarks: req.body.totalMarks,
+                            uploadedBy: req.body.uploadedBy,
+                            submitBefore: new Date(req.body.submissionDate),
+                            remarks: req.body.remarks
+                        }
+                    }
+                }, { new: true }, function (err, data) {
+                    if (err || !data) {
+                        console.log(err || data);
+                        res.status(406).json({
+                            error: err || data
+                        })
+                    } else {
+                        console.log(data, 'data');
+                        res.status(200).json({
+                            msg: "Module Assignment Created",
+                            course: data
+                        })
+                    }
+                });
+            }
+
+        } else {
+            console.log('Admin not verified');
+            res.status(406).json({
+                msg: "Admin not verified"
+            })
+        }
+
+    } catch (err) {
+        console.log(err);
+        res.status(406).json({
+            msg: err.toString()
+        })
+    }
+};
+
+const createModule = async (req, res) => {
+    try {
+        const userVerify = await verifyToken(req, res);
+        var loginName = userVerify.name;
+        var role = userVerify.role;
+        console.log(userVerify)
+        console.log('user verify->', loginName, role)
+        if (userVerify && userVerify.role === 'Admin') {
+            // if (true) {
+            var checkExistingCourse = await CourseSch.findOne({ courseCode: req.body.courseCode });
+            // console.log("vedfvefsdvedf", checkExistingCourse);
+            if (!checkExistingCourse) {
+                console.log("course code does not exist");
+                res.status(406).json({
+                    msg: "course code does not exist"
+                });
+            }
+            else {
+
+
+                checkModuleNameExists = checkExistingCourse.modules;
+                const isFound = checkModuleNameExists.some(moduleName => {
+                    if (moduleName.moduleName === req.body.moduleName) {
+                        return true;
+                    }
+                })
+                console.log(checkModuleNameExists);
+                // res.send('dfvfdv')
+                if (isFound) {
+
+                    res.status(406).json({
+                        msg: "Module name should be unique"
+                    })
+                } else {
+
+                    CourseSch.findOneAndUpdate({ courseCode: req.body.courseCode }, {
+                        $push: {
+                            modules: {
+
+                                moduleName: req.body.moduleName,
+                                moduleDuration: req.body.moduleDuration
+                            }
+                        }
+                    }, { new: true }, function (err, data) {
+                        if (err) {
+                            console.log(err);
+                            res.status(406).json({
+                                error: err
+                            })
+                        } else {
+                            // console.log(data);
+                            res.status(200).json({
+                                msg: "Module Created",
+                                course: data
+                            })
+                        }
+                    });
+                }
+            }
+
+        } else {
+            console.log('Admin not verified');
+            res.status(406).json({
+                msg: "Admin not verified"
+            })
+        }
+
+    } catch (err) {
+        console.log(err);
+        res.status(406).json({
+            msg: err.toString()
+        })
+    }
+};
+
+const createModuleAssignment = async (req, res) => {
+    try {
+        const userVerify = await verifyToken(req, res);
+        var loginName = userVerify.name;
+        var role = userVerify.role;
+        // console.log(userVerify)
+        // console.log('user verify->', loginName, role)
+        if (userVerify && userVerify.role === 'Admin') {
+            // if (true) {
+            var checkExistingCourse = await CourseSch.findOne({ courseCode: req.body.courseCode }, { modules: { $elemMatch: { _id: req.body.moduleId } } });
+
+            console.log("vedfvefsdvedf", checkExistingCourse.modules[0]);
+            if (!checkExistingCourse) {
+                console.log("module does not exist");
+                res.status(406).json({
+                    msg: "module does not exist"
+                });
+            } else {
+                var assignmentMedia = null
+                if (req.files) {
+                    // console.log(req.files);
+                    // console.log("else");
+
+                    let mediaFile = req.files.file;
+                    // console.log(mediaFile);
+                    const mediaType = mediaFile.mimetype.split('/')[1];
+                    // console.log(mediaType);
+                    const fileTypes = ['pdf', 'mp4', 'doc', 'docx']
+                    if (fileTypes.includes(mediaType)) {
+
+
+                        assignmentCount = checkExistingCourse.modules[0].moduleAssignment.length;
+                        console.log('assignmentCount', assignmentCount);
+
+
+                        var filetype = mediaFile.mimetype.split('/')[1];    //
+
+                        var saveFileName = `${req.body.moduleId}-asg-${assignmentCount + 1}.${filetype}`;
+
+                        assignmentMedia = {
+                            mediaFileName: saveFileName,
+                            mediaType: mediaType
+                        }
+                        var moduleName = checkExistingCourse.modules[0].moduleName.replace(" ", "")
+                        mediaFile.mv(`./uploads/${req.body.courseCode}/${moduleName}/` + saveFileName);
+
+                    } else {
+                        res.status(406).json({
+                            response: 'Only PDF, Word and MP4 files are acceptable.'
+                        })
+                    }
+
+                }
+                // CourseSch.findOneAndUpdate({ "courseCode": req.body.courseCode, "modules._id": req.body.moduleId }, {
+                CourseSch.findOneAndUpdate({ courseCode: req.body.courseCode, modules: { $elemMatch: { _id: req.body.moduleId } } }, {
+                    $push: {
+                        "modules.$.moduleAssignment": {
+
+                            assignmentName: req.body.assignmentName,
+                            assignmentMedia: assignmentMedia,
+                            totalMarks: req.body.totalMarks,
+                            uploadedBy: req.body.uploadedBy,
+                            submitBefore: new Date(req.body.submissionDate),
+                            remarks: req.body.remarks
+                        }
+                    }
+                }, { new: true }, function (err, data) {
+                    if (err || !data) {
+                        console.log(err || data);
+                        res.status(406).json({
+                            error: err || data
+                        })
+                    } else {
+                        console.log(data, 'data');
+                        res.status(200).json({
+                            msg: "Module Assignment Created",
+                            course: data
+                        })
+                    }
+                });
+
+            }
+
+        } else {
+            console.log('Admin not verified');
+            res.status(406).json({
+                msg: "Admin not verified"
+            })
+        }
+
+    } catch (err) {
+        console.log(err);
+        res.status(406).json({
+            msg: err.toString()
+        })
+    }
+};
+
 module.exports = {
     signIn,
     memberRegister,
@@ -644,7 +955,10 @@ module.exports = {
     createCourse,
     updateCourse,
     deleteCourse,
-    uploadCourseMedia,
+    uploadModuleMedia,
     deleteCourseMedia,
-    assignCourse
+    assignCourse,
+    createCourseAssignment,
+    createModule,
+    createModuleAssignment
 }

@@ -18,7 +18,8 @@ router.use(morgan("dev"));
 const adminCtrl = require('../Controllers/adminController');
 
 router.post('/sign-in', adminCtrl.signIn);
-router.post('/update-course/:code', adminCtrl.updateCourse);
+
+// router.post('/update-course/:code', adminCtrl.updateCourse);
 
 router.post('/member-register', adminCtrl.memberRegister);
 
@@ -30,14 +31,20 @@ router.get('/get-all-learners', adminCtrl.getAllLearners);
 
 router.post('/create-course', adminCtrl.createCourse);
 
-router.post('/update-course/:code', adminCtrl.updateCourse);
+// router.post('/update-course/:code', adminCtrl.updateCourse);
 
-router.post('/delete-course/:code', adminCtrl.deleteCourse);
+// router.post('/delete-course/:code', adminCtrl.deleteCourse);
 
-router.post('/upload-course-media', adminCtrl.uploadCourseMedia);
+router.post('/upload-module-media', adminCtrl.uploadModuleMedia);
 
-router.post('/delete-course-media/:courseCode/:mediaName', adminCtrl.deleteCourseMedia);
+// router.post('/delete-course-media/:courseCode/:mediaName', adminCtrl.deleteCourseMedia);
 
 router.post('/assign-course/:courseCode/:email', adminCtrl.assignCourse);
+
+router.post('/course-assignment', adminCtrl.createCourseAssignment);
+
+router.post('/module', adminCtrl.createModule);
+
+router.post('/module-assignment', adminCtrl.createModuleAssignment);
 
 module.exports = router;

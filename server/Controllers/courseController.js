@@ -4,9 +4,9 @@
 
 const mongoose = require('mongoose');
 
-const RegistrationSch = mongoose.model('Registration');
+const LearnerSch = mongoose.model('Learner');
 const CourseSch = mongoose.model('Courses');
-const CourseMediaSch = mongoose.model('CourseMedia');
+// const CourseMediaSch = mongoose.model('CourseMedia');
 
 const { generateToken, verifyToken } = require('./jwt');
 
@@ -77,7 +77,7 @@ const getCourseByCourseCode = async (req, res) => {
                     console.log(checkExistingCourse);
                     res.status(200).json({
                         response: true,
-                        msg: "Course found",
+                        msg: 'Course found',
                         course: checkExistingCourse
                         // courseCode: data.courseCode
                     })
@@ -108,7 +108,7 @@ const getCourseByCourseCode = async (req, res) => {
     }
 };
 
-const getCourseByCurseName = async (req, res) => {
+const getCourseByCourseName = async (req, res) => {
     try {
         if (req.body.courseName) {
             console.log('aaaaaa');
@@ -130,7 +130,7 @@ const getCourseByCurseName = async (req, res) => {
                     console.log(checkExistingCourse);
                     res.status(200).json({
                         response: true,
-                        msg: "Course found",
+                        msg: `Course found: ${checkExistingCourse.length}`,
                         course: checkExistingCourse
                         // courseCode: data.courseCode
                     })
@@ -183,7 +183,7 @@ const getCourseByCategory = async (req, res) => {
                     console.log(checkExistingCourse);
                     res.status(200).json({
                         response: true,
-                        msg: "Course found",
+                        msg: `Course found: ${checkExistingCourse.length}`,
                         course: checkExistingCourse
                         // courseCode: data.courseCode
                     })
@@ -213,19 +213,68 @@ const getCourseByCategory = async (req, res) => {
         })
     }
 };
+const getCourseBySubCategory = async (req, res) => {
+    try {
+        if (req.body.courseSubCategory) {
+            console.log('aaaaaa');
+            const userVerify = await verifyToken(req, res);
+            var loginName = userVerify.name;
+            var role = userVerify.role;
+            console.log(userVerify)
+            console.log('user verify->', loginName, role)
+            if (userVerify) {
+                var checkExistingCourse = await CourseSch.find({ courseSubCategory: req.body.courseSubCategory });
+                console.log("vedfvefsdvedf", checkExistingCourse);
+                if (!checkExistingCourse.length) {
+                    console.log("no course exist");
+                    res.status(406).json({
+                        msg: "No course exist with given course sub category"
+                    });
+                } else {
 
-const getCourseMedia = async (req, res) => {
+                    console.log(checkExistingCourse);
+                    res.status(200).json({
+                        response: true,
+                        msg: `Course found: ${checkExistingCourse.length}`,
+                        course: checkExistingCourse
+                        // courseCode: data.courseCode
+                    })
+
+                }
+
+
+
+            } else {
+                console.log('User not verified');
+                res.status(406).json({
+                    response: "User not verified"
+                })
+            }
+        } else {
+            console.log('Invalid input')
+            res.json({
+                msg: "Invalid Input"
+            })
+        }
+
+
+    } catch (err) {
+        console.log(err);
+        res.status(406).json({
+            msg: err.toString()
+        })
+    }
+};
+const getModuleMedia = async (req, res) => {
 
     try {
         const userVerify = await verifyToken(req, res);
         console.log(userVerify)
         if (userVerify) {
 
-            var checkFiles = await CourseMediaSch.find({
-                courseCode: req.params.courseCode
-            });
-
-            if (!checkFiles.length) {
+            var checkFiles = await CourseSch.find({ courseCode: req.params.courseCode }, { modules: { $elemMatch: { _id: req.params.moduleId } } });
+            console.log(checkFiles[0].modules[0].moduleMedia);
+            if (!checkFiles[0].modules[0].moduleMedia.length) {
                 res.status(406).json({
                     response: false,
                     msg: "No file found"
@@ -235,7 +284,7 @@ const getCourseMedia = async (req, res) => {
                 res.status(200).json({
                     response: true,
                     msg: "Course media found",
-                    courseMedia: checkFiles
+                    courseMedia: checkFiles[0].modules[0].moduleMedia
                 })
             }
         } else {
@@ -259,7 +308,7 @@ const assignedCourses = async (req, res) => {
         console.log(userVerify)
         if (userVerify) {
 
-            var checkCourses = await RegistrationSch.findOne({
+            var checkCourses = await LearnerSch.findOne({
                 email: req.body.email
             });
             console.log(checkCourses);
@@ -302,8 +351,9 @@ module.exports = {
 
     allCourses,
     getCourseByCourseCode,
-    getCourseByCurseName,
+    getCourseByCourseName,
     getCourseByCategory,
-    getCourseMedia,
+    getCourseBySubCategory,
+    getModuleMedia,
     assignedCourses
 }

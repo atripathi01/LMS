@@ -1,62 +1,30 @@
 const mongoose = require('mongoose');
 
-var courseSchema = new mongoose.Schema({
-    courseCategory: {
-        type: String
-    },
-    courseName: {
-        type: String
-    },
-    courseCode: {
-        type: String,
-        unique: true
-    },
-    courseDescription: {
-        type: String
-    },
-    courseCreationTime: {
-        type: Date
-    },
-    lastUpdateTime: {
-        type: Date
-    },
-    courseDuration: {
-        type: String
-    }
+const assgSchemas = require('./assignmentSchema');
 
-})
+const mediaFileSchema = require('./mediaFileSchema')
 
-// var courseCategorySchema = new mongoose.Schema({
-//     courseCategory: {
-//         type: String
-//     },
-//     courseSubCategory: {
-//         type: String
-//     },
-//     courseCodePrefix: {
-//         type: String,
-//         unique: true
-//     },
-//     lastIndex: {
-//         type: Number,
-//         default: 0
-//     }
-   
-// });
-
-var courseMediaSchema = new mongoose.Schema({
-    mediaFileName: {
-        type: String
-    },
-    courseCode: {
-        type: String
-        // unique: true
-    },
-    mediaTitle: {type:String},
-    mediaDescription: { type: String },
-    mediaType: { type: String }
+var moduleSchema = new mongoose.Schema({
+    moduleSerial: { type: String },
+    moduleName: { type: String },
+    moduleDuration: { type: String },
+    moduleAssignment: [assgSchemas.assignmentSchema],
+    moduleMedia: [mediaFileSchema]
 });
 
+var courseSchema = new mongoose.Schema({
+    courseCategory: { type: String },
+    subCategory: { type: String },
+    courseName: { type: String },
+    courseCode: { type: String },
+    hierarchy: { type: String, default: 'General' },
+    courseDescription: { type: String },
+    courseCreationTime: { type: Date, default: Date.now() },
+    courseDuration: { type: String },
+    modules: [moduleSchema],
+    assignment: [assgSchemas.assignmentSchema]
+
+}, { collection: 'courses' });
+
 mongoose.model('Courses', courseSchema);
-// mongoose.model('CourseCategory', courseCategorySchema); 
-mongoose.model('CourseMedia', courseMediaSchema); 
+

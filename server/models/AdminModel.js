@@ -8,7 +8,7 @@ var adminSchema = new mongoose.Schema({
 	registrationDate : {type: Date},
 	role : {type: String}
 
-});
+}, {collection: 'members'});
 
 
 const Admin = new mongoose.model('Admin', adminSchema);

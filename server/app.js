@@ -16,9 +16,11 @@ app.use(cookieParser());
 const adminRouter = require('./Routers/adminRouter');
 const routers = require('./Routers/routers');
 const courseRouter = require('./Routers/courseRouter');
+const assignmentRouter = require('./Routers/assignmentRouter');
 
 app.use('/admin', adminRouter);
 app.use('/course', courseRouter);
+app.use('/assignment', assignmentRouter);
 app.use('/', routers);
 
 const directory = path.join(__dirname, '/uploads');
@@ -32,3 +34,10 @@ app.listen(port, (error)=>{
     }
     console.log(`Server is up on ${port}`);
 })
+
+// var mongoUtil = require( './models/db' );
+
+// mongoUtil.connectToServer( function( err, client ) {
+//   if (err) console.log(err);
+//   // start the rest of your app here
+// } );

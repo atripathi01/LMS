@@ -1,7 +1,7 @@
 
 const mongoose = require('mongoose');
 
-const RegistrationSch = mongoose.model('Registration');
+const LearnerSch = mongoose.model('Learner');
 
 const { hashPassword, comparePassword } = require('./hashed')
 const { generateToken, verifyToken } = require('./jwt');
@@ -23,7 +23,7 @@ const signIn = async (req, res) => {
     try {
         if (req.body.email && req.body.password) {
 
-            var checkExistingUser = await RegistrationSch.findOne({
+            var checkExistingUser = await LearnerSch.findOne({
                 email: req.body.email
             });
             if (checkExistingUser) {
