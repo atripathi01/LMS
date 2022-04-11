@@ -113,7 +113,6 @@ const uploadAssignmentSolution = async (req, res) => {
     }
 };
 
-
 const viewAssignmentLearner = async (req, res) => {
     try {
         const userVerify = await verifyToken(req, res);
@@ -189,9 +188,9 @@ const viewAllAssignments = async (req, res) => {
                 // console.log(checkAssignments)
                 var allAssignments = []
                 checkAssignments.forEach(elements => {
-                    console.log("elements",elements.name);
+                    console.log("elements", elements.name);
                     let data = []
-                    elements.assessment.forEach(assg=>{
+                    elements.assessment.forEach(assg => {
                         // console.log(assg);
                         if (assg.courseCode == req.body.courseCode && assg.moduleId == req.body.moduleId && assg.assignmentId == req.body.assignmentId) {
                             console.log('found');
@@ -199,27 +198,27 @@ const viewAllAssignments = async (req, res) => {
                             data.push(...assg.assessmentUploads)
                         }
                     })
-                    if(data.length){
+                    if (data.length) {
 
                         allAssignments.push({
-                            uploadedById:elements._id,
-                            uploadedByName:elements.name,
-                            assessmentUploads:data
+                            uploadedById: elements._id,
+                            uploadedByName: elements.name,
+                            assessmentUploads: data
                         })
                     }
-                    
+
                 })
- 
+
                 // checkAssignments.forEach(elements => {
                 //     console.log("elements",elements);
-                    
+
                 //     elements.assessment.forEach(assg=>{
                 //         // console.log(assg);
                 //         if (assg.courseCode == req.body.courseCode && assg.moduleId == req.body.moduleId && assg.assignmentId == req.body.assignmentId) {
                 //             allAssignments.push(assg)
                 //         }
                 //     })
-                    
+
                 // })
 
 
@@ -250,8 +249,63 @@ const viewAllAssignments = async (req, res) => {
     }
 }
 
+const assignMarks = async (req, res) => {
+    try {
+        const userVerify = await verifyToken(req, res);
+        var loginName = userVerify.name;
+        var role = userVerify.role;
+
+        console.log('user verify->', loginName, role)
+        if (userVerify && userVerify.role === 'Trainer') {
+
+
+            var assessment = await LearnerSch.findOneAndUpdate({
+                _id: req.body.learnerId, "assessment.assignmentId": req.body.assignmentId
+            }, {
+                $set: {
+                    "assessment.$.marksObtained": req.body.marks,
+                    "assessment.$.trainerFeedback": req.body.trainerFeedback ? req.body.trainerFeedback : "None"
+                }
+            }, {
+                select:
+                {
+                    assessment: {
+                        $elemMatch: {
+                            courseCode: req.body.courseCode,
+                            moduleId: req.body.moduleId,
+                            assignmentId: req.body.assignmentId
+                        }
+                    }
+                }
+
+            })
+            console.log(assessment);
+                if (assessment) {
+                    res.status(200).json({
+                        data: assessment
+                    });
+                } else {
+                    res.status(406).json({
+                        error: err
+                    });
+                }
+            
+        } else {
+            res.status(406).json({
+                msg: "User unauthorized"
+            })
+        }
+    } catch (err) {
+        console.log("error: ", err);
+        res.status(406).json({
+            msg: `error: ${err}`
+        })
+    }
+}
+
 module.exports = {
     uploadAssignmentSolution,
     viewAssignmentLearner,
-    viewAllAssignments
+    viewAllAssignments,
+    assignMarks
 }

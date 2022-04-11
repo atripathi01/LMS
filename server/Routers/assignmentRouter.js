@@ -23,5 +23,7 @@ router.post('/view-my', assgCtrl.viewAssignmentLearner);
 
 router.post('/view-all', assgCtrl.viewAllAssignments);
 
+router.post('/marks', assgCtrl.assignMarks)
+
 
 module.exports = router;
