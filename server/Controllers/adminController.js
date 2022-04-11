@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 // const conn = require('../models/db')
 const LearnerSch = mongoose.model('Learner');
 const TrainerSch = mongoose.model('Trainer');
-const mediaFileSchema = require('../models/mediaFileSchema')
+const MemberSch = mongoose.model('Member');
 // const MemberSch = mongoose.model('members')
 const CourseSch = mongoose.model('Courses');
 // const CourseMediaSch = mongoose.model('CourseMedia');
@@ -17,7 +17,7 @@ const signIn = async (req, res) => {
     try {
         if (req.body.email && req.body.password) {
 
-            var checkAdmin = await LearnerSch.findOne({
+            var checkAdmin = await MemberSch.findOne({
                 $and: [{
                     email: req.body.email
                 },
@@ -70,7 +70,7 @@ const memberRegister = async (req, res) => {
         console.log('user verify->', loginName, role)
         if (userVerify && userVerify.role === 'Admin') {
             if (req.body.email) {
-                var checkExistingUser = await LearnerSch.findOne({
+                var checkExistingUser = await MemberSch.findOne({
                     email: req.body.email
                 });
 
@@ -153,7 +153,7 @@ const getAllMembers = async (req, res) => {
             // console.log(conn.connection.json());
             // console.log(conn.connections.json());
             // var checkExistingUser = await conn.collection('members')
-            var checkExistingUser = await LearnerSch.find({ role: { $ne: 'Admin' } });
+            var checkExistingUser = await MemberSch.find({ role: { $ne: 'Admin' } });
 
 
             if (!checkExistingUser.length) {
@@ -615,7 +615,7 @@ const assignCourse = async (req, res) => {
         console.log(userVerify)
         if (userVerify && userVerify.role === 'Admin') {
 
-            var checkUser = await LearnerSch.findOne({
+            var checkUser = await MemberSch.findOne({
                 email: req.body.email
             });
 

@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 
-const assgSchemas =  require('./assignmentSchema')
+const assgSchemas = require('./assignmentSchema')
 
 var courseAccessSchema = new mongoose.Schema({
-    courseCode:{type:String},
-    accessTill:{type:Date}
+    courseCode: { type: String },
+    accessTill: { type: Date }
 });
 
 var learnerSchema = new mongoose.Schema({
@@ -27,5 +27,13 @@ var trainerSchema = new mongoose.Schema({
     role: { type: String }
 }, { collection: 'members' });
 
+var memberSchema = new mongoose.Schema({
+    name: { type: String },
+    email: { type: String, unique: true },
+    password: { type: String },
+    role: { type: String }
+}, { collection: 'members' })
+
 mongoose.model('Learner', learnerSchema);
-mongoose.model('Trainer', trainerSchema)
+mongoose.model('Trainer', trainerSchema);
+mongoose.model('Member', memberSchema)

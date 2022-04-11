@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 
 const LearnerSch = mongoose.model('Learner');
 const CourseSch = mongoose.model('Courses');
-// const CourseMediaSch = mongoose.model('CourseMedia');
+const MemberSch = mongoose.model('Member');
 
 const { generateToken, verifyToken } = require('./jwt');
 

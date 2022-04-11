@@ -5,6 +5,8 @@ const mongoose = require('mongoose');
 // const conn = require('../models/db')
 const LearnerSch = mongoose.model('Learner');
 const TrainerSch = mongoose.model('Trainer');
+const MemberSch = mongoose.model('Member');
+
 const mediaFileSchema = require('../models/mediaFileSchema')
 // const MemberSch = mongoose.model('members')
 const CourseSch = mongoose.model('Courses');
