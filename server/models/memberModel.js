@@ -14,7 +14,7 @@ var learnerSchema = new mongoose.Schema({
     registrationDate: { type: Date },
     role: { type: String },
     courseAccess: [courseAccessSchema],
-    assesment: [assgSchemas.assesmentSchema]
+    assessment: [assgSchemas.assessmentSchema]
 }, { collection: 'members' });
 
 

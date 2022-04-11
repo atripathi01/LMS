@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
 const mediaFileSchema = require('./mediaFileSchema')
 
-var assesmentSchema = new mongoose.Schema({
+var assessmentSchema = new mongoose.Schema({
     courseCode: { type: String },
     moduleId: { type: String },
     assignmentId: { type: String },
-    assesmentUploads: [mediaFileSchema],
+    assessmentUploads: [mediaFileSchema],
     marksObtained: { type: Number },
     submittedBy:{type:String},
     learnerComments: { type: String },
@@ -22,4 +22,4 @@ var assignmentSchema = new mongoose.Schema({
     remarks: { type: String }
 });
 
-module.exports = { assesmentSchema, assignmentSchema }
+module.exports = { assessmentSchema, assignmentSchema }

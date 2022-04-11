@@ -18,8 +18,10 @@ router.use(morgan("dev"));
 const assgCtrl = require('../Controllers/assignemntController');
 
 router.post('/upload', assgCtrl.uploadAssignmentSolution);
-router.post('/upload-multi', assgCtrl.uploadMultiFileSolution);
-// router.get('/view', assgCtrl.viewAssignment);
+
+router.post('/view-my', assgCtrl.viewAssignmentLearner);
+
+router.post('/view-all', assgCtrl.viewAllAssignments);
 
 
 module.exports = router;

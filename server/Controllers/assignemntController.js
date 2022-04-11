@@ -39,14 +39,14 @@ const uploadAssignmentSolution = async (req, res) => {
                     console.log("sfvgf", getModule);
                     var moduleName = getModule.modules[0].moduleName;
 
-                    
+
 
                     let allFiles = [];
                     uploadedFiles = req.files.file;
                     if (uploadedFiles.length) {
                         uploadedFiles.forEach(key => {
                             let mediaFile = key;
-                            mediaFile.mv(`./assesments/${req.body.courseCode}/${moduleName}/${req.body.assignmentId}/${userVerify.id}/` + mediaFile.name);
+                            mediaFile.mv(`./assessments/${req.body.courseCode}/${moduleName}/${req.body.assignmentId}/${userVerify.id}/` + mediaFile.name);
 
                             let mediaType = mediaFile.name.split(".")[1];
                             allFiles.push({
@@ -56,7 +56,7 @@ const uploadAssignmentSolution = async (req, res) => {
                         })
                     } else {
                         let mediaFile = req.files.file;
-                        mediaFile.mv(`./assesments/${req.body.courseCode}/${moduleName}/${req.body.assignmentId}/${userVerify.id}/` + mediaFile.name);
+                        mediaFile.mv(`./assessments/${req.body.courseCode}/${moduleName}/${req.body.assignmentId}/${userVerify.id}/` + mediaFile.name);
                         let mediaType = mediaFile.name.split(".")[1];
                         allFiles.push({
                             mediaFileName: mediaFile.name,
@@ -64,11 +64,11 @@ const uploadAssignmentSolution = async (req, res) => {
                         })
                     }
 
-                    var assesment = {
+                    var assessment = {
                         courseCode: req.body.courseCode,
                         moduleId: req.body.moduleId,
                         assignmentId: req.body.assignmentId,
-                        assesmentUploads: allFiles,
+                        assessmentUploads: allFiles,
                         submittedBy: userVerify.id,
                         learnerComments: req.body.comments
                     }
@@ -80,7 +80,7 @@ const uploadAssignmentSolution = async (req, res) => {
                 LearnerSch.findOneAndUpdate({ "_id": userVerify.id }, {
                     // CourseSch.findOneAndUpdate({ courseCode: req.body.courseCode }, {
                     $push: {
-                        "assesment": assesment
+                        "assessment": assessment
                     }
                 }, { new: true }, function (err, data) {
                     if (err || !data) {
@@ -112,51 +112,146 @@ const uploadAssignmentSolution = async (req, res) => {
         });
     }
 };
-const uploadMultiFileSolution = async (req, res) => {
+
+
+const viewAssignmentLearner = async (req, res) => {
     try {
-        if (!req.files) {
-            res.send({
-                status: false,
-                message: 'No file uploaded'
-            });
-        } else {
+        const userVerify = await verifyToken(req, res);
+        var loginName = userVerify.name;
+        var role = userVerify.role;
 
+        console.log('user verify->', loginName, role)
+        if (userVerify) {
 
-            let allFiles = [];
-            uploadedFiles = req.files.photos;
-            if (uploadedFiles.length) {
-                uploadedFiles.forEach(key => {
-                    let photo = key;
-                    photo.mv('./uploads/' + photo.name);
-
-                    allFiles.push({
-                        name: photo.name,
-                        mimetype: photo.mimetype,
-                        size: photo.size
-                    });
+            var checkAssignments = await LearnerSch.findOne({ _id: userVerify.id });
+            checkAssignments = checkAssignments.assessment
+            // console.log(checkAssignments);
+            if (!checkAssignments.length) {
+                res.status(406).json({
+                    msg: "No assignments found."
                 })
             } else {
-                let photo = req.files.photos;
-                photo.mv('./uploads/' + photo.name);
-
-                allFiles.push({
-                    name: photo.name,
-                    mimetype: photo.mimetype,
-                    size: photo.size
+                // console.log(checkAssignments)
+                var myAssignments = checkAssignments.filter(ele => {
+                    console.log(ele);
+                    return (ele.courseCode == req.body.courseCode && ele.moduleId == req.body.moduleId && ele.assignmentId == req.body.assignmentId)
                 })
+                if (!checkAssignments.length) {
+                    res.status(406).json({
+                        msg: "No assignments for this assignment id found."
+                    })
+                } else {
+                    console.log(myAssignments);
+                    res.status(200).json(myAssignments);
+                }
             }
-            res.send({
-                status: true,
-                message: 'Files are uploaded',
-                data: allFiles
-            });
+
+        } else {
+            console.log('Member not verified');
+            res.status(406).json({
+                response: "Member not verified"
+            })
         }
+
     } catch (err) {
-        console.log("error", err);
-        res.status(406).send(err);
+        console.log(err);
+        res.status(406).json({
+            msg: err.toString()
+        })
     }
-};
+}
+
+const viewAllAssignments = async (req, res) => {
+    try {
+        const userVerify = await verifyToken(req, res);
+        var loginName = userVerify.name;
+        var role = userVerify.role;
+
+        console.log('user verify->', loginName, role)
+        if (userVerify) {
+
+            var checkAssignments = await LearnerSch.find({
+                assessment: {
+                    $elemMatch: {
+                        courseCode: req.body.courseCode,
+                        moduleId: req.body.moduleId,
+                        assignmentId: req.body.assignmentId
+                    }
+                }
+            });
+
+
+            if (!checkAssignments.length) {
+                res.status(406).json({
+                    msg: "No assignments found."
+                })
+            } else {
+                // console.log(checkAssignments)
+                var allAssignments = []
+                checkAssignments.forEach(elements => {
+                    console.log("elements",elements.name);
+                    let data = []
+                    elements.assessment.forEach(assg=>{
+                        // console.log(assg);
+                        if (assg.courseCode == req.body.courseCode && assg.moduleId == req.body.moduleId && assg.assignmentId == req.body.assignmentId) {
+                            console.log('found');
+                            console.log(assg.assessmentUploads);
+                            data.push(...assg.assessmentUploads)
+                        }
+                    })
+                    if(data.length){
+
+                        allAssignments.push({
+                            uploadedById:elements._id,
+                            uploadedByName:elements.name,
+                            assessmentUploads:data
+                        })
+                    }
+                    
+                })
+ 
+                // checkAssignments.forEach(elements => {
+                //     console.log("elements",elements);
+                    
+                //     elements.assessment.forEach(assg=>{
+                //         // console.log(assg);
+                //         if (assg.courseCode == req.body.courseCode && assg.moduleId == req.body.moduleId && assg.assignmentId == req.body.assignmentId) {
+                //             allAssignments.push(assg)
+                //         }
+                //     })
+                    
+                // })
+
+
+
+                // console.log(allAssignments);
+                if (!checkAssignments.length) {
+                    res.status(406).json({
+                        msg: "No assignments for this assignment id found."
+                    })
+                } else {
+                    // console.log(myAssignments);
+                    res.status(200).json(allAssignments);
+                }
+            }
+
+        } else {
+            console.log('Member not verified');
+            res.status(406).json({
+                response: "Member not verified"
+            })
+        }
+
+    } catch (err) {
+        console.log(err);
+        res.status(406).json({
+            msg: err.toString()
+        })
+    }
+}
+
 module.exports = {
     uploadAssignmentSolution,
-    uploadMultiFileSolution
+    viewAssignmentLearner,
+    viewAllAssignments
 }
