@@ -15,6 +15,6 @@ router.post('/get-by-sub-category', courseCtrl.getCourseBySubCategory);
 
 router.get('/module-media/:courseCode/:moduleId', courseCtrl.getModuleMedia);
 
-// router.get('/assigned', courseCtrl.assignedCourses);
+router.get('/assigned', courseCtrl.assignedCourses);
 
 module.exports = router;

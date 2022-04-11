@@ -21,7 +21,7 @@ const uploadAssignmentSolution = async (req, res) => {
         console.log(userVerify)
         console.log('user verify->', loginName, role)
         if (userVerify && userVerify.role === 'Learner') {
-console.log(req.body);
+            console.log(req.body);
 
             var checkExistingCourse = await CourseSch.findOne({ courseCode: req.body.courseCode, "modules._id": req.body.moduleId, "modules.moduleAssignment._id": req.body.assignmentId });
             console.log("vedfvefsdvedf", checkExistingCourse);
@@ -32,52 +32,53 @@ console.log(req.body);
                 });
             } else {
 
-                var assignmentMedia = null
+                // var assignmentMedia = null
                 if (req.files) {
-                    console.log(req.files);
-                    console.log("else");
 
-                    let mediaFile = req.files.file;
-                    // console.log(mediaFile);
-                    // const mediaType = mediaFile.mimetype.split('/')[1];
-                    var mediaType = mediaFile.name.split('.')[1]
-                    console.log(mediaType);
-                    // console.log(mediaType);
-                    const fileTypes = ['pdf', 'txt', 'mp4', 'doc', 'docx', 'js', 'json', 'pptx', 'zip']
-                    if (fileTypes.includes(mediaType)) {
+                    var getModule = await CourseSch.findOne({ courseCode: req.body.courseCode }, { modules: { $elemMatch: { _id: req.body.moduleId } } });
+                    console.log("sfvgf", getModule);
+                    var moduleName = getModule.modules[0].moduleName;
 
-                        
-                        var getModule = await CourseSch.findOne({ courseCode: req.body.courseCode }, { modules: { $elemMatch: { _id: req.body.moduleId } } });
-                        console.log("sfvgf",getModule);        
-                        var moduleName = getModule.modules[0].moduleName; 
-                        
-                        assignmentMedia = {
+                    
+
+                    let allFiles = [];
+                    uploadedFiles = req.files.file;
+                    if (uploadedFiles.length) {
+                        uploadedFiles.forEach(key => {
+                            let mediaFile = key;
+                            mediaFile.mv(`./assesments/${req.body.courseCode}/${moduleName}/${req.body.assignmentId}/${userVerify.id}/` + mediaFile.name);
+
+                            let mediaType = mediaFile.name.split(".")[1];
+                            allFiles.push({
+                                mediaFileName: mediaFile.name,
+                                mediaType: mediaType
+                            });
+                        })
+                    } else {
+                        let mediaFile = req.files.file;
+                        mediaFile.mv(`./assesments/${req.body.courseCode}/${moduleName}/${req.body.assignmentId}/${userVerify.id}/` + mediaFile.name);
+                        let mediaType = mediaFile.name.split(".")[1];
+                        allFiles.push({
                             mediaFileName: mediaFile.name,
                             mediaType: mediaType
-                        }
-
-                        var assesment = {
-                            courseCode: req.body.courseCode,
-                            moduleId: req.body.moduleId,
-                            assignmentId: req.body.assignmentId,
-                            assesmentUploads: [assignmentMedia],
-                            submittedBy: userVerify.id,
-                            learnerComments: req.body.comments
-                        }
-
-                        mediaFile.mv(`./assesments/${req.body.courseCode}/${moduleName}/${req.body.assignmentId}/${userVerify.id}/` + mediaFile.name);
-                        // mediaFile.mv(`./assesments/` + saveFileName);
-
-                        // res.send('fv')
-                    } else {
-                        res.status(406).json({
-                            response: "File types acceptable: ['pdf', 'txt','mp4', 'doc', 'docx', 'js', 'json', 'pptx','zip']"
-                        });
+                        })
                     }
 
+                    var assesment = {
+                        courseCode: req.body.courseCode,
+                        moduleId: req.body.moduleId,
+                        assignmentId: req.body.assignmentId,
+                        assesmentUploads: allFiles,
+                        submittedBy: userVerify.id,
+                        learnerComments: req.body.comments
+                    }
+
+
+
+
                 }
-                LearnerSch.findOneAndUpdate({ "_id": userVerify.id}, {
-                // CourseSch.findOneAndUpdate({ courseCode: req.body.courseCode }, {
+                LearnerSch.findOneAndUpdate({ "_id": userVerify.id }, {
+                    // CourseSch.findOneAndUpdate({ courseCode: req.body.courseCode }, {
                     $push: {
                         "assesment": assesment
                     }
@@ -111,7 +112,51 @@ console.log(req.body);
         });
     }
 };
+const uploadMultiFileSolution = async (req, res) => {
+    try {
+        if (!req.files) {
+            res.send({
+                status: false,
+                message: 'No file uploaded'
+            });
+        } else {
 
+
+            let allFiles = [];
+            uploadedFiles = req.files.photos;
+            if (uploadedFiles.length) {
+                uploadedFiles.forEach(key => {
+                    let photo = key;
+                    photo.mv('./uploads/' + photo.name);
+
+                    allFiles.push({
+                        name: photo.name,
+                        mimetype: photo.mimetype,
+                        size: photo.size
+                    });
+                })
+            } else {
+                let photo = req.files.photos;
+                photo.mv('./uploads/' + photo.name);
+
+                allFiles.push({
+                    name: photo.name,
+                    mimetype: photo.mimetype,
+                    size: photo.size
+                })
+            }
+            res.send({
+                status: true,
+                message: 'Files are uploaded',
+                data: allFiles
+            });
+        }
+    } catch (err) {
+        console.log("error", err);
+        res.status(406).send(err);
+    }
+};
 module.exports = {
-    uploadAssignmentSolution
+    uploadAssignmentSolution,
+    uploadMultiFileSolution
 }

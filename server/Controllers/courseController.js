@@ -309,15 +309,10 @@ const assignedCourses = async (req, res) => {
         if (userVerify) {
 
             var checkCourses = await LearnerSch.findOne({
-                email: req.body.email
+                _id: userVerify.id
             });
             console.log(checkCourses);
-            if (!checkCourses) {
-                res.status(406).json({
-                    response: false,
-                    msg: "Invalid email"
-                })
-            } else {
+            
                 // console.log(che);
                 if(!checkCourses['courseAccess'].length) {
                     res.status(406).json({
@@ -327,12 +322,12 @@ const assignedCourses = async (req, res) => {
                 } else {
 
                     res.status(200).json({
-                        response: true,
                         msg: "Assigned courses found",
-                        assignedCourses: checkCourses
+                        assignedCourses: checkCourses.courseAccess
                     })
                 }
-            }
+            
+
         } else {
             res.status(406).json({
                 response: "Invalid token"

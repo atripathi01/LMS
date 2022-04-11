@@ -277,7 +277,7 @@ const createCourse = async (req, res) => {
                 const NewCourse = new CourseSch({
                     courseCategory: req.body.courseCategory,
                     courseName: req.body.courseName,
-                    subCategory:req.body.subCategory,
+                    subCategory: req.body.subCategory,
                     courseCode: req.body.courseCode,
                     hierarchy: req.body.hierarchy && req.body.hierarchy,
                     courseDescription: req.body.courseDescription,
@@ -616,11 +616,11 @@ const assignCourse = async (req, res) => {
         if (userVerify && userVerify.role === 'Admin') {
 
             var checkUser = await LearnerSch.findOne({
-                email: req.params.email
+                email: req.body.email
             });
 
             var checkCourse = await CourseSch.findOne({
-                courseCode: req.params.courseCode
+                courseCode: req.body.courseCode
             });
 
             if (!checkUser) {
@@ -636,7 +636,7 @@ const assignCourse = async (req, res) => {
                     msg: "Course code not found"
                 })
             } else {
-                var courseAccess = await LearnerSch.findOne({ $and: [{ email: req.params.email }, { courseAccess: req.params.courseCode }] })
+                var courseAccess = await LearnerSch.findOne({ $and: [{ email: req.body.email }, { courseAccess: { $elemMatch: { courseCode: req.body.courseCode } } }] })
                 console.log(courseAccess)
                 if (courseAccess) {
                     res.status(406).json({
@@ -644,21 +644,37 @@ const assignCourse = async (req, res) => {
                         msg: "Course access already provided"
                     })
                 } else {
+                    // function add_months(dt, n) {
 
-                    LearnerSch.findOneAndUpdate(checkUser, { $push: { courseAccess: req.params.courseCode } }, function (err, data) {
+                    //     return new Date(dt.setMonth(dt.getMonth() + n));
+                    // }
+
+                    // dt = new Date(Date.now());
+                    // console.log(dt);
+
+                    // dt = new Date(Date.now());
+                    // console.log(add_months(dt, 6));
+                    var dt = new Date(Date.now())
+                    dt = new Date(dt.setMonth(dt.getMonth()+6))
+                    var courseAccess = {
+                        courseCode: req.body.courseCode,
+                        accessTill: dt
+                    }
+
+                    LearnerSch.findOneAndUpdate({ email: req.body.email }, { $push: { courseAccess: courseAccess } }, function (err, data) {
                         if (err) {
                             res.status(406).json(err)
                         } else {
                             res.status(200).json({
 
                                 msg: "Course access provided",
-                                user: req.params.email,
-                                course: req.params.courseCode
+                                user: req.body.email,
+                                course: req.body.courseCode
                             })
                         }
+
                     })
                 }
-
 
             }
         } else {

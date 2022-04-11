@@ -39,7 +39,7 @@ router.post('/upload-module-media', adminCtrl.uploadModuleMedia);
 
 // router.post('/delete-course-media/:courseCode/:mediaName', adminCtrl.deleteCourseMedia);
 
-router.post('/assign-course/:courseCode/:email', adminCtrl.assignCourse);
+router.post('/assign-course', adminCtrl.assignCourse);
 
 router.post('/course-assignment', adminCtrl.createCourseAssignment);
 

@@ -24,7 +24,7 @@ app.use('/assignment', assignmentRouter);
 app.use('/', routers);
 
 const directory = path.join(__dirname, '/uploads');
-app.use('/uploads', express.static(directory));
+// app.use('/uploads', express.static(directory));
 
 const port = process.env.PORT;
 app.listen(port, (error)=>{
