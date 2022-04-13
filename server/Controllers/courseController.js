@@ -223,7 +223,7 @@ const getCourseBySubCategory = async (req, res) => {
             console.log(userVerify)
             console.log('user verify->', loginName, role)
             if (userVerify) {
-                var checkExistingCourse = await CourseSch.find({ courseSubCategory: req.body.courseSubCategory });
+                var checkExistingCourse = await CourseSch.find({ courseCategory: req.body.courseCategory,courseSubCategory: req.body.courseSubCategory });
                 console.log("vedfvefsdvedf", checkExistingCourse);
                 if (!checkExistingCourse.length) {
                     console.log("no course exist");
