@@ -3,6 +3,8 @@ const router = express.Router();
 
 const courseCtrl = require('../Controllers/courseController');
 
+router.get('/categories', courseCtrl.getCourseCategories)
+
 router.get('/all', courseCtrl.allCourses);
 
 router.post('/get-by-course-code', courseCtrl.getCourseByCourseCode);
