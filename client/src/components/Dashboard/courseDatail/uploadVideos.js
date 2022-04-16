@@ -6,6 +6,7 @@ import { useDropzone } from 'react-dropzone';
 import { useParams } from 'react-router-dom';
 import classes from './courseDetail.module.css';
 import axios from 'axios';
+import FileUploadIcon from '@mui/icons-material/FileUpload';
 
 /////////////////////////////////////////////////////////////////////////////
 //        Upload Video and PDF content on Course PopUp  Page               //
@@ -105,7 +106,7 @@ const UploadVideos = ({getAllMedia}) => {
     <div className={classes.uploadCont}>
       <div className={classes.lef}>
         <button className={classes.uplo} onClick={openModal}>
-          Upload content
+         <FileUploadIcon /> Upload
         </button>
       </div>
       <Modal

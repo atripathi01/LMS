@@ -10,3 +10,4 @@ export const UPLOAD_COURSES = '/dashboard/upload_course';
 export const COURSE_DETAIL = '/dashboard/:course_id';
 export const ADMIN = '/admin';
 export const ADMIN_LOGIN = '/admin_login';
+export const CALENDER='/dashboard/event_calender'

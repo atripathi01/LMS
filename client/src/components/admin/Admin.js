@@ -3,7 +3,9 @@ import classes from './admin.module.css';
 import axios from 'axios';
 import { selectUser } from '../../features/userSlice';
 import { useSelector } from 'react-redux';
-import { GET_LEARNER_LIST, MEMBER_REGISTER } from '../../constants/ApiPathContainer';
+import { ALL_COURSE, GET_LEARNER_LIST, MEMBER_REGISTER } from '../../constants/ApiPathContainer';
+import CreateAccountImg from '../images/createAc.png';
+import GiveAccessImg from '../images/access.png';
 
 const Admin = () => {
   ///////////////////////////////////////////////////////////////////
@@ -12,8 +14,18 @@ const Admin = () => {
 
   const user = useSelector(selectUser);
   const adminSection = {
-    createAccount: 'Create Account',
-    courseAccesses: 'Course Access',
+    createAccount: (
+        <div className={classes.item_A}>
+            <img src={CreateAccountImg}  className={classes.image_A} alt="create user account"></img>
+            <p className={classes.icon_title_A}>CREATE ACCOUNT</p>
+        </div>
+    ),
+    courseAccesses:(
+        <div className={classes.item_1}>
+            <img src={GiveAccessImg}  className={classes.image_A}  alt="give course access "></img>
+            <p className={classes.icon_title_A}>COURSE ACCESS</p>
+        </div>
+    ),
   };
   const [adminActive, setAdminActive] = useState(Object.keys(adminSection)[0]);
   const [userName, setUserName] = useState('');
@@ -56,7 +68,7 @@ const Admin = () => {
 
   async function fetchCourseList() {
     await axios
-      .get('/all-courses', {
+      .get(ALL_COURSE, {
         headers: {
           'Content-Type': 'application/json',
           accepts: 'application/json',
@@ -163,6 +175,7 @@ const Admin = () => {
         }).then(async(response)=>{
             const res = await response.json();
             console.log(res)
+            window.alert(res.msg);
         })
      }
   }

@@ -44,8 +44,8 @@ const CourseDetail = (props) => {
 
   function getAllMedia(){
        // GET api for fetching video and pdf of perticular course 
-    axios
-    .get(`/course-media/${course_id}`, {
+   fetch(`/course-media/${course_id}`, {
+       method:"GET",
       headers: {
         'content-type': 'multipart/form-data',
         authorization: `Bearer ${user.token}`,

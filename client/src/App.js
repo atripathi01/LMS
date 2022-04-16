@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import {
   ADMIN,
   ADMIN_LOGIN,
+  CALENDER,
   COURSE_DETAIL,
   DASH_BOARD,
   HOME_PATH,
@@ -21,9 +22,11 @@ import UploadCourse from './components/Dashboard/uploadCourses/UploadCourse';
 import Admin from './components/admin/Admin';
 import AdminLogin from './components/UserLogin/AdminLogin';
 import classes from './app.module.css';
-import dashImg from './components/images/dashboar.png';
-import courseImg from './components/images/course2.png';
+import dashImg from './components/images/dash1.png';
+import courseImg from './components/images/course-1.png';
 import helpImg from './components/images/help.png';
+import Assess from './components/images/asses.png';
+import CalendarPage from './components/Dashboard/calender/Calendar';
 
 function App() {
   // created role object
@@ -44,6 +47,12 @@ function App() {
       <div className={classes.NavIcon}>
         <img className={classes.imgFix} src={courseImg} alt='dashboardNavItem'></img>
         <p className={classes.fontSiz}>COURSES</p>{' '}
+      </div>
+    ),
+    assessment: (
+      <div className={classes.NavIcon}>
+        <img className={classes.imgFix} src={Assess} alt='dashboardNavItem'></img>
+        <p className={classes.fontSiz}>ASSESS.</p>{' '}
       </div>
     ),
     helpNsupport: (
@@ -73,6 +82,7 @@ function App() {
         <Route path={COURSE_DETAIL} element={<CourseDetail />}></Route>
         <Route path={UPLOAD_COURSES} element={<UploadCourse />}></Route>
         <Route path={ADMIN} element={<Admin />}></Route>
+        <Route path={CALENDER} element={<CalendarPage />}></Route>
       </Routes>
     </div>
   );

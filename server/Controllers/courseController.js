@@ -1,5 +1,3 @@
-
-
 //importing models
 
 const mongoose = require('mongoose');
@@ -305,22 +303,28 @@ const assignedCourses = async (req, res) => {
 
     try {
         const userVerify = await verifyToken(req, res);
-        console.log(userVerify)
+        console.log('userverify',userVerify)
         if (userVerify) {
 
             var checkCourses = await LearnerSch.findOne({
                 _id: userVerify.id
             });
-            console.log(checkCourses);
-            
-                // console.log(che);
+
+            console.log(checkCourses,"hhhhhh");
+            if (!checkCourses) {
+                res.status(406).json({
+                    response: false,
+                    msg: "Invalid email"
+                })
+            } else {
+                console.log('che');
                 if(!checkCourses['courseAccess'].length) {
                     res.status(406).json({
                         response: false,
                         msg: "No course is assigned"
                     });
                 } else {
-
+                            console.log('279', checkCourses);
                     res.status(200).json({
                         msg: "Assigned courses found",
                         assignedCourses: checkCourses.courseAccess
@@ -328,7 +332,7 @@ const assignedCourses = async (req, res) => {
                 }
             
 
-        } else {
+        }} else {
             res.status(406).json({
                 response: "Invalid token"
             })

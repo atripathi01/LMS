@@ -1,17 +1,18 @@
 .uplo {
-  background-color: #cf3b38;
+  background-color: #272624;
   color: #fff;
   font-size: 16px;
-  text-transform: uppercase;
-  padding: 0.5rem 0.8rem;
+  padding: 0.3rem 0.5rem;
   outline: none;
   border: none;
   border-radius: 3px;
   margin-top: 1rem;
   margin-right: 2rem;
+  top:6rem;
+  position: absolute;
 }
 .uplo:hover {
-  background-color: #272624;
+  background-color: #cf3b38;
 }
 
 .lef {

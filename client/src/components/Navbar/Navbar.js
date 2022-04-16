@@ -10,26 +10,26 @@ import {
 } from '../../constants/pathContainer';
 import { selectUser, logout } from '../../features/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import Avatar from '@mui/material/Avatar';
-import ava from '../images/useravatar.png';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import Drawer from '@mui/material/Drawer';
+import Box from '@mui/material/Box';
 
-////////////////////////////////////////////////////////////////////////////////////////////
-///               ------------------- NAVBAR PAGE----------------                        ///
-////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+// Navbar of DONO LMS
 
 const Navbar = () => {
   const dispatch = useDispatch();
-  const [open, setOpen]=useState(false);
+  const [open, setOpen] = useState(false);
+  const [notificationDrawer, setNotificationDrawer] = useState(false);
   // fetch user data from Redux
   const user = useSelector(selectUser);
 
   // Logout Function
   const handleLogout = (e) => {
-    // e.preventDefault();
     dispatch(logout());
-    // Navigate(HOME_PATH);
   };
 
   // set user data (name, role, roken) on windows.localstorage
@@ -82,13 +82,22 @@ const Navbar = () => {
                 </Link>
               </li>
             )}
-             {user.token ? (
+            {user.token ? (
               <li className={classes.items}>
-                  <Drawer>
-                  <NotificationsIcon />
-                      </Drawer>
-                      <NotificationsIcon />
-               
+                <NotificationsIcon
+                  onClick={() => setNotificationDrawer(true)}
+                />
+                <Drawer
+                  open={notificationDrawer}
+                  onClose={() => {
+                    setNotificationDrawer(false);
+                  }}
+                  anchor='right'
+                >
+                  <Box width='250px' padding='10px'>
+                    <h2>Notifications</h2>
+                  </Box>
+                </Drawer>
               </li>
             ) : (
               ''
@@ -98,11 +107,12 @@ const Navbar = () => {
             {user.token ? (
               <li className={classes.items}>
                 <div className={classes.profi}>
-                  {' '}
-                  <span className={classes.avat}>
-                    {' '}
-                    <Avatar src={ava} />
-                  </span>
+                  <div className={classes.boxProfi}>
+                    <div className={classes.firstLetter}>
+                      {user.name.charAt(0)}
+                    </div>
+                  </div>
+
                   <span className={classes.userName}>
                     {user.token && user.role === 'Admin' ? (
                       <Link to={ADMIN} className={classes.adminProfile}>
@@ -117,7 +127,6 @@ const Navbar = () => {
             ) : (
               ''
             )}
-           
           </ul>
         </div>
       </nav>

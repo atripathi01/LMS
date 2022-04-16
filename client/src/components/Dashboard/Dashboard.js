@@ -16,6 +16,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import Slide from '@mui/material/Slide';
 import folderImg from '../images/folder.svg';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
+import AddIcon from '@mui/icons-material/Add';
 import CalendarPage from './calender/Calendar';
 import Notificaton from './notification/Notificaton';
 import Dash from './dash/Dash';
@@ -42,6 +43,8 @@ const Dashboard = (props) => {
   const [courseTitle, setCourseTitle] = React.useState('');
   const [courseCategory, setCourseCategory] = React.useState('');
   const [description, setDescription] = React.useState('');
+  const [subCategory, setSubCategory] = React.useState('');
+  const [duration,setDuration]=React.useState('');
   const [activvDashboardSection, setActiveDashboardSection] = useState(
     Object.keys(dashboardSection)[0]
   );
@@ -103,7 +106,8 @@ const Dashboard = (props) => {
       courseCode === '' ||
       courseTitle === '' ||
       description === '' ||
-      courseCategory === ''
+      courseCategory === '' ||
+      subCategory === ''
     ) {
       window.alert('Please fill the blank field');
     } else {
@@ -112,8 +116,10 @@ const Dashboard = (props) => {
         courseName: courseTitle,
         description: description,
         courseCategory: courseCategory,
+        subCategory: subCategory,
       };
       console.log(courseData);
+      //   courseCategory, courseName, subCategory, courseCode(unique), courseDescription,courseDuration
 
       // api of create course folder
       fetch(CREATE_COURSE, {
@@ -156,7 +162,7 @@ const Dashboard = (props) => {
               variant='contained'
               onClick={handleClickOpen}
             >
-              Create Course Folder
+              <AddIcon /> Create Course
             </button>
           </div>
         ) : (
@@ -220,7 +226,8 @@ const Dashboard = (props) => {
                 <label className={classes.courNam}>Course Name*</label>
                 <br />
                 <input
-                  className={classes.courNamInput}
+                  //   className={classes.courNamInput}
+                  className={classes.codeInput}
                   fullWidth
                   required
                   autoFocus
@@ -237,7 +244,8 @@ const Dashboard = (props) => {
                 <br />
 
                 <TextareaAutosize
-                  className={classes.desInput}
+                  //   className={classes.desInput}
+                  className={classes.codeInput}
                   aria-label='minimum height'
                   minRows={10}
                   placeholder='Description of Course'
@@ -251,7 +259,8 @@ const Dashboard = (props) => {
                 <label className={classes.codeCate}>Course category*</label>
                 <br />
                 <select
-                  className={classes.cateInput}
+                  //   className={classes.cateInput}
+                  className={classes.codeInput}
                   required
                   autoFocus
                   value={courseCategory}
@@ -268,7 +277,39 @@ const Dashboard = (props) => {
                   <option>javascript</option>
                   <option>AI</option>
                 </select>
+                <br />
+                <label>Sub Category</label>
+                <br />
+                <select
+                  className={classes.subCateSelection}
+                  required
+                  autoFocus
+                  value={subCategory}
+                  onChange={(e) => {
+                    setSubCategory(e.target.value);
+
+                  }}
+                >
+                  <option>Rendom One</option>
+                  <option>Rendom Two</option>
+                  <option>Rendom Three</option>
+                  <option>Rendom Four</option>
+                  <option>Rendom Five</option>
+                  <option>Rendom Six</option>
+                </select>
+                <br />
+                <label>Duration</label>
+                <br />
+                <input
+                  className={classes.durationInput}
+                  required
+                  autoFocus
+                  value={duration}
+                  onChange={(e) => setDuration(e.target.value)}
+                  type='time'
+                />
               </Box>
+
 
               <div></div>
             </form>
@@ -297,23 +338,34 @@ const Dashboard = (props) => {
           </div>
           <div className={classes.courseCard}>
             {/* Map all the folder of course */}
-            {items.map((course) => (
-              <div key={course._id}>
-                <div className={classes.card}>
-                  <img src={folderImg} style={{ width: '50px' }} alt='folder' />
-                  <div className={classes.courseNaamm}>
-                    {course.courseCode} {course.courseName}
-                  </div>
-                  <div className={classes.cate}>{course.courseCategory}</div>
-                  <a href={`/dashboard/${course.courseCode}`}>
-                    <button className={classes.viewCourseBtn} type='button'>
-                      Veiw Course <ArrowForwardIcon />
-                    </button>
-                  </a>
-                </div>
-              </div>
-            ))}
+
+            <div style={{ width: '100%' }}>
+            <div style={{width:"100%"}}>
+              <table>
+                <tr>
+                  <th>Course Name</th>
+                  <th>Course Code</th>
+                  <th>Course Category</th>
+                  <th>Veiw Course</th>
+                </tr>
+                {items.map((course) => (
+                  <tr key={course._id}>
+                    <td>{course.courseName}</td>
+                    <td>{course.courseCode}</td>
+                    <td>{course.courseCategory}</td>
+                    <td>
+                      <a href={`/dashboard/${course.courseCode}`}>
+                        <button type='button'>
+                          Veiw Course <ArrowForwardIcon />
+                        </button>
+                      </a>
+                    </td>
+                  </tr>
+                ))}
+              </table>
+            </div>
           </div>
+        </div>
         </div>
       </section>
     </div>

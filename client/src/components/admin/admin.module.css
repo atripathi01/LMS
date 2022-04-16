@@ -6,21 +6,21 @@
   background-color: #fff;
 }
 .adminSideNavbar{
-    width: 300px;
+    width:100px;
     border-right: #acacac 1px solid;
     height:100vh;
-    background: rgb(2, 0, 36);
-    background-color: #272624;
+    /* background: rgb(2, 0, 36); */
+    background-color: #fff;
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
-  color: #fff;
+  color: #272624;
   margin-top: 5.15rem;
+  position: fixed;
 }
 .adminItems{
     padding: 1rem;
     border: none;
     border-radius: 15px 0 0 15px;
-    margin: 1rem 0 1rem 1rem;
   padding-left: 1rem;
     font-size: 20px;
     cursor: pointer;
@@ -32,7 +32,7 @@
 }
 
 .createAccount,.access_section{
-  margin-left: 2rem;
+  margin-left: 8rem;
   margin-top: 5.2rem;
 }
 .title,.access_title{
@@ -120,4 +120,19 @@ input:focus{
 }
 .giveAccess:hover{
   background-color: #cf3b38;
+}
+.item_A{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+}
+.image_A{
+    height: 50px;
+    width: auto;
+}
+.icon_title_A{
+    font-size: 13px;
+    font-weight: 600;
 }
