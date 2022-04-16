@@ -8,7 +8,49 @@ const MemberSch = mongoose.model('Member');
 
 const { generateToken, verifyToken } = require('./jwt');
 
+const getCourseCategories = async (req, res) => {
+    try {
+        console.log('aaaaaa');
+        const userVerify = await verifyToken(req, res);
+        var loginName = userVerify.name;
+        var role = userVerify.role;
+        console.log(userVerify)
+        console.log('user verify->', loginName, role)
+        if (userVerify) {
+            var checkExistingCourse = await CourseSch.distinct("courseCategory");
+            console.log("vedfvefsdvedf", checkExistingCourse);
+            if (!checkExistingCourse.length) {
+                console.log("no course exist");
+                res.status(406).json({
+                    msg: "No course exist"
+                });
+            } else {
+                console.log("529");
+                console.log(checkExistingCourse);
+                console.log("5300");
+                res.status(200).json({
+                    response: true,
+                    msg: "Course Categories found",
+                    courseCategories: checkExistingCourse
+                    // courseCode: data.courseCode
+                })
 
+            }
+
+        } else {
+            console.log('User not verified');
+            res.status(406).json({
+                response: "User not verified"
+            })
+        }
+
+    } catch (err) {
+        console.log(err);
+        res.status(406).json({
+            msg: err.toString()
+        })
+    }
+}
 const allCourses = async (req, res) => {
     try {
         console.log('aaaaaa');
@@ -221,7 +263,7 @@ const getCourseBySubCategory = async (req, res) => {
             console.log(userVerify)
             console.log('user verify->', loginName, role)
             if (userVerify) {
-                var checkExistingCourse = await CourseSch.find({ courseCategory: req.body.courseCategory,courseSubCategory: req.body.courseSubCategory });
+                var checkExistingCourse = await CourseSch.find({ courseCategory: req.body.courseCategory, courseSubCategory: req.body.courseSubCategory });
                 console.log("vedfvefsdvedf", checkExistingCourse);
                 if (!checkExistingCourse.length) {
                     console.log("no course exist");
@@ -303,36 +345,30 @@ const assignedCourses = async (req, res) => {
 
     try {
         const userVerify = await verifyToken(req, res);
-        console.log('userverify',userVerify)
+        console.log(userVerify)
         if (userVerify) {
 
             var checkCourses = await LearnerSch.findOne({
                 _id: userVerify.id
             });
+            console.log(checkCourses);
 
-            console.log(checkCourses,"hhhhhh");
-            if (!checkCourses) {
+            // console.log(che);
+            if (!checkCourses['courseAccess'].length) {
                 res.status(406).json({
                     response: false,
-                    msg: "Invalid email"
-                })
+                    msg: "No course is assigned"
+                });
             } else {
-                console.log('che');
-                if(!checkCourses['courseAccess'].length) {
-                    res.status(406).json({
-                        response: false,
-                        msg: "No course is assigned"
-                    });
-                } else {
-                            console.log('279', checkCourses);
-                    res.status(200).json({
-                        msg: "Assigned courses found",
-                        assignedCourses: checkCourses.courseAccess
-                    })
-                }
-            
 
-        }} else {
+                res.status(200).json({
+                    msg: "Assigned courses found",
+                    assignedCourses: checkCourses.courseAccess
+                })
+            }
+
+
+        } else {
             res.status(406).json({
                 response: "Invalid token"
             })
@@ -347,7 +383,7 @@ const assignedCourses = async (req, res) => {
 };
 
 module.exports = {
-
+    getCourseCategories,
     allCourses,
     getCourseByCourseCode,
     getCourseByCourseName,
