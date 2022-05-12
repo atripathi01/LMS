@@ -1,0 +1,99 @@
+.moduleCreationBtn {
+    background-color: #272624;
+    font-size: 16px;
+    padding: 0.3rem 0.5rem;
+    color: #fff;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    border-radius: 3px;
+    top: 6rem;
+   position: absolute;
+   right: 3rem;
+  }
+  .moduleCreationBtn:hover {
+    background-color: #cf3b38;
+  }
+  .moduleDivision{
+      display: flex;
+      justify-content: flex-start;
+      flex-direction: row-reverse;
+      align-items: flex-start;
+      margin-top: 3rem;
+      height: 70vh;
+  }
+  .courseNames{
+      font-size: xx-large;
+      font-weight: 700;
+  }
+  .moduleList{
+      width: 250px;
+      border-right: #acacac 1px solid;
+      height: 100%;
+      overflow: scroll;
+      
+  }   
+  .moduleItem{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: fit-content;
+      padding:0.5rem 0.3rem;
+     
+  }
+  .moduleItem:hover{
+     background-color: #dad7d7;
+  }
+  .moduleNames{
+      font-size: 16px;
+      font-weight: 600;
+      max-height: 26px;
+      overflow: hidden;
+  }
+  .moduleContentList{
+      background-color: #fcf8f8;
+      padding:0.5rem 0.3rem 0.5rem 0.5rem;
+      font-size: 16px;
+  }
+  .moduleContent{
+    width: -webkit-calc(100% - 250px);
+    width:    -moz-calc(100% - 250px);
+    width:         calc(100% - 250px);
+     padding-left: 2rem;
+  }
+  .cretModule{
+      font-size: x-large;
+      font-weight: bold;
+      margin-bottom: 1rem;
+  }
+
+  .formModuleCreate{
+      margin: 1rem auto;
+  }
+
+  .formModuleCreate label{
+      font-size: 16px;
+      font-weight: 500;
+
+  }
+  .formModuleCreate input{
+      margin-bottom: 1rem;
+      border: none;
+      outline: none;
+      box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+      border-radius: 3px;
+      width: 100%;
+      padding: 0.3rem 0.5rem;
+      font-size: 14px;
+
+  }
+  .formModuleCreate button{
+      font-size: 14px;
+      color: #fff;
+      background-color: #06f;
+      padding: 0.3rem 0.5rem;
+      border-radius: 3px;
+  }
+  .formModuleCreate button:hover{
+      background-color: rgb(8, 57, 129);
+  }

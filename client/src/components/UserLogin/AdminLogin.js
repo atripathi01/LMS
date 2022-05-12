@@ -82,7 +82,6 @@ const AdminLogin = () => {
         <div className={classes.loginBox}>
           <div className={classes.loginRightBox}>
             <div className={classes.loginSection}>
-              <div>DONO LMS</div>
               <form
                 className={classes.LoginForm}
                 onSubmit={(e) => onSubmitLogin(e)}

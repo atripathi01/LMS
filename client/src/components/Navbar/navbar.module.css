@@ -1,19 +1,20 @@
 .navbar {
   display: flex;
   justify-content: space-between;
-  padding:  1rem 1rem;
+  padding:  0.3rem 1rem;
   font-size: 22px;
-  border: 1px solid #acacac;
-  background-color: #fff;
-  height: 5rem;
+  background-color: #272624;
+  height: 3.5rem;
   position: fixed;
   width: 100%;
+  color: #fff;
+  align-items: center;
 }
 ul {
   list-style: none;
 }
 .logo {
-  font-size: 30px;
+  font-size: 22px;
   font-weight: 700;
   letter-spacing: 2px;
 }
@@ -27,7 +28,7 @@ ul {
   text-decoration: none;
 }
 .RouterLink {
-  color: #000;
+  color: #fff;
   text-decoration: none;
 }
 .RouterLink:hover {
@@ -35,16 +36,16 @@ ul {
 }
 
 .items {
-  font-size: 20px;
+  font-size: 16px;
   letter-spacing: 1.5px;
-  font-weight: 500;
+  font-weight: 400;
   margin: auto 2rem;
   cursor: pointer;
-  color: #000;
+  color: #fff;
   text-decoration: none;
 }
 .btnRegi {
-  font-size: 20px;
+  font-size: 16px;
   padding: 0.5rem 2rem;
   margin-right: 3rem;
   background-color: #cf3b38;
@@ -59,10 +60,10 @@ ul {
   border: #272624 2px solid;
 }
 .btnLogin {
-  font-size: 20px;
-  font-weight: 500;
+  font-size: 16px;
+  font-weight: 400;
   text-decoration: none;
-  color: #000;
+  color: #fff;
   cursor: pointer;
   letter-spacing: 1.5px;
 }
@@ -71,8 +72,11 @@ ul {
 }
 .userName {
   /* color: #cf3b38; */
-  font-size: 18px;
-  font-weight: 600;
+  font-size: 16px;
+  font-weight: 500;
+}
+.userName:hover a:hover{
+    color: #cf3b38;
 }
 .profi {
   display: flex;
@@ -85,9 +89,9 @@ ul {
   margin-right: 5px;
 }
 .boxProfi{
-    width: 40px;
-    height: 40px;
-    background-color: #06f;
+    width: 30px;
+    height: 30px;
+    background-color: #cf3b38;
     border-radius: 50%;
     margin-right: 10px;
     display: flex;
@@ -96,7 +100,7 @@ ul {
 
 }
 .firstLetter{
-    font-size: 22px;
+    font-size: 16px;
     font-weight: 500;
     color:#fff;
 }

@@ -148,7 +148,7 @@ const Home = () => {
       <div className={classes.firstSection}>
         <div className={classes.leftPart}>
           <p className={classes.Lms}>THE LMS</p>
-          <h1 className={classes.buildSuccess}>built for success!</h1>
+          <h1 className={classes.build}>built for success!</h1>
           <p className={classes.throught}>
             Your online course deserves the best! Come for the training, stay
             for the experience

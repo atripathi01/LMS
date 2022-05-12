@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import AppBar from '@mui/material/AppBar';
+
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
@@ -20,54 +21,72 @@ import AddIcon from '@mui/icons-material/Add';
 import CalendarPage from './calender/Calendar';
 import Notificaton from './notification/Notificaton';
 import Dash from './dash/Dash';
-import { ALL_COURSE, CREATE_COURSE } from '../../constants/ApiPathContainer';
+// import Box from '@mui/material/Box';
+// import Button from '@mui/material/Button';
+// import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
+import {
+  ALL_COURSE,
+  CATEGORIES,
+  CREATE_COURSE,
+} from '../../constants/ApiPathContainer';
+import Assessment from './Assessment/Assessment';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction='up' ref={ref} {...props} />;
 });
 
-const dashSection = {
-  dash: 'Dash',
-  assessment: 'Assessment',
-  calenderNschedule: 'Calender And Schedule',
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  minWidth: '600px',
+  bgcolor: 'background.paper',
+  border: '2px solid #efefef',
+  borderRadius: '15px',
+  boxShadow: 24,
+  p: 4,
 };
 
 const Dashboard = (props) => {
-  //---------> passing all props from app.js page<------------
+  // passing props from app.js
   const dashboardSection = props.dashboardSection;
+
+  // user detail from redux
   const user = useSelector(selectUser);
-  // ------------> intialize state
+
+  //useState initiallize
   const [items, setItems] = useState([]);
   const [opens, setOpens] = useState(false);
+  const [open, setOpen] = React.useState(false);
   const [courseCode, setCourseCode] = React.useState('');
   const [courseTitle, setCourseTitle] = React.useState('');
-  const [courseCategory, setCourseCategory] = React.useState('');
+  const [courseCategory, setCourseCategory] = React.useState('Full Stack');
   const [description, setDescription] = React.useState('');
-  const [subCategory, setSubCategory] = React.useState('');
-  const [duration,setDuration]=React.useState('');
+  const [subCategory, setSubCategory] = React.useState('Frontend Stack');
+  const [duration, setDuration] = React.useState('');
   const [activvDashboardSection, setActiveDashboardSection] = useState(
     Object.keys(dashboardSection)[0]
   );
-  const [activedash, setActivedash] = useState(Object.keys(dashSection)[0]);
 
-  // handle click open function for open the create course folder model on course section of dashboard
+  // handle click model open (create folder)
+
   const handleClickOpen = () => {
     return setOpens(true);
   };
 
-  // handle click close function for close the create course folder model on course section of dashboard
+  // handle click model close (create folder)
   const handleClickClose = () => {
-    console.log('kuch bhi');
     return setOpens(false);
   };
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
-  //create object of sections inside dashboard section of dashborad page
-
-  // fetch all courses function
+  // fetch all courses
   function allCoourses() {
-    // feteching all course on course section for users
     fetch(
-      ALL_COURSE,
+      CATEGORIES,
 
       {
         method: 'GET',
@@ -82,8 +101,8 @@ const Dashboard = (props) => {
         const res = await response.json();
         console.log(response.status);
         if (response.status === 200) {
-          console.log('fetched', res.course);
-          setItems(res.course);
+          //   console.log('fetched', res.courseCategories);
+          setItems(res.courseCategories);
         } else {
           console.log('failed fetch');
         }
@@ -95,12 +114,11 @@ const Dashboard = (props) => {
   }
 
   // useEffect
-
   useEffect(() => {
     allCoourses();
   }, []);
 
-  // onSubmit function is for create course folder
+  // onSubmit (create folder)
   function onSubmit(e) {
     if (
       courseCode === '' ||
@@ -119,9 +137,7 @@ const Dashboard = (props) => {
         subCategory: subCategory,
       };
       console.log(courseData);
-      //   courseCategory, courseName, subCategory, courseCode(unique), courseDescription,courseDuration
 
-      // api of create course folder
       fetch(CREATE_COURSE, {
         method: 'POST',
         headers: {
@@ -150,26 +166,134 @@ const Dashboard = (props) => {
     }
   }
 
-  // button on course section for open model to create folder for courses
-  // button name is CREATE COURSE FOLDER
+  // create folder dialog
   const createFolderButton = () => {
     return (
       <div>
         {user.token && user.role === 'Admin' ? (
           <div className={classes.bt}>
-            <button
+            {/* <button
               className={classes.uploadButn}
               variant='contained'
               onClick={handleClickOpen}
             >
               <AddIcon /> Create Course
+            </button> */}
+            <button onClick={handleOpen} className={classes.uploadButn}>
+              {' '}
+              + Create Course{' '}
             </button>
           </div>
         ) : (
           ''
         )}
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby='modal-modal-title'
+          aria-describedby='modal-modal-description'
+        >
+          <Box sx={style}>
+            <Typography id='modal-modal-title' variant='h6' component='h2' className={classes.cret}>
+              Create Course Folder
+            </Typography>
+            <form className={classes.formCreate}>
+            <label>
+                  Course Code*{' '}
+                  <small> (atleast two capital letter and two number)</small>
+                </label>
+                <br />
+                <input
+                  required
+                  autoFocus
+                  maxLength={6}
+                  value={courseCode}
+                  onChange={(e) => {
+                    setCourseCode(e.target.value);
+                  }}
+                  placeholder="course code"
+                />
+                <br />
+                <label >Course Name*</label>
+                <br />
+                <input
+                  required
+                  autoFocus
+                  label='Title of Course'
+                  value={courseTitle}
+                  onChange={(e) => {
+                    setCourseTitle(e.target.value);
+                  }}
+                  placeholder='course name'
+                />
+                <br />
+                <label >Description*</label>
+                <br />
 
-        <Dialog
+                <TextareaAutosize
+                  aria-label='minimum height'
+                  minRows={5}
+                  placeholder='description of course'
+                  required
+                  autoFocus
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                />
+                <br />
+                <label>Course category*</label>
+                <br />
+                <select
+                  required
+                  autoFocus
+                  value={courseCategory}
+                  onChange={(e) => {
+                    setCourseCategory(e.target.value);
+                  }}
+                >
+                  <option>Full Stack</option>
+                  <option>AI</option>
+                  <option>Machine Learning</option>
+                  <option>Data Structure</option>
+                  <option>Algorithm</option>
+                </select>
+                <br />
+                <label>Sub Category</label>
+                <br />
+                <select
+                  required
+                  autoFocus
+                  value={subCategory}
+                  onChange={(e) => {
+                    setSubCategory(e.target.value);
+                  }}
+                >
+                  <option>Frontend Stack</option>
+                  <option>Backend Stack</option>
+                  <option>Deep Learning</option>
+                  <option>Machine Learning</option>
+                  <option>Data Structure</option>
+                </select>
+                <br />
+
+                <label>Duration</label>
+                <br />
+                <input
+                  required
+                  autoFocus
+                  value={duration}
+                  onChange={(e) => setDuration(e.target.value)}
+                  type='time'
+                />
+                <br />
+            <button type='submit' onClick={(e)=>onSubmit(e)} className={classes.cretBtn}>
+              Create
+            </button>
+            </form>
+            <br />
+          </Box>
+        </Modal>
+
+        {/* <Dialog
           fullScreen
           open={opens}
           onClose={handleClickClose}
@@ -189,7 +313,7 @@ const Dashboard = (props) => {
                 Create Course Folder
               </Typography>
               <Button
-                autoFocus
+                // autoFocus
                 className={classes.creatbtn}
                 onClick={(e) => onSubmit(e)}
               >
@@ -268,14 +392,9 @@ const Dashboard = (props) => {
                     setCourseCategory(e.target.value);
                   }}
                 >
-                  <option>Frontend stack</option>
-                  <option>backend stack</option>
-                  <option>fullstack</option>
-                  <option>machine learning</option>
-                  <option>reactjs</option>
-                  <option>python</option>
-                  <option>javascript</option>
+                  <option>Full Stack</option>
                   <option>AI</option>
+                  <option>Machine Learning</option>
                 </select>
                 <br />
                 <label>Sub Category</label>
@@ -287,17 +406,15 @@ const Dashboard = (props) => {
                   value={subCategory}
                   onChange={(e) => {
                     setSubCategory(e.target.value);
-
                   }}
                 >
-                  <option>Rendom One</option>
-                  <option>Rendom Two</option>
-                  <option>Rendom Three</option>
-                  <option>Rendom Four</option>
-                  <option>Rendom Five</option>
-                  <option>Rendom Six</option>
+                  <option>Frontend Stack</option>
+                  <option>Backend Stack</option>
+                  <option>Deep Learning</option>
+                  <option>Python</option>
                 </select>
                 <br />
+
                 <label>Duration</label>
                 <br />
                 <input
@@ -310,21 +427,17 @@ const Dashboard = (props) => {
                 />
               </Box>
 
-
               <div></div>
             </form>
           </div>
-        </Dialog>
+        </Dialog> */}
       </div>
     );
   };
 
-  /////////////////////////////////////////////////////////////////////////
-  //             Course Section of Dashboard Page                        //
-  /////////////////////////////////////////////////////////////////////////
-
+  // COURSE SECTION OF DASHBOARD NAVBAR
   const Courses = (
-    <div className={classes.courseSec}>
+    <div className={classes.courseSecs}>
       <div style={{ margin: '2rem' }}>
         {user.token && user.role === 'Admin' ? createFolderButton() : ''}
       </div>
@@ -336,88 +449,56 @@ const Dashboard = (props) => {
               Here all uploaded courses are avaiable...
             </h3>
           </div>
-          <div className={classes.courseCard}>
-            {/* Map all the folder of course */}
-
-            <div style={{ width: '100%' }}>
-            <div style={{width:"100%"}}>
-              <table>
-                <tr>
-                  <th>Course Name</th>
-                  <th>Course Code</th>
-                  <th>Course Category</th>
-                  <th>Veiw Course</th>
-                </tr>
-                {items.map((course) => (
-                  <tr key={course._id}>
-                    <td>{course.courseName}</td>
-                    <td>{course.courseCode}</td>
-                    <td>{course.courseCategory}</td>
-                    <td>
-                      <a href={`/dashboard/${course.courseCode}`}>
-                        <button type='button'>
-                          Veiw Course <ArrowForwardIcon />
-                        </button>
-                      </a>
-                    </td>
-                  </tr>
-                ))}
-              </table>
-            </div>
+          <div className={classes.cateItems}>
+            {/* all category card listed */}
+            {items.map((cate) => (
+              <div className={classes.cateCard}>
+                <div className={classes.cateList}>{cate}</div>
+                <a href={`/dashboard/${cate}`} className={classes.cateVeiw}>
+                  <button className={classes.viewbtn}>Veiw</button>
+                </a>
+              </div>
+            ))}
           </div>
-        </div>
         </div>
       </section>
     </div>
   );
 
-  ////////////////////////////////////////////////////////////////////////
-  //             Dashboard Section of Dashboard Page                    //
-  ////////////////////////////////////////////////////////////////////////
+  // CALENDAR SECTION OF DASHBOARD NAVBAR
+  const Calendar = (
+    <div>
+      <CalendarPage />
+    </div>
+  );
 
-  //switch case for dash items
-  const generateDashSection = () => {
-    switch (dashSection[activedash]) {
-      case dashSection.dash:
-        return <Dash />;
-      case dashSection.assessment:
-        return <h1>Assessment</h1>;
-      case dashSection.calenderNschedule:
-        return <CalendarPage />;
-      default:
-        return null;
-    }
-  };
+  //ASSESSMENT SECTION OF DASHBOARD NAVBAR
+  const Assessments=(
+      <div>
+          <Assessment />
+      </div>
+  );
+
+  // MAIN DASHBOARD OF DASHBOARD NAVBAR (HOME DASHBOARD)
   const Dashboard = (
     <section className={classes.marginOnDash}>
       <div className={classes.courseSec}>
-        <div className={classes.dashInsideNavWrapper}>
-          {Object.keys(dashSection)?.map((key) => (
-            <div
-              key={key}
-              onClick={() => setActivedash(key)}
-              className={`${classes.dashBoardInsideNav}  ${
-                activedash === key ? classes.activeDashItemInside : ''
-              }`}
-            >
-              {dashSection[key]}
-            </div>
-          ))}
-        </div>
-        {/* <Dash />
-    <CalendarPage /> */}
+        <Dash />
       </div>
-      <div>{generateDashSection()}</div>
     </section>
   );
 
-  //switch cases for section of side navbar or menu
+  //switch cases for section of dashboard side navbar
   const generateDashboardSection = () => {
     switch (dashboardSection[activvDashboardSection]) {
       case dashboardSection.dashboard:
         return Dashboard; //dashboard section
       case dashboardSection.courses:
         return Courses; //course section
+      case dashboardSection.calendar:
+        return Calendar; //course section
+      case dashboardSection.assessment:
+        return Assessments; //course section
       default:
         return null;
     }

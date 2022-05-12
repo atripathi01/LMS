@@ -62,28 +62,18 @@ const Dash = () => {
 
   return (
     <>
-      <h1>Dashboard</h1>
-      <div className={classes.calender_card}>
-         
-          <div className={classes.calendr}>
-             <img style={{width:"50px",height:"50px"}} src={CalenderImg} alt="calender" />
-             <p style={{padding:"5px"}}>Event Calender</p>
-          </div>
-         
-      </div>
+     <div className={classes.headerr}>
+         <p className={classes.yourCourses}>Your Assigned Courses  <span className={classes.countedCourses}>12</span></p>
+     </div>
+   
       <section className={classes.courseCards}>
       <div className={classes.cardcontainer}>
         <div className={classes.card}>
           <div className={classes.imgContainer}><img className={classes.courseThumbnail} src={CourseImg} alt='imgss'></img></div>
           <div className={classes.courseDetail}>
-            <span className={classes.courseCode}>Code-AUS545</span>
-            <p className={classes.courseName}>machine learning</p>
-            <p className={classes.courseDescription}>
-              React, JSX, ES6, and Flow syntax support. Language extras beyond
-              ES6 like the object spread operator. Autoprefixed CSS, so you
-              don’t need -webkit- or other prefixes.
-            </p>
-            <button className={classes.courseViewBtn}>View course</button>
+            <span className={classes.courseCode}>AUS545</span>
+            <p className={classes.courseName}> Machine Learning</p>
+            <button className={classes.courseViewBtn}>View </button>
           </div>
         </div>
       </div>
@@ -91,14 +81,9 @@ const Dash = () => {
         <div className={classes.card}>
           <div className={classes.imgContainer}><img className={classes.courseThumbnail} src={CourseImg} alt='imgss'></img></div>
           <div className={classes.courseDetail}>
-            <span className={classes.courseCode}>Code-AUS545</span>
-            <p className={classes.courseName}>machine learning</p>
-            <p className={classes.courseDescription}>
-              React, JSX, ES6, and Flow syntax support. Language extras beyond
-              ES6 like the object spread operator. Autoprefixed CSS, so you
-              don’t need -webkit- or other prefixes.
-            </p>
-            <button className={classes.courseViewBtn}>View course</button>
+            <span className={classes.courseCode}>PYT533</span>
+            <p className={classes.courseName}> Python</p>
+            <button className={classes.courseViewBtn}>View </button>
           </div>
         </div>
       </div>
@@ -106,14 +91,9 @@ const Dash = () => {
         <div className={classes.card}>
           <div className={classes.imgContainer}><img className={classes.courseThumbnail} src={CourseImg} alt='imgss'></img></div>
           <div className={classes.courseDetail}>
-            <span className={classes.courseCode}>Code-AUS545</span>
-            <p className={classes.courseName}>machine learning</p>
-            <p className={classes.courseDescription}>
-              React, JSX, ES6, and Flow syntax support. Language extras beyond
-              ES6 like the object spread operator. Autoprefixed CSS, so you
-              don’t need -webkit- or other prefixes.
-            </p>
-            <button className={classes.courseViewBtn}>View course</button>
+            <span className={classes.courseCode}>RCT895</span>
+            <p className={classes.courseName}> Reactjs</p>
+            <button className={classes.courseViewBtn}>View </button>
           </div>
         </div>
       </div>
@@ -121,14 +101,9 @@ const Dash = () => {
         <div className={classes.card}>
           <div className={classes.imgContainer}><img className={classes.courseThumbnail} src={CourseImg} alt='imgss'></img></div>
           <div className={classes.courseDetail}>
-            <span className={classes.courseCode}>Code-AUS545</span>
-            <p className={classes.courseName}>machine learning</p>
-            <p className={classes.courseDescription}>
-              React, JSX, ES6, and Flow syntax support. Language extras beyond
-              ES6 like the object spread operator. Autoprefixed CSS, so you
-              don’t need -webkit- or other prefixes.
-            </p>
-            <button className={classes.courseViewBtn}>View course</button>
+            <span className={classes.courseCode}>JS5545</span>
+            <p className={classes.courseName}>Javascript</p>
+            <button className={classes.courseViewBtn}>View </button>
           </div>
         </div>
       </div>
@@ -136,14 +111,9 @@ const Dash = () => {
         <div className={classes.card}>
           <div className={classes.imgContainer}><img className={classes.courseThumbnail} src={CourseImg} alt='imgss'></img></div>
           <div className={classes.courseDetail}>
-            <span className={classes.courseCode}>Code-AUS545</span>
-            <p className={classes.courseName}>machine learning</p>
-            <p className={classes.courseDescription}>
-              React, JSX, ES6, and Flow syntax support. Language extras beyond
-              ES6 like the object spread operator. Autoprefixed CSS, so you
-              don’t need -webkit- or other prefixes.
-            </p>
-            <button className={classes.courseViewBtn}>View course</button>
+            <span className={classes.courseCode}>AUS545</span>
+            <p className={classes.courseName}> Machine Learning</p>
+            <button className={classes.courseViewBtn}>View </button>
           </div>
         </div>
       </div>
@@ -151,14 +121,9 @@ const Dash = () => {
         <div className={classes.card}>
           <div className={classes.imgContainer}><img className={classes.courseThumbnail} src={CourseImg} alt='imgss'></img></div>
           <div className={classes.courseDetail}>
-            <span className={classes.courseCode}>Code-AUS545</span>
-            <p className={classes.courseName}>machine learning</p>
-            <p className={classes.courseDescription}>
-              React, JSX, ES6, and Flow syntax support. Language extras beyond
-              ES6 like the object spread operator. Autoprefixed CSS, so you
-              don’t need -webkit- or other prefixes.
-            </p>
-            <button className={classes.courseViewBtn}>View course</button>
+            <span className={classes.courseCode}>PYT533</span>
+            <p className={classes.courseName}> Python</p>
+            <button className={classes.courseViewBtn}>View </button>
           </div>
         </div>
       </div>
@@ -166,14 +131,9 @@ const Dash = () => {
         <div className={classes.card}>
           <div className={classes.imgContainer}><img className={classes.courseThumbnail} src={CourseImg} alt='imgss'></img></div>
           <div className={classes.courseDetail}>
-            <span className={classes.courseCode}>Code-AUS545</span>
-            <p className={classes.courseName}>machine learning</p>
-            <p className={classes.courseDescription}>
-              React, JSX, ES6, and Flow syntax support. Language extras beyond
-              ES6 like the object spread operator. Autoprefixed CSS, so you
-              don’t need -webkit- or other prefixes.
-            </p>
-            <button className={classes.courseViewBtn}>View course</button>
+            <span className={classes.courseCode}>RCT895</span>
+            <p className={classes.courseName}> Reactjs</p>
+            <button className={classes.courseViewBtn}>View </button>
           </div>
         </div>
       </div>
@@ -181,18 +141,53 @@ const Dash = () => {
         <div className={classes.card}>
           <div className={classes.imgContainer}><img className={classes.courseThumbnail} src={CourseImg} alt='imgss'></img></div>
           <div className={classes.courseDetail}>
-            <span className={classes.courseCode}>Code-AUS545</span>
-            <p className={classes.courseName}>machine learning</p>
-            <p className={classes.courseDescription}>
-              React, JSX, ES6, and Flow syntax support. Language extras beyond
-              ES6 like the object spread operator. Autoprefixed CSS, so you
-              don’t need -webkit- or other prefixes.
-            </p>
-            <button className={classes.courseViewBtn}>View course</button>
+            <span className={classes.courseCode}>JS5545</span>
+            <p className={classes.courseName}>Javascript</p>
+            <button className={classes.courseViewBtn}>View </button>
           </div>
         </div>
       </div>
-     
+      <div className={classes.cardcontainer}>
+        <div className={classes.card}>
+          <div className={classes.imgContainer}><img className={classes.courseThumbnail} src={CourseImg} alt='imgss'></img></div>
+          <div className={classes.courseDetail}>
+            <span className={classes.courseCode}>AUS545</span>
+            <p className={classes.courseName}> Machine Learning</p>
+            <button className={classes.courseViewBtn}>View </button>
+          </div>
+        </div>
+      </div>
+      <div className={classes.cardcontainer}>
+        <div className={classes.card}>
+          <div className={classes.imgContainer}><img className={classes.courseThumbnail} src={CourseImg} alt='imgss'></img></div>
+          <div className={classes.courseDetail}>
+            <span className={classes.courseCode}>PYT533</span>
+            <p className={classes.courseName}> Python</p>
+            <button className={classes.courseViewBtn}>View </button>
+          </div>
+        </div>
+      </div>
+      <div className={classes.cardcontainer}>
+        <div className={classes.card}>
+          <div className={classes.imgContainer}><img className={classes.courseThumbnail} src={CourseImg} alt='imgss'></img></div>
+          <div className={classes.courseDetail}>
+            <span className={classes.courseCode}>RCT895</span>
+            <p className={classes.courseName}> Reactjs</p>
+            <button className={classes.courseViewBtn}>View </button>
+          </div>
+        </div>
+      </div>
+      <div className={classes.cardcontainer}>
+        <div className={classes.card}>
+          <div className={classes.imgContainer}><img className={classes.courseThumbnail} src={CourseImg} alt='imgss'></img></div>
+          <div className={classes.courseDetail}>
+            <span className={classes.courseCode}>JS5545</span>
+            <p className={classes.courseName}>Javascript</p>
+            <button className={classes.courseViewBtn}>View </button>
+          </div>
+        </div>
+      </div>
+      
      
       </section>
     </>

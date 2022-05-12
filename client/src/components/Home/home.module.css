@@ -15,6 +15,10 @@
   flex-direction: column;
   width: 100%;
   max-width: 700px;
+  padding-top: 3rem;
+}
+.rightPart{
+    padding-top:3rem ;
 }
 .Lms {
   padding-top: 4rem;
@@ -26,8 +30,8 @@
   margin-top: -2rem;
 }
 .throught {
-  font-size: 22px;
-  margin-top: -1rem;
+  font-size: 18px;
+  /* margin-top: 1rem; */
 }
 .butns {
   margin-top: 1rem;
@@ -37,24 +41,18 @@
   font-size: 16px;
 }
 .homepgResiBtn {
-  padding: 0.5rem 1rem;
-  font-size: 18px;
-  cursor: pointer;
-  /* font-size: 20px; */
-  /* padding: 0.5rem 2rem; */
+  padding: 0.5rem 0.8rem;
+  font-size: 14px;
+
   margin-right: 3rem;
   background-color: #cf3b38;
   color: #fff;
   border-radius: 2px;
-  border: #272624 1px solid;
-  /* cursor: pointer; */
-  letter-spacing: 1.5px;
-  /* font-weight: 500; */
-  text-transform: uppercase;
+  letter-spacing: 1.5px;    
+  
 }
 .homepgResiBtn:hover {
   background-color: #272624;
-  border: #272624 2px solid;
 }
 
 .ImageSection {
@@ -86,7 +84,6 @@
   font-weight: 500;
   margin: 1rem auto;
   text-align: left;
-  cursor: pointer;
   color: #acacac;
   border-bottom: #acacac 1px solid;
   width: 350px;
@@ -97,7 +94,6 @@
   /* letter-spacing: 2px; */
   font-weight: 500;
   margin: 1rem auto;
-  cursor: pointer;
   text-align: left;
   color: #acacac;
   border-bottom: #acacac 1px solid;
@@ -197,4 +193,8 @@
   margin-left: 3rem;
   margin-right: 3rem;
   
+}
+.build{
+    font-size: 69px;
+    font-weight: bold;
 }

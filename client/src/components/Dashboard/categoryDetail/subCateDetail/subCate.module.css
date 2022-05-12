@@ -1,0 +1,31 @@
+.SubCateDetailSection{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+   
+}
+.SubCateDetail{
+    max-width: 1200px;
+    border: none;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+}
+.subCateTableHead{
+    background-color: #e4e3e3;
+    border-radius: 15px ;
+    
+    
+}
+.subCateTable{
+    background-color: #fff;
+}
+
+th,td{
+    padding: 0.5rem 0.3rem;
+}
+a:hover{
+    color: blue;
+}

@@ -9,3 +9,4 @@ export const MEMBER_REGISTER='/admin/member-register';
 export const CREATE_COURSE='/admin/create-course';
 export const ADMIN_SIGNIN='/admin/sign-in';
 export const SIGN_IN='/sign-in';
+export const CATEGORIES='/course/categories';

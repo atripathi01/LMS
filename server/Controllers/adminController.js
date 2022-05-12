@@ -444,11 +444,11 @@ const uploadModuleMedia = async (req, res) => {
                     message: 'No file to upload'
                 });
             } else {
-                // console.log(req.files);
+                console.log(req.files);
                 console.log("else");
 
                 let mediaFile = req.files.file;
-                // console.log(mediaFile);
+                console.log(mediaFile);
                 const mediaType = mediaFile.mimetype.split('/')[1];
                 console.log(mediaType);
                 const fileTypes = ['pdf', 'mp4', 'doc', 'docx']

@@ -53,9 +53,9 @@
   min-width: 500px;
   width: 100%;
 }
-input:focus{
+/* input:focus{
   outline: #272624;
-}
+} */
 
 .role_selector
 {

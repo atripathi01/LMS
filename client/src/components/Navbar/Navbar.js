@@ -5,7 +5,7 @@ import {
   ADMIN,
   DASH_BOARD,
   HOME_PATH,
-  LOGIN_PATH,
+  LOGIN_PATH, 
   //   PROFILE,
 } from '../../constants/pathContainer';
 import { selectUser, logout } from '../../features/userSlice';
@@ -82,26 +82,7 @@ const Navbar = () => {
                 </Link>
               </li>
             )}
-            {user.token ? (
-              <li className={classes.items}>
-                <NotificationsIcon
-                  onClick={() => setNotificationDrawer(true)}
-                />
-                <Drawer
-                  open={notificationDrawer}
-                  onClose={() => {
-                    setNotificationDrawer(false);
-                  }}
-                  anchor='right'
-                >
-                  <Box width='250px' padding='10px'>
-                    <h2>Notifications</h2>
-                  </Box>
-                </Drawer>
-              </li>
-            ) : (
-              ''
-            )}
+            
 
             {/* user avatar and user name  */}
             {user.token ? (
@@ -123,6 +104,26 @@ const Navbar = () => {
                     )}
                   </span>
                 </div>{' '}
+              </li>
+            ) : (
+              ''
+            )}
+            {user.token ? (
+              <li className={classes.items}>
+                <NotificationsIcon
+                  onClick={() => setNotificationDrawer(true)}
+                />
+                <Drawer
+                  open={notificationDrawer}
+                  onClose={() => {
+                    setNotificationDrawer(false);
+                  }}
+                  anchor='right'
+                >
+                  <Box width='250px' padding='10px'>
+                    <h2>Notifications</h2>
+                  </Box>
+                </Drawer>
               </li>
             ) : (
               ''

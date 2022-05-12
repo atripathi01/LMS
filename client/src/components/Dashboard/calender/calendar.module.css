@@ -3,3 +3,22 @@
     padding: 10px;
     margin: 0;
 }
+.CalendarP{
+    margin-left: 105px;
+    margin-top: 6rem;
+}
+.addEventModal {
+    background-color: #272624;
+    font-size: 16px;
+    padding: 0.3rem 0.5rem;
+    color: #fff;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    border-radius: 3px;
+    top: 6rem;
+   position: absolute;
+  }
+  .addEventModal:hover {
+    background-color: #cf3b38;
+  }

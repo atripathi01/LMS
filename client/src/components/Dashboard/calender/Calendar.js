@@ -65,12 +65,12 @@ const CalendarPage = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   return (
-    <div>
+    <div className={classes.CalendarP}>
       <h1>Calendar</h1>
        {user.token&& user.role==="Admin"?(<>
         <button
         onClick={() => setDrawerOpen(true)}
-        className={classes.addEventDrawer}
+        className={classes.addEventModel}
       >
         Add Event
       </button>

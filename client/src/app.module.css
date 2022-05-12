@@ -2,6 +2,7 @@
     text-align: center;
     width: 100%;
     font-size: 69px;
+
 } 
 .NavIcon{
     display: flex;
@@ -11,10 +12,17 @@
 
 }
 .imgFix{
-    height: 50px;
+    height: 40px;
     width: auto;
 }
 .fontSiz{
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 600;
 }
+
+/* input{
+    outline: auto;
+}
+textarea{
+    outline: auto;
+} */

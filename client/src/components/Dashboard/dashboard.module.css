@@ -3,11 +3,12 @@
   justify-content: flex-start;
   align-items: flex-start;
   flex-direction: row;
-  background-color: #fff;
+ 
 }
 .dashNav {
-  width: 100px;
-  border-right: #acacac 1px solid;
+  width: 90px;
+  /* border-right: #acacac 1px solid; */
+  border-right: rgba(149, 157, 165, 0.2) 0.5px solid;
   height: 250vh;
   background: rgb(2, 0, 36);
   background-color: #fff;
@@ -15,7 +16,7 @@
   -webkit-backdrop-filter: blur(5px);
   color: #272624;
   position: fixed;
-  margin-top: 5.2rem;
+  margin-top: 3.5rem;
 }
 
 .dashboardItems {
@@ -112,7 +113,7 @@
 }
 .uploadButn {
   background-color: #272624;
-  font-size: 16px;
+  font-size: 14px;
   padding: 0.3rem 0.5rem;
   color: #fff;
   border: none;
@@ -135,13 +136,13 @@
   margin-top: 3rem;
   margin-left: 2rem;
 }
-label {
+/* label {
   font-size: 18px;
   font-weight: 500;
   margin-top: 1rem;
   margin-bottom: 0.5rem;
-}
-input {
+} */
+/* input {
   margin-bottom: 1rem;
   margin-top: 1rem;
   padding: 0.8rem 1.5rem;
@@ -153,7 +154,7 @@ input {
 }
 input:focus {
   outline: #272624 2px solid;
-}
+} */
 .desInput {
   margin-top: 1rem;
   padding: 0.5rem 0.8rem;
@@ -219,4 +220,95 @@ input:focus {
 }
 table{
     width: 100%;
+}
+.cateVeiw{
+  
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 100%;
+
+}
+.viewbtn{
+   background-color: #06f;
+   color: #fff;
+   padding:0.3rem 0.5rem;
+   border: none;
+   border-radius: 5px;
+
+}
+.viewbtn:hover{
+    background-color: rgb(12, 79, 179);
+}
+
+.cateItems{
+    flex-direction: row;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+
+}
+.cateList
+{
+    font-size: 24px;
+    font-weight:bold;
+    /* text-align: center; */
+    width: 100%;
+    
+}
+.courseSecs{
+    margin-left: 100px;
+}
+.cateCard{
+    width:280px;
+    height: 150px;
+    display:flex;
+    justify-content: space-evenly;
+    padding: 0.5rem 1rem ;
+    align-items: center;
+    /* border:#272624 2px solid; */
+    border-radius: 5px;
+    flex-direction: column;
+    margin: 1rem;
+    background-color: #fff;
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+}
+.cret{
+    font-weight: 700;
+    font-size: x-large;
+    /* color:#000; */
+
+}
+.formCreate label{
+   font-size: 14px;
+   font-weight: 500;
+   color: #000;
+   
+}
+.formCreate input,textarea,select{
+    margin-bottom: 0.8rem;
+    border: none;
+    outline: none;
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+    border-radius: 3px;
+    width: 90%;
+    font-size: 14px;
+    padding: 0.3rem 0.5rem;
+}
+
+.formCreate button{
+    font-size: 14px;
+    background-color: #06f;
+    padding: 0.3rem 0.5rem;
+    border:none;
+    border-radius: 3px;
+    color:#fff;
+    margin-top: 0.5rem;
+
+}
+.formCreate button:hover{
+    background-color: rgb(6, 68, 160);
+    
 }
