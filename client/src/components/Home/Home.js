@@ -7,9 +7,6 @@ import EnrolImg from "../images/enrolse.png";
 import { DASH_BOARD, LOGIN_PATH } from "../../constants/pathContainer";
 import { Link } from "react-router-dom";
 
-/////////////////////////////////////////////////////////////////////////////////////
-///                  HOME PAGE OR LANDING PAGE                                    ///
-/////////////////////////////////////////////////////////////////////////////////////
 
 const Home = () => {
    

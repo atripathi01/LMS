@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import classes from './dash.module.css'
-import CourseImg from '../../images/course1.png'
+import CourseImg from '../../images/mortarboard.png'
 import {
   ALL_COURSE,
   ASSIGNED_COURSE,
@@ -73,120 +73,13 @@ const Dash = () => {
           <div className={classes.courseDetail}>
             <span className={classes.courseCode}>AUS545</span>
             <p className={classes.courseName}> Machine Learning</p>
-            <button className={classes.courseViewBtn}>View </button>
+            <p className={classes.courseDescription}>This is Machine Learning Course
+            for the Bright Future</p>
+            {/* <button className={classes.courseViewBtn}>View </button> */}
           </div>
         </div>
       </div>
-      <div className={classes.cardcontainer}>
-        <div className={classes.card}>
-          <div className={classes.imgContainer}><img className={classes.courseThumbnail} src={CourseImg} alt='imgss'></img></div>
-          <div className={classes.courseDetail}>
-            <span className={classes.courseCode}>PYT533</span>
-            <p className={classes.courseName}> Python</p>
-            <button className={classes.courseViewBtn}>View </button>
-          </div>
-        </div>
-      </div>
-      <div className={classes.cardcontainer}>
-        <div className={classes.card}>
-          <div className={classes.imgContainer}><img className={classes.courseThumbnail} src={CourseImg} alt='imgss'></img></div>
-          <div className={classes.courseDetail}>
-            <span className={classes.courseCode}>RCT895</span>
-            <p className={classes.courseName}> Reactjs</p>
-            <button className={classes.courseViewBtn}>View </button>
-          </div>
-        </div>
-      </div>
-      <div className={classes.cardcontainer}>
-        <div className={classes.card}>
-          <div className={classes.imgContainer}><img className={classes.courseThumbnail} src={CourseImg} alt='imgss'></img></div>
-          <div className={classes.courseDetail}>
-            <span className={classes.courseCode}>JS5545</span>
-            <p className={classes.courseName}>Javascript</p>
-            <button className={classes.courseViewBtn}>View </button>
-          </div>
-        </div>
-      </div>
-      <div className={classes.cardcontainer}>
-        <div className={classes.card}>
-          <div className={classes.imgContainer}><img className={classes.courseThumbnail} src={CourseImg} alt='imgss'></img></div>
-          <div className={classes.courseDetail}>
-            <span className={classes.courseCode}>AUS545</span>
-            <p className={classes.courseName}> Machine Learning</p>
-            <button className={classes.courseViewBtn}>View </button>
-          </div>
-        </div>
-      </div>
-      <div className={classes.cardcontainer}>
-        <div className={classes.card}>
-          <div className={classes.imgContainer}><img className={classes.courseThumbnail} src={CourseImg} alt='imgss'></img></div>
-          <div className={classes.courseDetail}>
-            <span className={classes.courseCode}>PYT533</span>
-            <p className={classes.courseName}> Python</p>
-            <button className={classes.courseViewBtn}>View </button>
-          </div>
-        </div>
-      </div>
-      <div className={classes.cardcontainer}>
-        <div className={classes.card}>
-          <div className={classes.imgContainer}><img className={classes.courseThumbnail} src={CourseImg} alt='imgss'></img></div>
-          <div className={classes.courseDetail}>
-            <span className={classes.courseCode}>RCT895</span>
-            <p className={classes.courseName}> Reactjs</p>
-            <button className={classes.courseViewBtn}>View </button>
-          </div>
-        </div>
-      </div>
-      <div className={classes.cardcontainer}>
-        <div className={classes.card}>
-          <div className={classes.imgContainer}><img className={classes.courseThumbnail} src={CourseImg} alt='imgss'></img></div>
-          <div className={classes.courseDetail}>
-            <span className={classes.courseCode}>JS5545</span>
-            <p className={classes.courseName}>Javascript</p>
-            <button className={classes.courseViewBtn}>View </button>
-          </div>
-        </div>
-      </div>
-      <div className={classes.cardcontainer}>
-        <div className={classes.card}>
-          <div className={classes.imgContainer}><img className={classes.courseThumbnail} src={CourseImg} alt='imgss'></img></div>
-          <div className={classes.courseDetail}>
-            <span className={classes.courseCode}>AUS545</span>
-            <p className={classes.courseName}> Machine Learning</p>
-            <button className={classes.courseViewBtn}>View </button>
-          </div>
-        </div>
-      </div>
-      <div className={classes.cardcontainer}>
-        <div className={classes.card}>
-          <div className={classes.imgContainer}><img className={classes.courseThumbnail} src={CourseImg} alt='imgss'></img></div>
-          <div className={classes.courseDetail}>
-            <span className={classes.courseCode}>PYT533</span>
-            <p className={classes.courseName}> Python</p>
-            <button className={classes.courseViewBtn}>View </button>
-          </div>
-        </div>
-      </div>
-      <div className={classes.cardcontainer}>
-        <div className={classes.card}>
-          <div className={classes.imgContainer}><img className={classes.courseThumbnail} src={CourseImg} alt='imgss'></img></div>
-          <div className={classes.courseDetail}>
-            <span className={classes.courseCode}>RCT895</span>
-            <p className={classes.courseName}> Reactjs</p>
-            <button className={classes.courseViewBtn}>View </button>
-          </div>
-        </div>
-      </div>
-      <div className={classes.cardcontainer}>
-        <div className={classes.card}>
-          <div className={classes.imgContainer}><img className={classes.courseThumbnail} src={CourseImg} alt='imgss'></img></div>
-          <div className={classes.courseDetail}>
-            <span className={classes.courseCode}>JS5545</span>
-            <p className={classes.courseName}>Javascript</p>
-            <button className={classes.courseViewBtn}>View </button>
-          </div>
-        </div>
-      </div>
+     
       
      
       </section>

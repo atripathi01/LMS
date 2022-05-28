@@ -1,22 +1,23 @@
 .navbar {
   display: flex;
   justify-content: space-between;
-  padding:  0.3rem 1rem;
+  /* padding:  0.3rem 1rem; */
   font-size: 22px;
-  background-color: #272624;
+  background-color: #ffffff;
   height: 3.5rem;
   position: fixed;
   width: 100%;
-  color: #fff;
+  color: #010101;
   align-items: center;
+  border-bottom: rgba(149, 157, 165, 0.2) 0.5px solid;
 }
 ul {
   list-style: none;
 }
+
 .logo {
-  font-size: 22px;
-  font-weight: 700;
-  letter-spacing: 2px;
+  font-size: 26px;
+  font-weight: bold;
 }
 .itemWrapper {
   display: flex;
@@ -24,15 +25,15 @@ ul {
   align-items: center;
 }
 .RouterLink1 {
-  color: #cf3b38;
+  color: #010101;
   text-decoration: none;
 }
 .RouterLink {
-  color: #fff;
+  color: #010101;
   text-decoration: none;
 }
 .RouterLink:hover {
-  color: #cf3b38;
+  color: #010101;
 }
 
 .items {
@@ -41,17 +42,17 @@ ul {
   font-weight: 400;
   margin: auto 2rem;
   cursor: pointer;
-  color: #fff;
+  color: #010101;
   text-decoration: none;
 }
 .btnRegi {
   font-size: 16px;
   padding: 0.5rem 2rem;
   margin-right: 3rem;
-  background-color: #cf3b38;
-  color: #fff;
+  background-color: #010101;
+  color: #010101;
   border-radius: 7px;
-  border: #cf3b38 2px solid;
+  border: #010101 2px solid;
   cursor: pointer;
   letter-spacing: 1.5px;
 }
@@ -63,20 +64,20 @@ ul {
   font-size: 16px;
   font-weight: 400;
   text-decoration: none;
-  color: #fff;
+  color: #010101;
   cursor: pointer;
   letter-spacing: 1.5px;
 }
 .btnLogin:hover {
-  color: #cf3b38;
+  color: #010101;
 }
 .userName {
-  /* color: #cf3b38; */
+  /* color: #010101; */
   font-size: 16px;
   font-weight: 500;
 }
 .userName:hover a:hover{
-    color: #cf3b38;
+    color: #010101;
 }
 .profi {
   display: flex;
@@ -91,7 +92,7 @@ ul {
 .boxProfi{
     width: 30px;
     height: 30px;
-    background-color: #cf3b38;
+    background-color: #010101;
     border-radius: 50%;
     margin-right: 10px;
     display: flex;

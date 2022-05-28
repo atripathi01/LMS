@@ -6,15 +6,15 @@
  
 }
 .dashNav {
-  width: 90px;
+  width: 250px;
   /* border-right: #acacac 1px solid; */
   border-right: rgba(149, 157, 165, 0.2) 0.5px solid;
   height: 250vh;
   background: rgb(2, 0, 36);
-  background-color: #fff;
+  background-color: #2e2e2e;
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
-  color: #272624;
+  color: #757575;
   position: fixed;
   margin-top: 3.5rem;
 }
@@ -38,7 +38,7 @@
     rgba(31, 104, 122, 0.7) 100%,
     rgba(0, 212, 255, 1) 100%
   ); */
-  color: #cf3b38;
+  color: #ffffff;
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
 }
@@ -70,7 +70,7 @@
 }
 .courseNaamm {
   font-size: 18px;
-  font-weight: 500;
+  font-weight: 400;
   margin-top: 2rem;
 }
 .viewCourseBtn {
@@ -85,8 +85,8 @@
   border-radius: 2px;
 }
 .head {
-  font-size: 30px;
-  font-weight: 700;
+  font-size: 26px;
+  font-weight: bold;
   color: #272624;
 }
 .heading {
@@ -98,11 +98,11 @@
   margin-top: 3rem;
 }
 .subtitle {
-  color: #cf3b38;
+  color: #ffffff;
   font-size: 18px;
 }
 .cate {
-  color: #cf3b38;
+  color: #ffffff;
 }
 .dasss {
   color: #272624;
@@ -120,11 +120,11 @@
   outline: none;
   cursor: pointer;
   border-radius: 3px;
-  top: 6rem;
+  top: 5rem;
  position: absolute;
 }
 .uploadButn:hover {
-  background-color: #cf3b38;
+  background-color: #010101;
 }
 .bt {
   width: 100%;
@@ -168,7 +168,7 @@ input:focus {
   outline: #272624 2px solid;
 }
 .toptool {
-  background-color: #cf3b38;
+  background-color: #ffffff;
 }
 .creatbtn {
   background-color: #272624;
@@ -190,9 +190,10 @@ input:focus {
 }
 
 
+
 .marginOnDash{
     margin-top: 5.2rem;
-    margin-left: 101px;
+    margin-left: 250px;
 }
 /* .dashBoardInsideNav{
     display: flex;
@@ -203,7 +204,7 @@ input:focus {
 } */
 
 .activeDashItemInside{
- color:#cf3b38;
+ color:#ffffff;
 }
 .dashInsideNavWrapper{
     display: flex;
@@ -213,7 +214,7 @@ input:focus {
     flex-direction: row;
     background-color: #eeebeb;
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 400;
     padding: 1rem 0;
     cursor: pointer;
     
@@ -229,17 +230,8 @@ table{
     width: 100%;
 
 }
-.viewbtn{
-   background-color: #06f;
-   color: #fff;
-   padding:0.3rem 0.5rem;
-   border: none;
-   border-radius: 5px;
 
-}
-.viewbtn:hover{
-    background-color: rgb(12, 79, 179);
-}
+
 
 .cateItems{
     flex-direction: row;
@@ -250,40 +242,61 @@ table{
     margin-top: 2rem;
 
 }
+.courseItemms{
+    width:350px;
+    min-height: 230px;
+    display:flex;
+    /* padding: 0.5rem 1rem ; */
+    /* border:#272624 2px solid; */
+    border-radius: 3px;
+    flex-direction: column;
+    margin: 1rem;
+    background-color: #fff;
+    overflow: hidden;
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+}
+.imgContainer{
+    width: 100%;
+    height: 130px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #06f;
+    
+}
+
+.coureImg{
+    width: 50px;
+}
 .cateList
 {
-    font-size: 24px;
-    font-weight:bold;
+    font-size: 26px;
+    font-weight:400;
     /* text-align: center; */
     width: 100%;
     
 }
 .courseSecs{
-    margin-left: 100px;
+    margin-left: 250px;
 }
 .cateCard{
-    width:280px;
-    height: 150px;
-    display:flex;
-    justify-content: space-evenly;
-    padding: 0.5rem 1rem ;
-    align-items: center;
-    /* border:#272624 2px solid; */
-    border-radius: 5px;
-    flex-direction: column;
-    margin: 1rem;
-    background-color: #fff;
-    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+    padding: 0.5rem 0.5rem;
+   
+}
+.para{
+    font-size: 14px;
+    color: #525355;
+    padding-bottom:2rem ;
 }
 .cret{
-    font-weight: 700;
+    font-weight: 400;
     font-size: x-large;
     /* color:#000; */
 
 }
 .formCreate label{
    font-size: 14px;
-   font-weight: 500;
+   font-weight: 400;
    color: #000;
    
 }
@@ -311,4 +324,31 @@ table{
 .formCreate button:hover{
     background-color: rgb(6, 68, 160);
     
+}
+
+.pro{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    flex-direction: column;
+}
+.avaa{
+   font-size: xx-large;
+   padding: 2rem 2rem ;
+   width: 60px;
+   height: 60px;
+   background-color: #010101;
+   color: #fff;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   margin-top: 2rem;
+   border-radius: 50%;
+
+}
+.name{
+    font-size: 20px;
+    color: #ffffff;
+    margin-bottom: 2rem;
 }

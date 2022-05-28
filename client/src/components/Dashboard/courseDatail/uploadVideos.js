@@ -37,8 +37,9 @@ const UploadVideos = (props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [title,setTitle]=useState("");
   const [description,setDescription]=useState('');
+  const [fileupload,setFileupload]=useState("")
 
-
+  console.log(fileupload,typeof(fileupload));
   // split course Code from url by using params
   let { course_id } = useParams();
 
@@ -59,13 +60,13 @@ const UploadVideos = (props) => {
 
   // onDrop funtion - when user select the file for our system after selecting the file will automatically upload..
 
-  const onSubmitedupload = (files) => {
+  const onSubmitedupload = (e) => {
+    e.preventDefault();
     console.log('ho');
 
     // append formData
     const formData = new FormData();
-    formData.append('file', files[0]);
-    formData.append('fileName', files[0].name);
+    formData.append('file', fileupload);
     formData.append('courseCode',courseCode);
     formData.append('moduleId',module_id);
     formData.append('title',title);
@@ -74,15 +75,16 @@ const UploadVideos = (props) => {
 
 
     // console.log('form appended data -> ')
-    // console.log(Object.fromEntries(formData))
+    console.log(Object.fromEntries(formData))
 
     // POST api for uplaoding the files
-    fetch('/admin/upload-course-media', formData, {
+    fetch('/admin/upload-module-media', {
         method:"POST",
         headers: {
           'content-type': 'multipart/form-data',
           authorization: `Bearer ${user.token}`,
         },
+        data:formData,
       })
       .then((responses) => {
         console.log(responses);
@@ -101,18 +103,18 @@ const UploadVideos = (props) => {
   };
 
   // using Dropzone library for upload files for the system
-  const {
-      acceptedFiles,
-    getRootProps,
-    getInputProps,
-  } = useDropzone(onSubmitedupload);
+//   const {
+//       acceptedFiles,
+//     getRootProps,
+//     getInputProps,
+//   } = useDropzone(onSubmitedupload);
 
-//   -------------------------> checking the uplaod file list on screen
-    const files = acceptedFiles.map((file) => (
-      <li key={file.path}>
-        {file.path} - {file.size}bytes
-      </li>
-    ));
+// //   -------------------------> checking the uplaod file list on screen
+    // const files = acceptedFiles.map((file) => (
+    //   <li key={file.path}>
+    //     {file.path} - {file.size}bytes
+    //   </li>
+    // ));
     //   console.log(files);
 
   return (
@@ -140,25 +142,20 @@ const UploadVideos = (props) => {
             
              <label>Description:</label><br />
              <textarea placeholder='title of content' required value={description} onChange={(e)=>{setDescription(e.target.value)}} /><br />
-        {files.length>0 ?(<>
-        <label>File:</label><br />
-        <ul>{files}</ul><br /><br />
-        <button  onClick={(files)=>onSubmitedupload(files)}>Submit</button>
-
-
-        </>) :(<><div
-            {...getRootProps()}
+       <><div
+          
             style={{
-              width: '100%',
-              height: '300px',
-              border: '#acacac 2px dotted',
-              display: 'flex',
-              justifyContent: 'center',
+                width: '100%',
+                height: '300px',
+                border: '#acacac 2px dotted',
+                display: 'flex',
+                justifyContent: 'center',
             }}
           >
-            <input {...getInputProps()} />
-            <button className={classes.upl}>Upload File</button>
-          </div></>)}
+            <input type={'file'} onChange={(e)=>{setFileupload(e.target.files[0])}}/>
+            {/* <button  onClick={(e)=>onSubmitedupload(e)}>Submit</button> */}
+            <button onClick={(e)=>onSubmitedupload(e)} className={classes.upl}>Upload File</button>
+          </div></>
           
           </form> 
         </div>

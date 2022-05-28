@@ -31,6 +31,7 @@ import {
   CREATE_COURSE,
 } from '../../constants/ApiPathContainer';
 import Assessment from './Assessment/Assessment';
+import CourseImg from '../images/mortarboard.png';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction='up' ref={ref} {...props} />;
@@ -194,243 +195,113 @@ const Dashboard = (props) => {
           aria-describedby='modal-modal-description'
         >
           <Box sx={style}>
-            <Typography id='modal-modal-title' variant='h6' component='h2' className={classes.cret}>
+            <Typography
+              id='modal-modal-title'
+              variant='h6'
+              component='h2'
+              className={classes.cret}
+            >
               Create Course Folder
             </Typography>
             <form className={classes.formCreate}>
-            <label>
-                  Course Code*{' '}
-                  <small> (atleast two capital letter and two number)</small>
-                </label>
-                <br />
-                <input
-                  required
-                  autoFocus
-                  maxLength={6}
-                  value={courseCode}
-                  onChange={(e) => {
-                    setCourseCode(e.target.value);
-                  }}
-                  placeholder="course code"
-                />
-                <br />
-                <label >Course Name*</label>
-                <br />
-                <input
-                  required
-                  autoFocus
-                  label='Title of Course'
-                  value={courseTitle}
-                  onChange={(e) => {
-                    setCourseTitle(e.target.value);
-                  }}
-                  placeholder='course name'
-                />
-                <br />
-                <label >Description*</label>
-                <br />
+              <label>
+                Course Code*{' '}
+                <small> (atleast two capital letter and two number)</small>
+              </label>
+              <br />
+              <input
+                required
+                autoFocus
+                maxLength={6}
+                value={courseCode}
+                onChange={(e) => {
+                  setCourseCode(e.target.value);
+                }}
+                placeholder='course code'
+              />
+              <br />
+              <label>Course Name*</label>
+              <br />
+              <input
+                required
+                autoFocus
+                label='Title of Course'
+                value={courseTitle}
+                onChange={(e) => {
+                  setCourseTitle(e.target.value);
+                }}
+                placeholder='course name'
+              />
+              <br />
+              <label>Description*</label>
+              <br />
 
-                <TextareaAutosize
-                  aria-label='minimum height'
-                  minRows={5}
-                  placeholder='description of course'
-                  required
-                  autoFocus
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                />
-                <br />
-                <label>Course category*</label>
-                <br />
-                <select
-                  required
-                  autoFocus
-                  value={courseCategory}
-                  onChange={(e) => {
-                    setCourseCategory(e.target.value);
-                  }}
-                >
-                  <option>Full Stack</option>
-                  <option>AI</option>
-                  <option>Machine Learning</option>
-                  <option>Data Structure</option>
-                  <option>Algorithm</option>
-                </select>
-                <br />
-                <label>Sub Category</label>
-                <br />
-                <select
-                  required
-                  autoFocus
-                  value={subCategory}
-                  onChange={(e) => {
-                    setSubCategory(e.target.value);
-                  }}
-                >
-                  <option>Frontend Stack</option>
-                  <option>Backend Stack</option>
-                  <option>Deep Learning</option>
-                  <option>Machine Learning</option>
-                  <option>Data Structure</option>
-                </select>
-                <br />
+              <TextareaAutosize
+                aria-label='minimum height'
+                minRows={5}
+                placeholder='description of course'
+                required
+                autoFocus
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              />
+              <br />
+              <label>Course category*</label>
+              <br />
+              <select
+                required
+                autoFocus
+                value={courseCategory}
+                onChange={(e) => {
+                  setCourseCategory(e.target.value);
+                }}
+              >
+                <option>Full Stack</option>
+                <option>AI</option>
+                <option>Machine Learning</option>
+                <option>Data Structure</option>
+                <option>Algorithm</option>
+              </select>
+              <br />
+              <label>Sub Category</label>
+              <br />
+              <select
+                required
+                autoFocus
+                value={subCategory}
+                onChange={(e) => {
+                  setSubCategory(e.target.value);
+                }}
+              >
+                <option>Frontend Stack</option>
+                <option>Backend Stack</option>
+                <option>Deep Learning</option>
+                <option>Machine Learning</option>
+                <option>Data Structure</option>
+              </select>
+              <br />
 
-                <label>Duration</label>
-                <br />
-                <input
-                  required
-                  autoFocus
-                  value={duration}
-                  onChange={(e) => setDuration(e.target.value)}
-                  type='time'
-                />
-                <br />
-            <button type='submit' onClick={(e)=>onSubmit(e)} className={classes.cretBtn}>
-              Create
-            </button>
+              <label>Duration</label>
+              <br />
+              <input
+                required
+                autoFocus
+                value={duration}
+                onChange={(e) => setDuration(e.target.value)}
+                type='time'
+              />
+              <br />
+              <button
+                type='submit'
+                onClick={(e) => onSubmit(e)}
+                className={classes.cretBtn}
+              >
+                Create
+              </button>
             </form>
             <br />
           </Box>
         </Modal>
-
-        {/* <Dialog
-          fullScreen
-          open={opens}
-          onClose={handleClickClose}
-          TransitionComponent={Transition}
-        >
-          <AppBar sx={{ position: 'relative' }}>
-            <Toolbar className={classes.toptool}>
-              <IconButton
-                edge='start'
-                color='inherit'
-                onClick={handleClickClose}
-                aria-label='close'
-              >
-                <CloseIcon />
-              </IconButton>
-              <Typography sx={{ ml: 2, flex: 1 }} variant='h6' component='div'>
-                Create Course Folder
-              </Typography>
-              <Button
-                // autoFocus
-                className={classes.creatbtn}
-                onClick={(e) => onSubmit(e)}
-              >
-                CREATE
-              </Button>
-            </Toolbar>
-          </AppBar>
-          <div style={{ marginLeft: '3rem' }}>
-            <form className={classes.folderForm}>
-              <Box
-                sx={{
-                  width: 500,
-                  maxWidth: '100%',
-                  fontSize: '18px',
-                }}
-              >
-                <h1>COURSE FOLDER CREATER</h1>
-                <label className={classes.courCode}>
-                  Course Code*{' '}
-                  <small> (atleast two capital letter and two number)</small>
-                </label>
-                <br />
-                <input
-                  required
-                  autoFocus
-                  maxLength={6}
-                  value={courseCode}
-                  className={classes.codeInput}
-                  onChange={(e) => {
-                    setCourseCode(e.target.value);
-                  }}
-                />
-                <br />
-                <label className={classes.courNam}>Course Name*</label>
-                <br />
-                <input
-                  //   className={classes.courNamInput}
-                  className={classes.codeInput}
-                  fullWidth
-                  required
-                  autoFocus
-                  label='Title of Course'
-                  id='fullWidth'
-                  style={{ fontSize: '18px' }}
-                  value={courseTitle}
-                  onChange={(e) => {
-                    setCourseTitle(e.target.value);
-                  }}
-                />
-                <br />
-                <label className={classes.des}>Description*</label>
-                <br />
-
-                <TextareaAutosize
-                  //   className={classes.desInput}
-                  className={classes.codeInput}
-                  aria-label='minimum height'
-                  minRows={10}
-                  placeholder='Description of Course'
-                  style={{ width: '100%', maxWidth: '900px', fontSize: '18px' }}
-                  required
-                  autoFocus
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                />
-                <br />
-                <label className={classes.codeCate}>Course category*</label>
-                <br />
-                <select
-                  //   className={classes.cateInput}
-                  className={classes.codeInput}
-                  required
-                  autoFocus
-                  value={courseCategory}
-                  onChange={(e) => {
-                    setCourseCategory(e.target.value);
-                  }}
-                >
-                  <option>Full Stack</option>
-                  <option>AI</option>
-                  <option>Machine Learning</option>
-                </select>
-                <br />
-                <label>Sub Category</label>
-                <br />
-                <select
-                  className={classes.subCateSelection}
-                  required
-                  autoFocus
-                  value={subCategory}
-                  onChange={(e) => {
-                    setSubCategory(e.target.value);
-                  }}
-                >
-                  <option>Frontend Stack</option>
-                  <option>Backend Stack</option>
-                  <option>Deep Learning</option>
-                  <option>Python</option>
-                </select>
-                <br />
-
-                <label>Duration</label>
-                <br />
-                <input
-                  className={classes.durationInput}
-                  required
-                  autoFocus
-                  value={duration}
-                  onChange={(e) => setDuration(e.target.value)}
-                  type='time'
-                />
-              </Box>
-
-              <div></div>
-            </form>
-          </div>
-        </Dialog> */}
       </div>
     );
   };
@@ -445,19 +316,31 @@ const Dashboard = (props) => {
         <div>
           <div className={classes.heading}>
             <h1 className={classes.head}>COURSE LISTS</h1>
-            <h3 className={classes.subtitle}>
+            {/* <h3 className={classes.subtitle}>
               Here all uploaded courses are avaiable...
-            </h3>
+            </h3> */}
           </div>
           <div className={classes.cateItems}>
             {/* all category card listed */}
             {items.map((cate) => (
-              <div className={classes.cateCard}>
-                <div className={classes.cateList}>{cate}</div>
-                <a href={`/dashboard/${cate}`} className={classes.cateVeiw}>
-                  <button className={classes.viewbtn}>Veiw</button>
-                </a>
-              </div>
+              <a href={`/dashboard/${cate}`}>
+                <div className={classes.courseItemms}>
+                  <div className={classes.imgContainer}>
+                    <img
+                      src={CourseImg}
+                      alt='courseItem'
+                      className={classes.coureImg}
+                    />
+                  </div>
+                  <div className={classes.cateCard}>
+                    <div className={classes.cateList}>{cate}</div>
+                    {/* <button className={classes.viewbtn}>Veiw</button> */}
+                    <p className={classes.para}>
+                        This Course based on {cate}. Basically Here we Learn all about {cate} in deep.
+                    </p>
+                  </div>
+                </div>
+              </a>
             ))}
           </div>
         </div>
@@ -473,10 +356,10 @@ const Dashboard = (props) => {
   );
 
   //ASSESSMENT SECTION OF DASHBOARD NAVBAR
-  const Assessments=(
-      <div>
-          <Assessment />
-      </div>
+  const Assessments = (
+    <div>
+      <Assessment />
+    </div>
   );
 
   // MAIN DASHBOARD OF DASHBOARD NAVBAR (HOME DASHBOARD)
@@ -508,7 +391,10 @@ const Dashboard = (props) => {
     <>
       <section className={classes.dash}>
         <div className={classes.dashNav}>
-          <div></div>
+          <div className={classes.pro}>
+            <div className={classes.avaa}>A</div>
+            <h2 className={classes.name}>{localStorage.getItem('name')}</h2>
+          </div>
 
           {/* -------------> side menu of dashboard page<---------------- */}
           {Object.keys(dashboardSection)?.map((key) => (

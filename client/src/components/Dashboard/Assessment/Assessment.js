@@ -5,7 +5,7 @@ const Assessment = () => {
   return (
       <>
       <div style={{height:"3.5rem"}}></div>
-      <section style={{marginLeft:"90px"}}>
+      <section style={{marginLeft:"250px"}}>
     <div>
         <form className={classes.marksForm}>
             <div>

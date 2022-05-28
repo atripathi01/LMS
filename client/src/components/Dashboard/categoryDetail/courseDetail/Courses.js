@@ -29,7 +29,8 @@ function Courses() {
     // user Detail from redux
   const user = useSelector(selectUser);
   
-  let { course_code } = useParams();
+  let { course_code, course_name } = useParams();
+
 
 //   useState initaillize
   const [open, setOpen] = React.useState(false);
@@ -91,29 +92,6 @@ function Courses() {
         fetchCourseByCourseCode();
       });
   };
-//   const moduleList = [
-//     'module 1',
-//     'module 2',
-//     'module 3',
-//     'module 4',
-//     'module 5',
-//     'module 6',
-//     'module 7',
-//     'module 8',
-//     'module 9',
-//     'module 10',
-//     'module 11',
-//     'module 12',
-//     'module 12',
-//     'module 12',
-//     'module 12',
-//     'module 12',
-//     'module 12',
-//     'module 12',
-//     'module 12',
-//     'module 12',
-//     'module 12',
-//   ];
 
   return (
     <>
@@ -164,7 +142,7 @@ function Courses() {
           </Box>
         </Modal>
       </div>
-      <h1 className={classes.courseNames}>Python</h1>
+      <h1 className={classes.courseNames}>{course_name}</h1>
       <div className={classes.moduleDivision}>
           {/* all modules list  */}
         <div className={classes.moduleList}>
@@ -194,6 +172,10 @@ function Courses() {
                 courseCode={course_code}
               />
                 </li>
+                <li><h1>ASSIGNMENTS</h1></li>
+               
+
+
                 <li style={{ border: '2px #000 dotted', cursor: 'pointer' }}>
                   {/* <button>Create Assignments</button> */}
                   <button>
