@@ -434,7 +434,7 @@ const uploadModuleMedia = async (req, res) => {
         const userVerify = await verifyToken(req, res);
         console.log(userVerify, "user");
         if (userVerify && userVerify.role == 'Admin') {
-            console.log('if part');
+            console.log('if part, \n \n req.files-> \n\n ', req.files);
 
             if (!req.files) {
                 console.log('if of if');
@@ -444,7 +444,7 @@ const uploadModuleMedia = async (req, res) => {
                     message: 'No file to upload'
                 });
             } else {
-                console.log(req.files);
+                // console.log(req.files);
                 console.log("else");
 
                 let mediaFile = req.files.file;

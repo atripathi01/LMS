@@ -41,7 +41,7 @@ const UploadVideos = (props) => {
 
   console.log(fileupload,typeof(fileupload));
   // split course Code from url by using params
-  let { course_id } = useParams();
+  // let { course_id } = useParams();
 
   let subtitle;
 
@@ -62,7 +62,7 @@ const UploadVideos = (props) => {
 
   const onSubmitedupload = (e) => {
     e.preventDefault();
-    console.log('ho');
+    console.log('ho', fileupload);
 
     // append formData
     const formData = new FormData();
@@ -71,35 +71,59 @@ const UploadVideos = (props) => {
     formData.append('moduleId',module_id);
     formData.append('title',title);
     formData.append('description',description);
-    
-
-
-    // console.log('form appended data -> ')
-    console.log(Object.fromEntries(formData))
-
-    // POST api for uplaoding the files
-    fetch('/admin/upload-module-media', {
-        method:"POST",
-        headers: {
-          'content-type': 'multipart/form-data',
-          authorization: `Bearer ${user.token}`,
-        },
-        data:formData,
+  
+   
+    for (var key of formData.entries()) {
+      console.log(key[0] + ', ' + key[1]);
+  }
+  fetch("/admin/upload-module-media", {
+      method: "POST",
+      headers: {
+        'authorization': `Bearer ${user.token}`,
+        // 'content-type': 'application/json'
+        // 'content-type': 'multipart/form-data'
+      },
+      body: formData
+      // body: JSON.stringify(data)
+    })
+      .then((res) => {
+        return res.json();
       })
-      .then((responses) => {
-        console.log(responses);
-        if (responses) {
-          setIsOpen(false);
-          console.log('upload successful');
-          closeModal();
-       
+      .then((result) => {
+        console.log(result);
+        if ('error' in result) {
+          alert(result.error)
         } else {
-          window.alert('failed');
+          alert(result.msg)
         }
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(error => {
+        console.log(error);
       });
+
+    // // POST api for uplaoding the files
+    // fetch('/admin/upload-module-media', {
+    //     method:"POST",
+    //     headers: {
+    //       // 'content-type': 'multipart/form-data',
+    //       authorization: `Bearer ${user.token}`
+    //     },
+    //     data:formData,
+    //   })
+    //   .then((responses) => {
+    //     console.log(responses);
+    //     if (responses) {
+    //       setIsOpen(false);
+    //       console.log('upload successful');
+    //       closeModal();
+       
+    //     } else {
+    //       window.alert('failed');
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
   };
 
   // using Dropzone library for upload files for the system
